@@ -1,24 +1,24 @@
 import { supabase } from '@/lib/supabaseClient'
-import { profileQuery } from '@/utils/supaQueries'
+import { activeSessionQuery } from '@/utils/supaQueries'
 import type { User, Session } from '@supabase/supabase-js'
 import type { Tables } from 'database/types'
 
 export const useAuthStore = defineStore('auth-store', () => {
   const user = ref<null | User>(null)
-  const profile = ref<null | Tables<'profiles'>>(null)
+  const activeSession = ref<null | Tables<'active_user_sessions'>>(null)
   const isTrackingAuthChanges = ref(false)
 
   const setProfile = async () => {
     if (!user.value) {
-      profile.value = null
+      activeSession.value = null
       return
     }
-    if (!profile.value || profile.value.id !== user.value.id) {
+    if (!activeSession.value || activeSession.value.id !== parseInt(user.value.id)) {
       const { data } = await profileQuery({
         column: 'id',
         value: user.value.id,
       })
-      profile.value = data || null
+      activeSession.value = data || null
     }
   }
 
