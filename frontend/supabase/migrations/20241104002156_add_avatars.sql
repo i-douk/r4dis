@@ -1,8 +1,0 @@
--- ALTER TABLE users
--- ADD COLUMN avatar_url TEXT DEFAULT NULL;
-
--- ALTER TABLE podcasters
--- ADD COLUMN avatar_url TEXT DEFAULT NULL;
-
--- ALTER TABLE podcasts
--- ADD COLUMN avatar_url TEXT DEFAULT NULL;
