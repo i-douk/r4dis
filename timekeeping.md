@@ -37,10 +37,10 @@
 | 17.11  | 1    | add supscription count and follow count dynamically to podcasters and podcasts without db storing |
 |        | 2    | created logo with diff declinaison in figma |
 | 13.02  | 1    | add verfiication to sequelize migrations |
-|        | 0    | Starting over with frontend due to diffculty getting back where I left off, all entries here concerning frontend will be removed |
-|        | 0    |  |
+|        | 0    | Starting over with frontend due to diffculty getting back where I left off, all entries and corresponding time here concerning frontend will be removed |
+|        | 2    | Resetting up frontend with vite supabase and tailwind |
 |        | 0    |  |
 |        | 0    |  |
 | milest | 175  | ------ finish! ------|
-| total  | 57   | |
-| remain | 91   | |
+| total  | 59   | |
+| remain |    | |

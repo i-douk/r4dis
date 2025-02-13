@@ -14,7 +14,7 @@
  The user can follow , unfollow and star a podcast, subscribe and send either a monthly stipend or a one time stipend to the pocaster. The user can also edit their name and avatar url through the platform.
  The user has access to all podcasters and the podcasts made public, and can access their profile and either subscribe or follow.
 
- ### podcaster role # DONE 
+ ### podcaster role
  This podcaster account can perform actions on its iformation and on the podcasts it creates. Through the /podcasters endpoint it is possible to edit the display name, avatar, links and the about section.  A podcaster can also add podcasts. ( to add , mark podcasts as private of public)
 
  ### public visitor
