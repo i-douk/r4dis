@@ -50,7 +50,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
       {
         model: models.Podcaster,
         as: "subscriptions",
-        attributes: { exclude: ["username", "premium", "disabled"] },
+        attributes: { exclude: ["email", "premium", "disabled"] },
         through: {
           attributes: { exclude: ["userId", "podcasterId"] },
         },
@@ -67,10 +67,10 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
 
 //create a new user
 usersRouter.post("/", async (req: Request, res: Response) => {
-  const { username, name, password } = req.body;
+  const { email, username, password } = req.body;
   const user = await models.User.create({
+    email: email,
     username: username,
-    name: name,
     password: password,
   });
   res.json(user);
@@ -87,20 +87,20 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// Update a user's name
+// Update a user's username
 usersRouter.patch(
-  "/:id/name",
+  "/:id/username",
   tokenExtractor,
   async (req: JWTRequest, res: Response) => {
     const { id } = req.params;
     if (req.decodedToken.id !== Number(id)) {
       res
         .status(422)
-        .json({ message: "user needs to be logged in to change name" });
+        .json({ message: "user needs to be logged in to change username" });
     } else {
       const user = await models.User.findByPk(req.params.id);
       if (user) {
-        user.name = req.body.name;
+        user.username = req.body.username;
         await user.save();
         res.json(user);
       } else {
@@ -120,7 +120,7 @@ usersRouter.patch(
     if (req.decodedToken.id !== Number(id)) {
       res
         .status(422)
-        .json({ message: "user needs to be logged in to change name" });
+        .json({ message: "user needs to be logged in to change username" });
     } else {
       const user = await models.User.findByPk(id);
       if (user) {
@@ -140,12 +140,12 @@ usersRouter.put(
   tokenExtractor,
   async (req: JWTRequest, res: Response) => {
     const { id } = req.params;
-    const { avatar_url, name, about, balance } = req.body;
+    const { avatar_url, username, about, balance } = req.body;
     if (req.decodedToken.id === Number(id)) {
       const [updateCount, updateUSer] = await models.User.update(
         {
           avatar_url,
-          name,
+          username,
           about,
           balance,
         },
@@ -250,7 +250,7 @@ usersRouter.delete(
   },
 );
 
-// delete user by usename and subsequentely the active session
+// delete user by useusername and subsequentely the active session
 usersRouter.delete(
   "/:id",
   tokenExtractor,

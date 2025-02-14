@@ -9,17 +9,17 @@ import { Request, Response } from "express";
 const loginPodcasterRouter = Router();
 
 loginPodcasterRouter.post("/", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  // Find the podcaster by username
+  // Find the podcaster by email
   const podcaster: any = await Podcaster.scope("sensitive").findOne({
-    where: { username: username },
+    where: { email: email },
   });
 
   // Check if podcaster exists
   if (!podcaster) {
     return res.status(401).json({
-      error: "invalid username or password",
+      error: "invalid email or password",
     });
   }
   // Compare the plaintext password with the hashed password
@@ -28,7 +28,7 @@ loginPodcasterRouter.post("/", async (req: Request, res: Response) => {
   // Check if password is correct
   if (!passwordCorrect) {
     return res.status(401).json({
-      error: "invalid podcaster username or password",
+      error: "invalid podcaster email or password",
     });
   }
 
@@ -41,7 +41,7 @@ loginPodcasterRouter.post("/", async (req: Request, res: Response) => {
 
   // Create token payload
   const podcasterForToken = {
-    username: podcaster.username,
+    email: podcaster.email,
     id: podcaster.id,
   };
 
@@ -59,7 +59,7 @@ loginPodcasterRouter.post("/", async (req: Request, res: Response) => {
   // Respond with token and podcaster information
   return res
     .status(200)
-    .send({ token, username: podcaster.username, name: podcaster.name });
+    .send({ token, email: podcaster.email, username: podcaster.username });
 });
 
 export default loginPodcasterRouter;

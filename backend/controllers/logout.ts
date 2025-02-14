@@ -10,7 +10,7 @@ logoutRouter.post(
   async (
     req: {
       token: string;
-      params: { username: string };
+      params: { email: string };
     },
     res: Response,
   ) => {

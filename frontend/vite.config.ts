@@ -5,7 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 import autoprefixer from 'autoprefixer'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-
+import VueRouter from 'unplugin-vue-router/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
   css: {
@@ -18,10 +20,32 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     tailwindcss(),
+    VueRouter({}),
     Components({
       resolvers: [
       ]
-    })
+    }),
+    AutoImport({
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/ // .md
+      ],
+      imports: [
+        'vue',
+        VueRouterAutoImports,
+        {
+          pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate']
+        },
+        {
+          'vue-meta': ['useMeta']
+        }
+      ],
+      dts: true,
+      viteOptimizeDeps: true,
+      dirs: ['src/stores/**', 'src/composables/**']
+    }),
     ],
     resolve: {
       alias: {

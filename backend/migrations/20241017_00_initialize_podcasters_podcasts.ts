@@ -10,12 +10,12 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
       },
-      name: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -46,7 +46,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
+      username: {
         type: DataTypes.TEXT,
         allowNull: false,
       },

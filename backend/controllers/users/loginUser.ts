@@ -8,11 +8,11 @@ import bcrypt from "bcrypt";
 const loginUserRouter = Router();
 
 loginUserRouter.post("/", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  // Find the user by username
+  // Find the user by email
   const user: any = await models.User.scope("sensitive").findOne({
-    where: { username: username },
+    where: { email: email },
   });
 
   // Check if user exists
@@ -27,7 +27,7 @@ loginUserRouter.post("/", async (req, res) => {
   // Check if password is correct
   if (!passwordCorrect) {
     return res.status(401).json({
-      error: "invalid username or password",
+      error: "invalid email or password",
     });
   }
 
@@ -40,7 +40,7 @@ loginUserRouter.post("/", async (req, res) => {
 
   // Create token payload
   const userForToken = {
-    username: user.username,
+    email: user.email,
     id: user.id,
     role: user.role,
   };
@@ -58,7 +58,7 @@ loginUserRouter.post("/", async (req, res) => {
   // Respond with token and user information
   return res
     .status(200)
-    .send({ token, username: user.username, name: user.name, role: user.role });
+    .send({ token, email: user.email, username: user.username, role: user.role });
 });
 
 export default loginUserRouter;

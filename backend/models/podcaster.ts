@@ -5,9 +5,9 @@ import hashPassword from "../utils/hashHook";
 class Podcaster extends Model {
   public premium?: boolean;
   public disabled?: boolean;
-  public username?: string;
+  public email?: string;
   public id?: number;
-  public name!: string;
+  public username!: string;
   public password?: string;
   public verified!: boolean;
 }
@@ -19,17 +19,17 @@ Podcaster.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    username: {
+    email: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
       validate: {
         isEmail: {
-          msg: "Validation isEmail on username failed",
+          msg: "Validation isEmail on email failed",
         },
       },
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },

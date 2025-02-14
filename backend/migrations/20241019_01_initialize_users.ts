@@ -8,17 +8,17 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
         validate: {
           isEmail: {
-            msg: "Validation isEmail on username failed",
+            msg: "Validation isEmail on email failed",
           },
         },
       },
-      name: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
       },

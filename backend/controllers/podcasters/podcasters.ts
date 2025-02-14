@@ -25,7 +25,7 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
             "disabled",
             "updatedAt",
             "createdAt",
-            "username",
+            "email",
           ],
         },
         through: {
@@ -68,7 +68,7 @@ podcastersRouter.get("/:id", async (req: Request, res: Response) => {
             "disabled",
             "updatedAt",
             "createdAt",
-            "username",
+            "email",
           ],
         },
         through: {
@@ -87,16 +87,16 @@ podcastersRouter.get("/:id", async (req: Request, res: Response) => {
 
 // CREATE NEW PODCASTER
 podcastersRouter.post("/", async (req: Request, res: Response) => {
-  const { username, name, password } = req.body;
+  const { email, username, password } = req.body;
   const checkExistingPodcaster = await models.Podcaster.findOne({
-    where: { username },
+    where: { email },
   });
   if (checkExistingPodcaster) {
     res.json({ message: " Podcaster with this email already exists" });
   }
   const podcaster = await models.Podcaster.create({
+    email: email,
     username: username,
-    name: name,
     password: password,
   });
   if (podcaster) {
@@ -108,18 +108,18 @@ podcastersRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// EDIT PODDACSTER NAME AND AVATAR_URL AND BIO BY  PODCASTER
+// EDIT PODDACSTER username AND AVATAR_URL AND BIO BY  PODCASTER
 podcastersRouter.put(
   "/:id",
   tokenExtractor,
   async (req: JWTRequest, res: Response) => {
     const { id } = req.params;
-    const { avatar_url, name, links, about } = req.body;
+    const { avatar_url, username, links, about } = req.body;
     if (req.decodedToken.id === Number(id)) {
       const [updateCount, updatedPodcasters] = await models.Podcaster.update(
         {
           avatar_url,
-          name,
+          username,
           links,
           about,
         },
