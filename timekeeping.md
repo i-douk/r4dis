@@ -40,7 +40,7 @@
 |        | 0    | Starting over with frontend due to diffculty getting back where I left off, all entries and corresponding time here concerning frontend will be removed |
 |        | 2    | Resetting up frontend with vite supabase and tailwind |
 |        | 1    | add chadcn vue  |
-|        | 0    |  |
+| 14.02  | 2    | refactor back and front to sync users table with supaAuth table |
 | milest | 175  | ------ finish! ------|
-| total  | 59   | |
-| remain |    | |
+| total  | 62   | |
+| remain | 113  | |
