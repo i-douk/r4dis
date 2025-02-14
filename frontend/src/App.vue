@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from 'vue-router/auto'
         <div class="flex justify-center gap-4 text-xl text-red-900 font-bold underline ">
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/register">Sign up</RouterLink>
+          <RouterLink to="/login">Sign in</RouterLink>
       </div>
       </nav>
   </header>

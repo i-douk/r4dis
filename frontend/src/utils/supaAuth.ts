@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
-
+import hashPassword from './hash';
 export const register = async (formData: RegisterForm) => {
 
   const { data, error } = await supabase.auth.signUp({
@@ -14,7 +14,7 @@ export const register = async (formData: RegisterForm) => {
       const { error } = await supabase.from('users').insert({
         username: formData.username,
         email: formData.email,
-        password: formData.password,
+        password: await hashPassword(formData.password),
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
