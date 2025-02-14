@@ -2,12 +2,13 @@ import { supabase } from '@/lib/supabaseClient'
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
 
 export const register = async (formData: RegisterForm) => {
+
   const { data, error } = await supabase.auth.signUp({
     email: formData.email,
-    password: formData.password
-  })
+    password: formData.password,
+  });
 
-  if (error) return console.log(error)
+  if (error) return { error };
 
     if (data.user) {
       const { error } = await supabase.from('users').insert({
@@ -18,7 +19,7 @@ export const register = async (formData: RegisterForm) => {
         updated_at: new Date().toISOString(),
       })
 
-    if (error) return console.log('User profiles err: ', error)
+      if (error) return { error }; 
   }
 
   return true
