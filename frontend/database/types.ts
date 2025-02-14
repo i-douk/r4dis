@@ -136,9 +136,9 @@ export type Database = {
           created_at: string
           disabled: boolean | null
           earnings: number | null
+          email: string
           id: number
           links: string[] | null
-          name: string
           password: string
           premium: boolean | null
           subscriptioncount: number
@@ -151,9 +151,9 @@ export type Database = {
           created_at: string
           disabled?: boolean | null
           earnings?: number | null
+          email: string
           id?: number
           links?: string[] | null
-          name: string
           password: string
           premium?: boolean | null
           subscriptioncount?: number
@@ -166,9 +166,9 @@ export type Database = {
           created_at?: string
           disabled?: boolean | null
           earnings?: number | null
+          email?: string
           id?: number
           links?: string[] | null
-          name?: string
           password?: string
           premium?: boolean | null
           subscriptioncount?: number
@@ -274,8 +274,8 @@ export type Database = {
           balance: number | null
           created_at: string
           disabled: boolean | null
+          email: string
           id: number
-          name: string
           password: string
           podcast_id: number | null
           podcaster_id: number | null
@@ -290,8 +290,8 @@ export type Database = {
           balance?: number | null
           created_at: string
           disabled?: boolean | null
+          email: string
           id?: number
-          name: string
           password: string
           podcast_id?: number | null
           podcaster_id?: number | null
@@ -306,8 +306,8 @@ export type Database = {
           balance?: number | null
           created_at?: string
           disabled?: boolean | null
+          email?: string
           id?: number
-          name?: string
           password?: string
           podcast_id?: number | null
           podcaster_id?: number | null

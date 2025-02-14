@@ -15,7 +15,7 @@
     "supabase:init": "supabase init",
     "supabase:login": "supabase login",
     "supabase:link": "supabase link",
-    "supabase:types": "npx supabase gen types typescript --project-id swdxtdivwobldhezckdn --schema public > database/types.ts",
+    "supabase:types": "npx supabase gen types typescript --project-id awgrvjysdxbyvuxszhih --schema public > database/types.ts",
     "db:migrate:new": "supabase migration new",
     "db:migrate:up": " supabase migration up --linked",
     "db:reset": "supabase db reset --linked",
