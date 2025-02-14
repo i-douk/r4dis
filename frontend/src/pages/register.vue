@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { register } from '@/utils/supaAuth'
-
 const formData = ref({
   username: '',
   email: '',

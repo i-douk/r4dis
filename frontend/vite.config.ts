@@ -22,8 +22,8 @@ export default defineConfig({
     tailwindcss(),
     VueRouter({}),
     Components({
-      resolvers: [
-      ]
+      dirs:['src/components'],
+      dts: true
     }),
     AutoImport({
       include: [

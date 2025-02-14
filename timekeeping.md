@@ -41,6 +41,9 @@
 |        | 2    | Resetting up frontend with vite supabase and tailwind |
 |        | 1    | add chadcn vue  |
 | 14.02  | 2    | refactor back and front to sync users table with supaAuth table |
+|        | 2    | refactoring + add register vue and supaAuth |
+|        | 1.5  | debug sign up error bc of trigger |
+|        | 0.5  | create login page, pwd hash b4 saving to users |
 | milest | 175  | ------ finish! ------|
-| total  | 62   | |
-| remain | 113  | |
+| total  | 66   | |
+| remain | 109  | |
