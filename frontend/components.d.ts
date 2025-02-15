@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminLayout: typeof import('./src/components/Layout/main/AdminLayout.vue')['default']
     AuthLayout: typeof import('./src/components/Layout/main/AuthLayout.vue')['default']
     Button: typeof import('./src/components/ui/button/Button.vue')['default']
     Card: typeof import('./src/components/ui/card/Card.vue')['default']
@@ -15,7 +16,9 @@ declare module 'vue' {
     CardFooter: typeof import('./src/components/ui/card/CardFooter.vue')['default']
     CardHeader: typeof import('./src/components/ui/card/CardHeader.vue')['default']
     CardTitle: typeof import('./src/components/ui/card/CardTitle.vue')['default']
+    GuestLayout: typeof import('./src/components/Layout/main/GuestLayout.vue')['default']
     Input: typeof import('./src/components/ui/input/Input.vue')['default']
+    PodcasterLayout: typeof import('./src/components/Layout/main/PodcasterLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Separator: typeof import('./src/components/ui/separator/Separator.vue')['default']
@@ -28,6 +31,7 @@ declare module 'vue' {
     SheetTitle: typeof import('./src/components/ui/sheet/SheetTitle.vue')['default']
     SheetTrigger: typeof import('./src/components/ui/sheet/SheetTrigger.vue')['default']
     Sidebar: typeof import('./src/components/ui/sidebar/Sidebar.vue')['default']
+    SideBar: typeof import('./src/components/Layout/SideBar.vue')['default']
     SidebarContent: typeof import('./src/components/ui/sidebar/SidebarContent.vue')['default']
     SidebarFooter: typeof import('./src/components/ui/sidebar/SidebarFooter.vue')['default']
     SidebarGroup: typeof import('./src/components/ui/sidebar/SidebarGroup.vue')['default']
@@ -57,5 +61,6 @@ declare module 'vue' {
     TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
     TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']
     TopNavBar: typeof import('./src/components/Layout/TopNavBar.vue')['default']
+    UserLayout: typeof import('./src/components/Layout/main/UserLayout.vue')['default']
   }
 }
