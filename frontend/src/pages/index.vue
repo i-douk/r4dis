@@ -1,9 +1,6 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-  <li>
-    <slot />
-  </li>
+    <h1>Home Page</h1>
 </template>

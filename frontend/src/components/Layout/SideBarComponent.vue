@@ -1,18 +1,13 @@
 <script setup lang="ts">
-
 </script>
+
 <template>
     <Sidebar>
-        <SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-
+                    <RouterLink to='/users'>users</RouterLink>
                 </SidebarGroup>
             </SidebarContent>
-
-        </SidebarHeader>
-        <SidebarFooter>
-            
-        </SidebarFooter>
-    </Sidebar>
+        </Sidebar>
 </template>
+
