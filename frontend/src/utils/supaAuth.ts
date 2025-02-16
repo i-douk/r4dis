@@ -21,7 +21,6 @@ export const register = async (formData: RegisterForm) => {
 
       if (error) return { error }; 
   }
-
   return true
 }
 
@@ -30,6 +29,7 @@ export const login = async (formData: LoginForm) => {
     email: formData.email,
     password: formData.password
   })
+
 
   return { error }
 }

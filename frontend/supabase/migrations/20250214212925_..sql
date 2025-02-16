@@ -1,1 +1,0 @@
-DROP FUNCTION sync_auth_users_to_public_users() CASCADE;

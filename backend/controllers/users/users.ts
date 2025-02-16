@@ -89,7 +89,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
 
 // Update a user's username
 usersRouter.patch(
-  "/:id/username",
+  "/:id",
   tokenExtractor,
   async (req: JWTRequest, res: Response) => {
     const { id } = req.params;

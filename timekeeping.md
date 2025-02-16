@@ -44,6 +44,20 @@
 |        | 2    | refactoring + add register vue and supaAuth |
 |        | 1.5  | debug sign up error bc of trigger |
 |        | 0.5  | create login page, pwd hash b4 saving to users |
+| 15.02  |  2   | refactoring & file structure + looking up suspense for coordinated loading state |
+|        |  3   | Vue documentation  overview |
+|        |  1.5 | add topbar qith sign in button |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
 | milest | 175  | ------ finish! ------|
-| total  | 66   | |
-| remain | 109  | |
+| total  | 72.5   | |
+| remain | 103.5  | |

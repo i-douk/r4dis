@@ -38,9 +38,9 @@ GET http://localhost:5173/api/users/3 HTTP/1.1
 
 ###
 # EDIT USERS username
-PATCH http://localhost:5173/api/users/16/username HTTP/1.1
+PATCH http://localhost:5173/api/users/8 HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZ3VsYXJAdXNlci5jb20iLCJpZCI6MTYsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMxMjY2ODkzLCJleHAiOjE3MzEyNzA0OTN9.EJUuoFbu6ImdZ6wHV6US3CP-fJl-IytMH41jh2oC55M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJlZ3VsYXJAdXNlci5jb20iLCJpZCI6OCwicm9sZSI6bnVsbCwiaWF0IjoxNzM5Njk4MTA0LCJleHAiOjE3Mzk3MDE3MDR9.H217NYGp64QvV2rQpY8hRNYFh51uM9ydIaBFYt1wwjA
 
 {
     "username" : "another new username for regular user"
