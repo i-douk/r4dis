@@ -11,8 +11,8 @@ import { logout } from '../../utils/supaAuth';
         </RouterLink>
         <nav>
           <div class="flex justify-between gap-4 p-5">
-              <RouterLink to="/register">Sign up</RouterLink>
-              <RouterLink to="/login">Sign in</RouterLink>
+              <RouterLink to="/users/register">Sign up</RouterLink>
+              <RouterLink to="/users/login">Sign in</RouterLink>
               <Button @click="logout" variant="destructive">logout</Button>
               </div>
             </nav>
