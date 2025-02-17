@@ -42,12 +42,10 @@ followingRouter.post(
         await models.Following.create(followingAddition);
         res.status(201).send(followingAddition);
       } else {
-        res
-          .status(422)
-          .json({
-            message:
-              "There is already a following relation tying this user to this podcast",
-          });
+        res.status(422).json({
+          message:
+            "There is already a following relation tying this user to this podcast",
+        });
       }
     } else {
       res

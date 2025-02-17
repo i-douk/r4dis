@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-    const tableDefinition = await queryInterface.describeTable('subscriptions');
+    const tableDefinition = await queryInterface.describeTable("subscriptions");
     if (!tableDefinition.frozen) {
       await queryInterface.addColumn("subscriptions", "frozen", {
         type: DataTypes.BOOLEAN,

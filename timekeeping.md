@@ -37,7 +37,7 @@
 | 17.11  | 1    | add supscription count and follow count dynamically to podcasters and podcasts without db storing |
 |        | 2    | created logo with diff declinaison in figma |
 | 13.02  | 1    | add verfiication to sequelize migrations |
-|        | 0    | Starting over with frontend due to diffculty getting back where I left off, all entries and corresponding time here concerning frontend will be removed |
+|        | 0000 | Starting over with frontend due to diffculty getting back where I left off, all entries and corresponding time here concerning frontend will be removed |
 |        | 2    | Resetting up frontend with vite supabase and tailwind |
 |        | 1    | add chadcn vue  |
 | 14.02  | 2    | refactor back and front to sync users table with supaAuth table |
@@ -45,10 +45,10 @@
 |        | 1.5  | debug sign up error bc of trigger |
 |        | 0.5  | create login page, pwd hash b4 saving to users |
 | 15.02  |  2   | refactoring & file structure + looking up suspense for coordinated loading state |
-|        |  3   | Vue documentation  overview |
-|        |  1.5 | add topbar qith sign in button |
+|        |  5   | Vue documentation  overview |
+|        |  1.5 | add topbar with logo sign in sign up and logout buttons |
 | 16.02  |  3   | tweaking backend to connect back to front and resolve auth problem |
-|        |  2   | saving supabase JWT token to active_session_users|
+| 17.02  |  2.5 | saving supabase JWT token to active_session_users|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
@@ -58,6 +58,6 @@
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
-| milest | 175  | ------ finish! ------|
-| total  | 77.5   | |
-| remain | 103.5  | |
+| milest | 175  | ------ GOAL ATTAINED! ------|
+| total  | 80   | |
+| remain | 95   | |

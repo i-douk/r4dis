@@ -58,7 +58,12 @@ loginUserRouter.post("/", async (req, res) => {
   // Respond with token and user information
   return res
     .status(200)
-    .send({ token, email: user.email, username: user.username, role: user.role });
+    .send({
+      token,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    });
 });
 
 export default loginUserRouter;

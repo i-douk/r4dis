@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-    const tableDefinition = await queryInterface.describeTable('podcasters');
+    const tableDefinition = await queryInterface.describeTable("podcasters");
     if (!tableDefinition.about) {
       await queryInterface.addColumn("podcasters", "about", {
         type: DataTypes.TEXT,

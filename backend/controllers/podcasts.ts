@@ -7,7 +7,6 @@ import { PodcastDTO } from "../dtos/PodcastDTO";
 // fetch all podcasts //
 podcastsRouter.get("/", async (_req: Request, res: Response) => {
   const podcasts = await models.Podcast.findAll({
-    
     include: [
       {
         model: models.Podcaster,
@@ -40,13 +39,11 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
         ...podcast.toJSON(),
         followerscount,
       };
-    })
+    }),
   );
 
   res.json(podcastsWithFollowCount.map((podcast) => new PodcastDTO(podcast)));
 });
-
-
 
 // fetch all porcasts added by a podcaster //
 podcastsRouter.get("/:username", async (req: Request, res: Response) => {

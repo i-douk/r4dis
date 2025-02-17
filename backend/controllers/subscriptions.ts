@@ -42,12 +42,10 @@ subscriptionsRouter.post(
         await models.Subscription.create(subscriptionAddition);
         res.status(201).send(subscriptionAddition);
       } else {
-        res
-          .status(422)
-          .json({
-            message:
-              "There is already a subscription relation tying this user to this podcaster",
-          });
+        res.status(422).json({
+          message:
+            "There is already a subscription relation tying this user to this podcaster",
+        });
       }
     } else {
       res

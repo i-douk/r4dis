@@ -1,65 +1,47 @@
-import jwt from "jsonwebtoken";
 import { Router } from "express";
-import config from "../../utils/config";
-import ActivePodcasterSession from "../../models/active_podcaster_session";
-import bcrypt from "bcrypt";
+import { supabase } from "../../utils/db";
 import Podcaster from "../../models/podcaster";
 import { Request, Response } from "express";
 
 const loginPodcasterRouter = Router();
-
 loginPodcasterRouter.post("/", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  // Find the podcaster by email
-  const podcaster: any = await Podcaster.scope("sensitive").findOne({
-    where: { email: email },
+  // Step 1: Authenticate with Supabase Auth
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
   });
 
-  // Check if podcaster exists
+  if (error) {
+    return res.status(401).json({
+      error: "Invalid email or password",
+    });
+  }
+
+  // Step 2: Check if the podcaster account is disabled
+  const podcaster = await Podcaster.findOne({
+    where: { email },
+  });
+
   if (!podcaster) {
     return res.status(401).json({
-      error: "invalid email or password",
-    });
-  }
-  // Compare the plaintext password with the hashed password
-  const passwordCorrect = await bcrypt.compare(password, podcaster.password);
-
-  // Check if password is correct
-  if (!passwordCorrect) {
-    return res.status(401).json({
-      error: "invalid podcaster email or password",
+      error: "Podcaster not found",
     });
   }
 
-  // Check if the account is disabled
   if (podcaster.disabled) {
     return res.status(401).json({
-      error: "podcaster account disabled, please contact admin",
+      error: "Podcaster account disabled, please contact admin",
     });
   }
 
-  // Create token payload
-  const podcasterForToken = {
+  // Step 3: Return the Supabase token and podcaster information
+  return res.status(200).json({
+    token: data.session.access_token, // Supabase JWT
     email: podcaster.email,
-    id: podcaster.id,
-  };
-
-  // Sign the token
-  const token = jwt.sign(podcasterForToken, config.SECRET!, {
-    expiresIn: "1h",
+    username: podcaster.username,
   });
-
-  // Create an active podcaster session
-  await ActivePodcasterSession.create({
-    token,
-    podcasterId: podcaster.id,
-  });
-
-  // Respond with token and podcaster information
-  return res
-    .status(200)
-    .send({ token, email: podcaster.email, username: podcaster.username });
 });
 
 export default loginPodcasterRouter;

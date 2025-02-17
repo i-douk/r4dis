@@ -62,7 +62,7 @@ User.init(
     },
     role: {
       type: DataTypes.ENUM({ values: ["user", "superuser", "admin"] }),
-      defaultValue: 'user'
+      defaultValue: "user",
     },
     avatar_url: {
       type: DataTypes.STRING,

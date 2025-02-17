@@ -24,7 +24,6 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
           attributes: { exclude: ["userId", "podcasterId"] },
         },
       },
-      
     ],
   });
   if (users) {

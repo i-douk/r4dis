@@ -4,8 +4,6 @@ import { Request, Response } from "express";
 import { JWTRequest } from "../../types";
 import { PodcasterDTO } from "../../dtos/PodcasterDTO";
 import models from "../../models";
-import tokenExtractor from "../../utils/middleware";
-import ActivePodcasterSession from "../../models/active_podcaster_session";
 
 //GET ALL USERS THROUGH DEFAULT SCOPE FOR PUBLIC DATA
 podcastersRouter.get("/", async (_req: Request, res: Response) => {
@@ -20,13 +18,7 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
         model: models.User,
         as: "subscribers",
         attributes: {
-          exclude: [
-            "verified",
-            "disabled",
-            "updatedAt",
-            "createdAt",
-            "email",
-          ],
+          exclude: ["verified", "disabled", "updatedAt", "createdAt", "email"],
         },
         through: {
           attributes: { exclude: ["podcasterId", "userId"] },
@@ -43,10 +35,14 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
         ...podcaster.toJSON(),
         subscriberscount,
       };
-    })
+    }),
   );
 
-  res.json(podcastersWithubscriptionCount.map((podcaster) => new PodcasterDTO(podcaster)));
+  res.json(
+    podcastersWithubscriptionCount.map(
+      (podcaster) => new PodcasterDTO(podcaster),
+    ),
+  );
 });
 
 // GET SINGLE PODCASTER BY ID WITH PUBLIC DATA THROUGH DEFAULTSCOPE
@@ -63,13 +59,7 @@ podcastersRouter.get("/:id", async (req: Request, res: Response) => {
         model: models.User,
         as: "subscribers",
         attributes: {
-          exclude: [
-            "verified",
-            "disabled",
-            "updatedAt",
-            "createdAt",
-            "email",
-          ],
+          exclude: ["verified", "disabled", "updatedAt", "createdAt", "email"],
         },
         through: {
           attributes: { exclude: ["podcasterId", "userId"] },
@@ -212,11 +202,9 @@ podcastersRouter.delete(
         });
         res.status(204).json("podcaster deleted from the database");
       } else {
-        res
-          .status(422)
-          .json({
-            error: "Podcaster nor found or failed to be deleted from database",
-          });
+        res.status(422).json({
+          error: "Podcaster nor found or failed to be deleted from database",
+        });
       }
     } else {
       res

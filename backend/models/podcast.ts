@@ -34,7 +34,6 @@ Podcast.init(
       defaultValue: false,
       allowNull: false,
     },
-    
   },
   {
     sequelize,
