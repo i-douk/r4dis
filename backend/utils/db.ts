@@ -1,6 +1,9 @@
 import { Sequelize } from "sequelize";
 import { Umzug, SequelizeStorage } from "umzug";
 import config from "./config";
+import { createClient } from '@supabase/supabase-js';
+
+export const supabase = createClient(String(config.SUPABASE_URL), String(config.SUPABASE_KEY));
 
 export const sequelize = new Sequelize(config.DATABASE_URL!, {
   dialectOptions: {

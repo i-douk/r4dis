@@ -2,7 +2,7 @@ const followingRouter = require("express").Router();
 import { Response } from "express";
 import models from "../models";
 import tokenExtractor from "../utils/middleware";
-import { JWTRequest } from "../dtos/types";
+import { JWTRequest } from "../types";
 import Following from "../models/following";
 
 // GET ALL FOLLOWINGS FOR ADMIN AND SUPERUSER

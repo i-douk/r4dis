@@ -31,5 +31,6 @@ export default tseslint.config({
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   },
 });

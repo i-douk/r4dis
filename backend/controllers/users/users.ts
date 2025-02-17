@@ -4,7 +4,7 @@ import tokenExtractor from "../../utils/middleware";
 import { sequelize } from "../../utils/db";
 import models from "../../models";
 import { UserDTO } from "../../dtos/UserDTO";
-import { JWTRequest } from "../../dtos/types";
+import { JWTRequest } from "../../types";
 
 //get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get("/", async (_req: Request, res: Response) => {

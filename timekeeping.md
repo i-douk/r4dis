@@ -47,8 +47,8 @@
 | 15.02  |  2   | refactoring & file structure + looking up suspense for coordinated loading state |
 |        |  3   | Vue documentation  overview |
 |        |  1.5 | add topbar qith sign in button |
-|        |  0   |  |
-|        |  0   |  |
+| 16.02  |  3   | tweaking backend to connect back to front and resolve auth problem |
+|        |  2   | saving supabase JWT token to active_session_users|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
@@ -59,5 +59,5 @@
 |        |  0   |  |
 |        |  0   |  |
 | milest | 175  | ------ finish! ------|
-| total  | 72.5   | |
+| total  | 77.5   | |
 | remain | 103.5  | |

@@ -1,7 +1,7 @@
 const podcastersRouter = require("express").Router();
 import { sequelize } from "../../utils/db";
 import { Request, Response } from "express";
-import { JWTRequest } from "../../dtos/types";
+import { JWTRequest } from "../../types";
 import { PodcasterDTO } from "../../dtos/PodcasterDTO";
 import models from "../../models";
 import tokenExtractor from "../../utils/middleware";
