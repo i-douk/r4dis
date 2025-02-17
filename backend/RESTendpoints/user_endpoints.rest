@@ -19,8 +19,8 @@ POST http://localhost:5173/api/userlogin HTTP/1.1
 content-type: application/json
 
 {
-    "email" : "super@user.com",
-    "password" : "Superpass@02"
+    "email" : "sanradsets@gmail.com",
+    "password" : "msJ#JPcFpQn8d!W"
 }
 ###
 # REGULAR LOGIN

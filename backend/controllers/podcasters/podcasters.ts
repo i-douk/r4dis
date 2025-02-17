@@ -1,9 +1,10 @@
-const podcastersRouter = require("express").Router();
+import { Router } from "express";
 import { sequelize } from "../../utils/db";
 import { Request, Response } from "express";
-import { JWTRequest } from "../../types";
 import { PodcasterDTO } from "../../dtos/PodcasterDTO";
 import models from "../../models";
+import authenticate from "../../utils/supaAuth";
+const podcastersRouter = Router();
 
 //GET ALL USERS THROUGH DEFAULT SCOPE FOR PUBLIC DATA
 podcastersRouter.get("/", async (_req: Request, res: Response) => {
@@ -101,31 +102,26 @@ podcastersRouter.post("/", async (req: Request, res: Response) => {
 // EDIT PODDACSTER username AND AVATAR_URL AND BIO BY  PODCASTER
 podcastersRouter.put(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const { avatar_url, username, links, about } = req.body;
-    if (req.decodedToken.id === Number(id)) {
-      const [updateCount, updatedPodcasters] = await models.Podcaster.update(
-        {
-          avatar_url,
-          username,
-          links,
-          about,
-        },
-        { where: { id }, returning: true },
-      );
+   
+    const [updateCount, updatedPodcasters] = await models.Podcaster.update(
+      {
+        avatar_url,
+        username,
+        links,
+        about,
+      },
+      { where: { id }, returning: true },
+    );
 
-      // If the update count is greater than 0, return the updated podcaster
-      if (updateCount > 0) {
-        res.json(updatedPodcasters[0]);
-      } else {
-        res.status(422).json({ error: "Failed to update podcaster" });
-      }
+    // If the update count is greater than 0, return the updated podcaster
+    if (updateCount > 0) {
+      res.json(updatedPodcasters[0]);
     } else {
-      res
-        .status(422)
-        .json({ message: "podcaster must be authenticated to perform action" });
+      res.status(422).json({ error: "Failed to update podcaster" });
     }
   },
 );
@@ -133,9 +129,9 @@ podcastersRouter.put(
 // VERIFY AND DISABLE PODCASTER BY SUPERUSER
 podcastersRouter.patch(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { role } = req.decodedToken;
+  authenticate,
+  async (req, res: Response) => {
+    const role = 'superuser';
     if (role == "superuser" || role == "admin") {
       const { id } = req.params;
       const { verified, disabled } = req.body;
@@ -164,8 +160,8 @@ podcastersRouter.patch(
 // ADD PODCAST TO PODCASTER BY PODCASTER
 podcastersRouter.post(
   "/:id/podcasts",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const podcaster = await models.Podcaster.findByPk(id);
     if (podcaster) {
@@ -183,34 +179,25 @@ podcastersRouter.post(
 // DELETE PDOCASTER BY SUPERUSER AND ACTIVE PODCSATER SESSION
 podcastersRouter.delete(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    if (req.decodedToken.role === "superuser") {
-      const podcaster = await models.Podcaster.findOne({
-        where: { id: req.params.id },
+  authenticate,
+  async (req, res: Response) => {
+    const podcaster = await models.Podcaster.findOne({
+      where: { id: req.params.id },
+    });
+    if (podcaster) {
+      await sequelize.transaction(async (transaction) => {
+        await models.Podcaster.destroy({
+          where: { id: podcaster.id },
+          transaction,
+        });
       });
-      if (podcaster) {
-        await sequelize.transaction(async (transaction) => {
-          await ActivePodcasterSession.destroy({
-            where: { podcasterId: podcaster.id },
-            transaction,
-          });
-          await models.Podcaster.destroy({
-            where: { id: podcaster.id },
-            transaction,
-          });
-        });
-        res.status(204).json("podcaster deleted from the database");
-      } else {
-        res.status(422).json({
-          error: "Podcaster nor found or failed to be deleted from database",
-        });
-      }
+      res.status(204).json("podcaster deleted from the database");
     } else {
-      res
-        .status(422)
-        .json({ message: "not enough permissions to perform this action" });
+      res.status(422).json({
+        error: "Podcaster nor found or failed to be deleted from database",
+      });
     }
+   
   },
 );
 

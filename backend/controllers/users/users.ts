@@ -1,12 +1,12 @@
-const usersRouter = require("express").Router();
+import { Router } from "express";
 import { Request, Response } from "express";
-import tokenExtractor from "../../utils/middleware";
+import authenticate from "../../utils/supaAuth";
 import { sequelize } from "../../utils/db";
 import models from "../../models";
 import { UserDTO } from "../../dtos/UserDTO";
-import { JWTRequest } from "../../types";
+const usersRouter = Router();
 
-//get all users , subscriptions to podcasters and  followed podcasts
+// all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get("/", async (_req: Request, res: Response) => {
   const users = await models.User.scope("defaultScope").findAll({
     include: [
@@ -64,16 +64,15 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-//create a new user
-usersRouter.post("/", async (req: Request, res: Response) => {
-  const { email, username, password } = req.body;
-  const user = await models.User.create({
-    email: email,
-    username: username,
-    password: password,
-  });
-  res.json(user);
-});
+// //create a new user
+// usersRouter.post("/", async (req: Request, res: Response) => {
+//   const { email, username, password } = req.body;
+//   const user = await supabase.auth.signUp({
+//     email,
+//     password,
+//   });
+//   res.json(user);
+// });
 
 // Get a user by id
 usersRouter.get("/:id", async (req: Request, res: Response) => {
@@ -89,22 +88,15 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
 // Update a user's username
 usersRouter.patch(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { id } = req.params;
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to change username" });
+  authenticate,
+  async (req, res) => {
+    const user = await models.User.findByPk(req.params.id);
+    if (user) {
+      user.username = req.body.username;
+      await user.save();
+      res.json(user);
     } else {
-      const user = await models.User.findByPk(req.params.id);
-      if (user) {
-        user.username = req.body.username;
-        await user.save();
-        res.json(user);
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
+      res.status(404).json({ error: "User not found" });
     }
   },
 );
@@ -112,23 +104,16 @@ usersRouter.patch(
 // Update a user's avatar_url
 usersRouter.patch(
   "/:id/avatar",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
-
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to change username" });
+    const user = await models.User.findByPk(id);
+    if (user) {
+      user.avatar_url = req.body.avatar_url;
+      await user.save();
+      res.json(user);
     } else {
-      const user = await models.User.findByPk(id);
-      if (user) {
-        user.avatar_url = req.body.avatar_url;
-        await user.save();
-        res.json(user);
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
+      res.status(404).json({ error: "User not found" });
     }
   },
 );
@@ -136,31 +121,25 @@ usersRouter.patch(
 // Update user in bulk
 usersRouter.put(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const { avatar_url, username, about, balance } = req.body;
-    if (req.decodedToken.id === Number(id)) {
-      const [updateCount, updateUSer] = await models.User.update(
-        {
-          avatar_url,
-          username,
-          about,
-          balance,
-        },
-        { where: { id }, returning: true },
-      );
+    const [updateCount, updateUSer] = await models.User.update(
+      {
+        avatar_url,
+        username,
+        about,
+        balance,
+      },
+      { where: { id }, returning: true },
+    );
 
-      // If the update count is greater than 0, return the updated podcaster
-      if (updateCount > 0) {
-        res.json(updateUSer[0]);
-      } else {
-        res.status(422).json({ error: "Failed to update user" });
-      }
+    // If the update count is greater than 0, return the updated podcaster
+    if (updateCount > 0) {
+      res.json(updateUSer[0]);
     } else {
-      res
-        .status(422)
-        .json({ message: "user must be authenticated to perform action" });
+      res.status(422).json({ error: "Failed to update user" });
     }
   },
 );
@@ -168,111 +147,85 @@ usersRouter.put(
 // subscribe to podcaster
 usersRouter.post(
   "/:id/subscriptions",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const { podcasterId, stipend } = req.body;
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to subscribe" });
+    
+    const user = await models.User.findByPk(id);
+    const podcaster = await models.Podcaster.findByPk(podcasterId);
+    if (user && podcaster) {
+      const newRelation = await models.Subscription.create({
+        userId: user.id,
+        podcasterId,
+        stipend,
+        paid: stipend > 0 ? true : false,
+      });
+      res.json(newRelation);
     } else {
-      const user = await models.User.findByPk(id);
-      const podcaster = await models.Podcaster.findByPk(podcasterId);
-      if (user && podcaster) {
-        const newRelation = await models.Subscription.create({
-          userId: user.id,
-          podcasterId,
-          stipend,
-          paid: stipend > 0 ? true : false,
-        });
-        res.json(newRelation);
-      } else {
-        res.status(404).json({ error: "User and podcaster not found" });
-      }
+      res.status(404).json({ error: "User and podcaster not found" });
     }
+
   },
 );
 
 // follow  podcast
 usersRouter.post(
   "/:id/followings",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const { podcastId } = req.body;
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to subscribe" });
-    } else {
-      const user = await models.User.findByPk(id);
-      const podcast = await models.Podcast.findByPk(podcastId);
+    const user = await models.User.findByPk(id);
+    const podcast = await models.Podcast.findByPk(podcastId);
 
-      if (user && podcast) {
-        const newRelation = await models.Following.create({
-          userId: user.id,
-          podcastId,
-        });
-        res.json(newRelation);
-      } else {
-        res.status(404).json({ error: "User and podcaster not found" });
-      }
+    if (user && podcast) {
+      const newRelation = await models.Following.create({
+        userId: user.id,
+        podcastId,
+      });
+      res.json(newRelation);
+    } else {
+      res.status(404).json({ error: "User and podcaster not found" });
     }
+    
   },
 );
 
 // unfollow podcaster
 usersRouter.delete(
   "/:id/followings",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { id } = req.params;
     const { podcastId } = req.body;
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to subscribe" });
-    } else {
-      const user = await models.User.findByPk(id);
-      const podcast = await models.Podcast.findByPk(podcastId);
+  
+    const user = await models.User.findByPk(id);
+    const podcast = await models.Podcast.findByPk(podcastId);
 
-      if (user && podcast) {
-        await models.Following.destroy({
-          where: { userId: user.id, podcastId: podcast.id },
-        });
-        res.status(200).json({ message: "unfollowed" });
-      } else {
-        res.status(404).json({ error: "User and podcaster not found" });
-      }
+    if (user && podcast) {
+      await models.Following.destroy({
+        where: { userId: user.id, podcastId: podcast.id },
+      });
+      res.status(200).json({ message: "unfollowed" });
+    } else {
+      res.status(404).json({ error: "User and podcaster not found" });
     }
+    
   },
 );
 
 // delete user by useusername and subsequentely the active session
 usersRouter.delete(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { id } = req.params;
-    if (req.decodedToken.id !== Number(id)) {
-      res
-        .status(422)
-        .json({ message: "user needs to be logged in to subscribe" });
-    } else {
-      const user = await models.User.findByPk(req.params.id);
-      if (user) {
-        await sequelize.transaction(async (transaction) => {
-          await models.ActiveUserSession.destroy({
-            where: { userId: user.id },
-            transaction,
-          });
-          await models.User.destroy({ where: { id: user.id }, transaction });
-        });
-        res.status(204).end();
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
+  authenticate,
+  async (req, res) => {   
+    const user = await models.User.findByPk(req.params.id);
+    if (user) {
+      await sequelize.transaction(async (transaction) => {
+        await models.User.destroy({ where: { id: user.id }, transaction });
+      });
+      res.status(204).end();
     }
   },
 );

@@ -1,9 +1,9 @@
-const podcastsRouter = require("express").Router();
+import { Router } from "express";
 import { Request, Response } from "express";
-import tokenExtractor from "../utils/middleware";
+import authenticate from "../utils/supaAuth";
 import models from "../models";
 import { PodcastDTO } from "../dtos/PodcastDTO";
-
+const podcastsRouter = Router();
 // fetch all podcasts //
 podcastsRouter.get("/", async (_req: Request, res: Response) => {
   const podcasts = await models.Podcast.findAll({
@@ -62,19 +62,17 @@ podcastsRouter.get("/:username", async (req: Request, res: Response) => {
 // add podcast by current podcaster //
 podcastsRouter.post(
   "/:username",
-  tokenExtractor,
+  authenticate,
   async (req: Request, res: Response) => {
     //check if logged podcaster is the one adding the podcaster
     const podcaster = await models.Podcaster.findOne({
       where: { username: req.params.username },
     });
-    const activePodcaster = await models.ActivePodcasterSession.findByPk(
-      podcaster?.id,
-    );
+
     console.log(podcaster);
 
     // if checked create the podcast
-    if (podcaster && activePodcaster) {
+    if (podcaster ) {
       const newpod = await models.Podcast.create({
         ...req.body,
         podcaster_id: podcaster.id,
@@ -89,7 +87,7 @@ podcastsRouter.post(
 // add url to list of urls
 podcastsRouter.patch(
   "/:id",
-  tokenExtractor,
+  authenticate,
   async (req: Request, res: Response) => {
     const podcastId = req.params.id;
     const urlToAdd = req.body.url;
@@ -107,7 +105,7 @@ podcastsRouter.patch(
 // edit podcast
 podcastsRouter.put(
   "/:id",
-  tokenExtractor,
+  authenticate,
   async (req: Request, res: Response) => {
     const podcastId = req.params.id;
     const { name, description, transcribed, urls } = req.body;

@@ -1,29 +1,16 @@
-const logoutRouter = require("express").Router();
-import tokenExtractor from "../utils/middleware";
-import models from "../models";
-import { sequelize } from "../utils/db";
-import { Response } from "express";
+import { Router } from "express";
+import authenticate from "../utils/supaAuth";
+import { supabase } from "../utils/db";
+const logoutRouter = Router();
 
 logoutRouter.post(
   "/",
-  tokenExtractor,
+  authenticate,
   async (
-    req: {
-      token: string;
-      params: { email: string };
-    },
-    res: Response,
+    _req,
+    res,
   ) => {
-    await sequelize.transaction(async (transaction) => {
-      await models.ActiveUserSession.destroy({
-        where: { token: req.token },
-        transaction,
-      });
-      await models.ActivePodcasterSession.destroy({
-        where: { token: req.token },
-        transaction,
-      });
-    });
+    await supabase.auth.signOut();
     res.status(204).end();
   },
 );

@@ -14,7 +14,6 @@ import podcastsRouter from "./controllers/podcasts";
 import logoutRouter from "./controllers/logout";
 import followingRouter from "./controllers/followings";
 import subscriptionsRouter from "./controllers/subscriptions";
-import sessionRouter from "./controllers/active_sessions";
 
 import cors from "cors";
 app.use(cors());
@@ -26,7 +25,6 @@ app.use("/api/podcasts", podcastsRouter);
 app.use("/api/followings", followingRouter);
 app.use("/api/subscriptions", subscriptionsRouter);
 app.use("/api/logout", logoutRouter);
-app.use("/api/create-session", sessionRouter);
 app.use(express.json());
 
 // Sync Sequelize models with the database

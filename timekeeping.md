@@ -48,16 +48,83 @@
 |        |  5   | Vue documentation  overview |
 |        |  1.5 | add topbar with logo sign in sign up and logout buttons |
 | 16.02  |  3   | tweaking backend to connect back to front and resolve auth problem |
-| 17.02  |  2.5 | saving supabase JWT token to active_session_users|
+|        |  2.5 | saving supabase JWT token to active_session_users|
+| 17.02  |  2   | major refactoring to migrate to supabase auth in the backend |
+|        |  2   | cleanup backend from remanents of custom JWT |
+|        |  0   |  |
+|        |  0   |  |
+| 18.02  |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
+|        |  0   |  |
+| 19.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 20.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 21.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 22.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 23.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 24.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 25.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 26.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 27.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 28.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
+| 01.03  |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 | milest | 175  | ------ GOAL ATTAINED! ------|
-| total  | 80   | |
-| remain | 95   | |
+| total  | 84   | |
+| remain | 91   | |

@@ -1,17 +1,17 @@
-const followingRouter = require("express").Router();
-import { Response } from "express";
+import { Router } from "express";
 import models from "../models";
-import tokenExtractor from "../utils/middleware";
-import { JWTRequest } from "../types";
+import authenticate from "../utils/supaAuth";
 import Following from "../models/following";
+const followingRouter = Router();
 
 // GET ALL FOLLOWINGS FOR ADMIN AND SUPERUSER
 followingRouter.get(
   "/",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { role } = req.decodedToken;
-    if (role === "superuser" || role === "admin") {
+  authenticate,
+  async (_req, res) => {
+    const role  = 'admin';
+    if (role === "admin") {
+    // if (role === "superuser" || role === "admin") {
       const followings: Following[] = await models.Following.findAll({});
       res.status(200).json(followings);
     } else {
@@ -25,11 +25,12 @@ followingRouter.get(
 // ADD FOLLOWING RELATION BETWEEN
 followingRouter.post(
   "/",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
+  authenticate,
+  async (req, res) => {
     const { userId, podcastId } = req.body;
-    const { role } = req.decodedToken;
-    if (role === "superuser" || role === "admin") {
+    const role  = 'admin';
+    if (role === "admin") {
+    // if (role === "superuser" || role === "admin") {
       const existingFollowing = await models.Following.findOne({
         where: { userId, podcastId },
       });
@@ -58,10 +59,11 @@ followingRouter.post(
 // delete following relation
 followingRouter.delete(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { role } = req.decodedToken;
-    if (role === "superuser" || role === "admin") {
+  authenticate,
+  async (req, res) => {
+    const role  = 'admin';
+    if (role === "admin") {
+    // if (role === "superuser" || role === "admin") {
       const { id } = req.params;
       const followingToDelete = await models.Following.findByPk(id);
 
@@ -84,9 +86,9 @@ followingRouter.delete(
 // STAR A FOLLOWING RELATION BY ADMIN AND SUPERUSER
 followingRouter.patch(
   "/:id",
-  tokenExtractor,
-  async (req: JWTRequest, res: Response) => {
-    const { role } = req.decodedToken;
+  authenticate,
+  async (req, res) => {
+    const  role  = 'superuser';
     if (role === "superuser" || role === "admin") {
       const { id } = req.params;
       const followingToStar = await models.Following.findByPk(id);
