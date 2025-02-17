@@ -15,3 +15,13 @@ export const singleUserQuery = (email: string) =>
 
 export type CountriesWithCities = QueryData<typeof singleUserQuery>;
 
+export const userQuery = ({
+  column,
+  value
+}: {
+  column: string
+  value: string
+}) => {
+  return supabase.from('users').select().eq(column, value).single()
+}
+
