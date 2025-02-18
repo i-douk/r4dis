@@ -1,20 +1,21 @@
-<script setup lang="ts">
-
-
-</script>
 
 <template>
-    <TopBar/>
-    <SidebarProvider>
-        <SidebarTrigger />
-        <SideBarComponent />
-    </SidebarProvider>
-<main>
-    <div class="flex items-center">
-            <h1 class="text-lg font-semibold md:text-2xl">
-            </h1>
+    <div class="min-h-screen flex flex-col">
+        <!-- Top Bar -->
+        <TopBar class="w-full h-16 bg-blue-500 text-white flex items-center justify-center">
+            <!-- TopBar content -->
+        </TopBar>
+
+        <!-- Main Content Area -->
+        <div class="flex flex-1">
+            <SidebarProvider>
+                <SidebarTrigger class='text-red-400 p-10'/>
+                <SideBarComponent>
+                </SideBarComponent>
+            </SidebarProvider>       
+        </div>
     </div>
-    <slot />
-</main>
-    
+    <main>
+        <slot/>
+    </main>
 </template>

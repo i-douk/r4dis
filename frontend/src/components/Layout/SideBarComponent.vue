@@ -32,9 +32,9 @@ const items = [
 <template>
     <Sidebar>
         <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu  class=" mt-20 p-4" >
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild class="text-xl font-bold">
                     <RouterLink :to='item.url'>
                       <span><item.icon /></span>
                       <span>{{item.title}}</span>
