@@ -3,7 +3,7 @@ import { Home, UsersRound, Search, Podcast , Headphones } from "lucide-vue-next"
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
 },
 {
@@ -13,21 +13,20 @@ const items = [
 },
   {
     title: "Community",
-    url: "#",
+    url: "/community",
     icon: UsersRound,
   },
   {
     title: "Podcasters",
-    url: "#",
+    url: "/podcasters",
     icon: Podcast,
   },
   {
     title: "Podcasts",
-    url: "#",
+    url: "/podcasts",
     icon: Headphones,
   },
 ]
-console.log(Home)
 </script>
 
 <template>
@@ -36,9 +35,8 @@ console.log(Home)
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
                   <SidebarMenuButton asChild>
-                    <RouterLink to={item.url}>
-                      <item.icon />
-                      <span>{{item.icon}}</span>
+                    <RouterLink :to='item.url'>
+                      <span><item.icon /></span>
                       <span>{{item.title}}</span>
                     </RouterLink>
                   </SidebarMenuButton>
