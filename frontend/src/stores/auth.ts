@@ -34,7 +34,6 @@ export const useAuthStore = defineStore('auth-store', () => {
     user.value = userSession.user
     await setUserProfile()
   }
-
   const getSession = async () => {
     const { data } = await supabase.auth.getSession()
     if (data.session?.user) await setAuth(data.session)

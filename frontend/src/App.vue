@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { logout } from './utils/supaAuth';
-import AdminLayout from './components/Layout/main/AdminLayout.vue';
+import UserLayout from './components/Layout/main/UserLayout.vue';
 
 
 </script>
 <template>
-  <AdminLayout>
-
-  </AdminLayout>
-  
+  <UserLayout/>
 </template>
