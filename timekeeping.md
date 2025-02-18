@@ -51,12 +51,10 @@
 |        |  2.5 | saving supabase JWT token to active_session_users|
 | 17.02  |  2   | major refactoring to migrate to supabase auth in the backend |
 |        |  2   | cleanup backend from remanents of custom JWT |
-|        |  0   |  |
-|        |  0   |  |
-| 18.02  |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
+|        |  1.5 | tweak user login and users endpoints for new supa auth |
+| 18.02  |  1.5 | set up auth store |
+|        |  2   | add building block for Layout + express services |
+|        |  1   | add sidebar, links |
 |        |  0   |  |
 |        |  0   |  |
 | 19.02  |  0   |  |
@@ -126,5 +124,5 @@
 |        |  0   |  |
 |        |  0   |  |
 | milest | 175  | ------ GOAL ATTAINED! ------|
-| total  | 84   | |
-| remain | 91   | |
+| total  | 90 | |
+| remain | 85 | |
