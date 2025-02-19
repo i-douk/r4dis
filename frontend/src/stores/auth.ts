@@ -69,12 +69,16 @@ export const useAuthStore = defineStore('auth-store', () => {
     });
   };
 
+  const clearSession = () => {
+    userProfile.value = null;
+  }
   return {
     user,
     userProfile,
     setAuth,
     getSession,
     trackAuthChanges,
+    clearSession
   };
 });
 

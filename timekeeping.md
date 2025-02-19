@@ -2,8 +2,7 @@
 
 | date | hours | tasks |
 | :----:|:-----| :-----|
-| 17.10. | 1    | setting up project |
-|        | 1    | db connection with supabase |
+| 17.10. | 2   | setting up project / db connection with supabase |
 |        | 2    | add inital models and migrations |
 | 23.10. | 1    | looking up and deciding on front-end |
 |        | 1    | end frameworksetting up Vue with tailwind |
@@ -17,6 +16,7 @@
 |        | 2    | add linting, fixes to align with project goals |
 |        | 2    | add global typing and start mapping fields |
 | 01.11  | 2    | fix typing/ endpoints/ model interfaces for podcasters |
+| milest | 25   | ------------------------25 hours completed-------------------------|
 | 01.11  | 2.5  | add and tweak endpoints, fix consistency |
 |        | 1    | finish CRUD operations to podcasts|
 |        | 1    | add post endpoints for following and subscription|
@@ -30,6 +30,7 @@
 | 10.11  | 1    | add admin and superuser endpoints and role checking |
 |        | 1    | debug role not being saved to activesession & add put for superuser and admin to verifiy and disable podcaster|
 |        | 1    | keep cleaning up endpoints and deploying consistant logic|
+| milest | 50   | ------------------------50 hours completed-------------------------|
 |        | 1    | restrict subscriptions and followings CRUD to super user and admin |
 |        | 1    | add freezing and commenting to superuser and admin on subscriptions |
 |        | 1    | add bulk edit to podcaster and add propreties to podcast schema and db |
@@ -46,6 +47,7 @@
 |        | 0.5  | create login page, pwd hash b4 saving to users |
 | 15.02  |  2   | refactoring & file structure + looking up suspense for coordinated loading state |
 |        |  5   | Vue documentation  overview |
+| milest | 75   | ------------------------75 hours completed-------------------------|
 |        |  1.5 | add topbar with logo sign in sign up and logout buttons |
 | 16.02  |  3   | tweaking backend to connect back to front and resolve auth problem |
 |        |  2.5 | saving supabase JWT token to active_session_users|
@@ -55,11 +57,10 @@
 | 18.02  |  1.5 | set up auth store |
 |        |  2   | add building block for Layout + express services |
 |        |  1   | add sidebar, links |
+| 19.02  |  2   | fix sidebar  |
 |        |  0   |  |
 |        |  0   |  |
-| 19.02  |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
+| milest | 94   | ------------------------100 hours completed-------------------------|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
@@ -70,6 +71,8 @@
 |        |  0   |  |
 |        |  0   |  |
 | 21.02  |  0   |  |
+|        |  0   |  |
+|        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |

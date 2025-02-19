@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import router from '@/router';
 import { logout } from '../utils/supaAuth';
-const { userProfile } = storeToRefs(useAuthStore())
 
+
+const handleLogout = async () => {
+  await logout();
+  authStore.clearSession();
+  router.push('/')
+};
+
+const authStore = useAuthStore();
+const { userProfile } = storeToRefs(authStore);
 </script>
 <template>
      <header>
@@ -17,7 +26,7 @@ const { userProfile } = storeToRefs(useAuthStore())
             exactActiveClass="border-indigo-700">Sign in</RouterLink>
             <RouterLink to="/users/myaccount" v-if="userProfile" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">My account</RouterLink>
-            <Button @click="logout" variant="destructive" v-if="userProfile">Logout</Button>
+            <Button @click="handleLogout" variant="destructive" v-if="!userProfile">Logout</Button>
           </div>
             </nav>
           </div>
