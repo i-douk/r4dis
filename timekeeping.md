@@ -58,15 +58,15 @@
 |        |  2   | add building block for Layout + express services |
 |        |  1   | add sidebar, links |
 | 19.02  |  2   | fix sidebar  |
+|        |  1   | fix logout |
 |        |  0   |  |
 |        |  0   |  |
-| milest | 94   | ------------------------100 hours completed-------------------------|
+|        |  0   |  |
+| milest | 95   | ------------------------100 hours completed-------------------------|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 | 20.02  |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
@@ -127,5 +127,3 @@
 |        |  0   |  |
 |        |  0   |  |
 | milest | 175  | ------ GOAL ATTAINED! ------|
-| total  | 90 | |
-| remain | 85 | |

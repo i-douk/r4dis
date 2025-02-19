@@ -9,12 +9,12 @@ const links = [
   },
   {
     title: 'Podcasters',
-    to: '/podcasters',
+    to: '/user/podcasters',
     icon: ""
   },
   {
     title: 'Podcasts',
-    to: '/podcasts',
+    to: '/user/podcasts',
     icon: ""
   },
   {

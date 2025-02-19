@@ -6,7 +6,6 @@ import { logout } from '../utils/supaAuth';
 const handleLogout = async () => {
   await logout();
   authStore.clearSession();
-  router.push('/')
 };
 
 const authStore = useAuthStore();
@@ -20,13 +19,16 @@ const { userProfile } = storeToRefs(authStore);
         </RouterLink>
         <nav>
           <div class="flex justify-between gap-4 p-5">
-            <RouterLink to="/users/register" v-if="!userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/register" v-if="!userProfile" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">Sign up </RouterLink>
-            <RouterLink to="/users/login" v-if="!userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/login" v-if="!userProfile" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">Sign in</RouterLink>
-            <RouterLink to="/users/myaccount" v-if="userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/:id/myaccount" v-if="userProfile" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">My account</RouterLink>
-            <Button @click="handleLogout" variant="destructive" v-if="!userProfile">Logout</Button>
+            <Button @click="handleLogout" v v-if="!userProfile">
+              <RouterLink to="/">
+                Logout
+              </RouterLink></Button>
           </div>
             </nav>
           </div>

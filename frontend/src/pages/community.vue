@@ -11,7 +11,10 @@ fetchUsers();
 </script>
 
 <template>
-    <div >
+    <div>
+      <div>
+        {{ $route.params }}
+      </div>
     <ul>
       <li v-for="user in users" :key="user.id">
         {{ user.username }}
