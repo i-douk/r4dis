@@ -9,6 +9,7 @@ const fetchUsers = async () => {
 };
 fetchUsers();
 </script>
+
 <template>
     <div >
     <ul>

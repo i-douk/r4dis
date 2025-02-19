@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
 import hashPassword from './hash';
+import router from '@/router';
 export const register = async (formData: RegisterForm) => {
 
   const { data, error } = await supabase.auth.signUp({
@@ -35,8 +36,8 @@ export const login = async (formData: LoginForm) => {
 
 export const logout = async () => {
   const { error } = await supabase.auth.signOut()
-
-  if (error) return console.log(error)
+  router.push('/')
+  if (error)  throw error
 
   return true
 }
