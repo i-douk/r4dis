@@ -39,7 +39,7 @@ declare module 'vue' {
     SheetTitle: typeof import('./src/components/ui/sheet/SheetTitle.vue')['default']
     SheetTrigger: typeof import('./src/components/ui/sheet/SheetTrigger.vue')['default']
     Sidebar: typeof import('./src/components/ui/sidebar/Sidebar.vue')['default']
-    SideBarComponent: typeof import('./src/components/Layout/SideBarComponent.vue')['default']
+    SideBarComponent: typeof import('./src/components/SideBarComponent.vue')['default']
     SidebarContent: typeof import('./src/components/ui/sidebar/SidebarContent.vue')['default']
     SidebarFooter: typeof import('./src/components/ui/sidebar/SidebarFooter.vue')['default']
     SidebarGroup: typeof import('./src/components/ui/sidebar/SidebarGroup.vue')['default']
@@ -68,7 +68,7 @@ declare module 'vue' {
     TooltipContent: typeof import('./src/components/ui/tooltip/TooltipContent.vue')['default']
     TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
     TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']
-    TopBar: typeof import('./src/components/Layout/TopBar.vue')['default']
+    TopBar: typeof import('./src/components/TopBar.vue')['default']
     TopNavBar: typeof import('./src/components/Layout/TopNavBar.vue')['default']
     UserLayout: typeof import('./src/components/Layout/main/UserLayout.vue')['default']
   }

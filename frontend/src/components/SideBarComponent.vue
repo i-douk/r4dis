@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
-
+import { House } from 'lucide-vue-next';
 const links = [
   {
     title: 'Dashboard',
     to: '/',
+    icon: House
   },
   {
     title: 'Podcasters',
     to: '/podcasters',
+    icon: ""
   },
   {
     title: 'Podcasts',
     to: '/podcasts',
+    icon: ""
   },
   {
     title: 'Community',
     to: '/community',
+    icon: ""
   },
 ]
 
@@ -24,6 +28,7 @@ const links = [
 
 <template>
   <div :class="cn('pb-12', $attrs.class ?? '')">
+    
     <div class="space-y-4 py-4">
       <div class="px-3 py-2">
         <h2 class="mb-2 px-4 text-lg font-semibold tracking-tight">
@@ -90,7 +95,8 @@ const links = [
           Access
         </h2>
         <div class="space-y-1">
-          <Button v-for="(link) in links" variant="ghost" class="w-full justify-start">
+          <Button v-for="link in links" variant="ghost" class="w-full justify-start">
+            <scan><link.icon /></scan>
             <RouterLink :to="link.to">
               {{ link.title }}
             </RouterLink>
@@ -132,5 +138,4 @@ const links = [
       <!-- </div> -->
     </div>
   </div>
-  <RouterView />
 </template>

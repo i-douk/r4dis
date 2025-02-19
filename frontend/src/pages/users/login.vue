@@ -11,7 +11,6 @@ const signin = async () => {
   const { error } = await login(formData.value)
   if (!error) return router.push('/')   
 }
-
 </script>
 
 <template>
@@ -30,7 +29,6 @@ const signin = async () => {
           </Button>
           <Separator label="Or" />
         </div>
-
         <form class="grid gap-4" @submit.prevent="signin">
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { logout } from '../../utils/supaAuth';
+import { logout } from '../utils/supaAuth';
 const { userProfile } = storeToRefs(useAuthStore())
 
 </script>
-
 <template>
      <header>
-       <div class="flex justify-between p-5">
+       <div flex flex-grow class="flex justify-between p-5">
       <RouterLink to="/">
           <img alt="Vue logo" src="@/assets/logo.png" width="175" height="125" />
         </RouterLink>
@@ -22,5 +21,5 @@ const { userProfile } = storeToRefs(useAuthStore())
           </div>
             </nav>
           </div>
-  </header>
+        </header>
 </template>
