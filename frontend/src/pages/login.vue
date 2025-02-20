@@ -1,64 +1,133 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import { login } from '@/utils/supaAuth'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { supabase } from '@/lib/supabaseClient'
 
+const { toast } = useToast()
+const authStore = useAuthStore()
 const router = useRouter()
 const formData = ref({
   email: '',
   password: ''
 })
+const isLoading = ref(false)
 
-const signin = async () => {
-  const { error } = await login(formData.value)
-  if (!error) return router.push('/')   
+const signin = async (event: Event) => {
+  event.preventDefault()
+  
+  try {
+    isLoading.value = true
+    
+    if (!formData.value.email || !formData.value.password) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please fill in all fields',
+        variant: 'destructive'
+      })
+      return
+    }
+    if(!authStore){
+      const { error } = await login(formData.value)
+      
+      if (error) {
+        toast({
+          title: 'Login Failed',
+          description: error.message || 'Failed to login',
+          variant: 'destructive'
+        })
+        return
+      }
+    }
+
+    const {data: userSession, error : sessionError} = await supabase.auth.getSession()
+    console.log(userSession)
+    authStore.setAuth(userSession.session)
+    if(sessionError) {
+      toast({
+        title : "Session Error",
+        description: " It seems like something went wrong with your session, refresh your page and try again"
+      })
+    }
+    router.push('/')
+    
+    toast({
+      title: 'Success',
+      description: 'Logged in successfully'
+      })
+  } catch (err) {
+    toast({
+      title: 'Error',
+      description: 'An unexpected error occurred',
+      variant: 'destructive'
+    })
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
 <template>
-  <div
-    class="mx-auto flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]"
-  >
+  <div class="mx-auto flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]">
     <Card class="max-w-sm w-full mx-auto">
       <CardHeader>
-        <CardTitle class="text-2xl"> Login </CardTitle>
-        <CardDescription> Login to your account </CardDescription>
+        <CardTitle class="text-2xl">Login</CardTitle>
+        <CardDescription>Login to your account</CardDescription>
       </CardHeader>
       <CardContent>
-        <div class="flex flex-col gap-4 mb-4 justify-center items-center">
-          <Button variant="outline" class="w-full">
-            Register with Google
-          </Button>
-          <Separator label="Or" />
-        </div>
         <form class="grid gap-4" @submit.prevent="signin">
           <div class="grid gap-2">
-            <Label id="email" class="text-left">Email</Label>
+            <Label for="email">Email</Label>
             <Input
+              id="email"
               type="email"
               placeholder="johndoe19@example.com"
               required
               v-model="formData.email"
             />
           </div>
+          
           <div class="grid gap-2">
-            <div class="flex items-center">
-              <Label id="password">Password</Label>
-              <a href="#" class="inline-block ml-auto text-xs underline">
-                Forgot your password?
-              </a>
+            <div class="flex items-center justify-between">
+              <Label for="password">Password</Label>
+              <RouterLink 
+                to="/forgot-password" 
+                class="text-xs text-muted-foreground hover:text-primary"
+              >
+                Forgot password?
+              </RouterLink>
             </div>
             <Input
               id="password"
               type="password"
-              autocomplete
               required
               v-model="formData.password"
-            /> 
+            />
           </div>
-          <Button type="submit" class="w-full"> Login </Button>
+          
+          <Button 
+            type="submit" 
+            :disabled="isLoading"
+          >
+            <template v-if="isLoading">
+              Logging in...
+            </template>
+            <template v-else>
+              Login
+            </template>
+          </Button>
         </form>
-        <div class="mt-4 text-sm text-center">
+        
+        <div class="mt-4 text-sm text-center text-muted-foreground">
           Don't have an account?
-          <RouterLink to="/register" class="underline"> Register </RouterLink>
+          <RouterLink 
+            to="/register" 
+            class="text-primary hover:underline"
+          >
+            Register
+          </RouterLink>
         </div>
       </CardContent>
     </Card>

@@ -2,14 +2,17 @@
 import router from '@/router';
 import { logout } from '../utils/supaAuth';
 
+const authStore = useAuthStore();
 
 const handleLogout = async () => {
-  await logout();
-  authStore.clearSession();
-};
+  console.log('Logout button clicked'); // Debugging
+  await logout(authStore); // Pass the store as an argument
+  router.push('/login');
+  console.log('Redirected to home page'); // Debugging
+}
 
-const authStore = useAuthStore();
-const { userProfile } = storeToRefs(authStore);
+console.log(authStore.user)
+
 </script>
 <template>
      <header>
@@ -19,16 +22,20 @@ const { userProfile } = storeToRefs(authStore);
         </RouterLink>
         <nav>
           <div class="flex justify-between gap-4 p-5">
-            <RouterLink to="/register" v-if="!userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/register" v-if="authStore.userProfile == null" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">Sign up </RouterLink>
-            <RouterLink to="/login" v-if="!userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/login" v-if="authStore.userProfile== null" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">Sign in</RouterLink>
-            <RouterLink to="/:id/myaccount" v-if="userProfile" activeClass="border-indigo-500"
+            <RouterLink to="/:id/myaccount" v-if="authStore.userProfile" activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700">My account</RouterLink>
-            <Button @click="handleLogout" v v-if="!userProfile">
-              <RouterLink to="/">
-                Logout
-              </RouterLink></Button>
+            <a
+            v-if="authStore.userProfile"
+            href="#"
+            @click.prevent="handleLogout"
+            class="border-indigo-500"
+          >
+            Logout
+          </a>  
           </div>
             </nav>
           </div>

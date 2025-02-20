@@ -1,19 +1,22 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { QueryData } from '@supabase/supabase-js';
 
-export const usersQuery = supabase.from('users').select()
+export const allUsersQuery = supabase.from('users').select()
 
 export const singleUserQuery = (email: string) =>
   supabase
     .from('users')
     .select(`
       email,
-      role
+      id,
+      avatar_url,
+      podcasts {
+      }
       `)
     .eq('email', email)
     .single()
 
-export type CountriesWithCities = QueryData<typeof singleUserQuery>;
+export type UserProfile = QueryData<typeof singleUserQuery>;
 
 export const userQuery = ({
   column,

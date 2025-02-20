@@ -10,9 +10,10 @@ const router = useRouter()
 
 const signup = async () => {
   const isRegistered = await register(formData.value)
-
-  if (isRegistered) router.push('/')
-}
+  if (isRegistered){
+    console.log("registration successful")
+    router.push('/')
+}}
 </script>
 
 <template>

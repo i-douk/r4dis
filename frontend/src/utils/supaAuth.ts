@@ -1,26 +1,25 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
 import hashPassword from './hash';
-import router from '@/router';
+
 export const register = async (formData: RegisterForm) => {
 
   const { data, error } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
   });
-
+  console.log(error)
+  console.log(data)
   if (error) return { error };
-
-    if (data.user) {
-      const { error } = await supabase.from('users').insert({
+  if (data.user) {
+      const { error : insertError } = await supabase.from('users').insert({
         username: formData.username,
         email: formData.email,
         password: await hashPassword(formData.password),
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
-
-      if (error) return { error }; 
+      if (insertError) return { insertError }; 
   }
   return true
 }
@@ -30,14 +29,15 @@ export const login = async (formData: LoginForm) => {
     email: formData.email,
     password: formData.password
   })
-
   return { error }
 }
 
-export const logout = async () => {
-  const { error } = await supabase.auth.signOut()
-  router.push('/')
-  if (error)  throw error
-
-  return true
-}
+export const logout = async (authStore: { clearSession: () => void; }) => {
+  try {
+    authStore.clearSession();
+    await supabase.auth.signOut();
+    console.log('signed out')
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
