@@ -15,12 +15,9 @@ const formData = ref({
 })
 const isLoading = ref(false)
 
-const signin = async (event: Event) => {
-  event.preventDefault()
-  
+const signin = async () => {
   try {
     isLoading.value = true
-    
     if (!formData.value.email || !formData.value.password) {
       toast({
         title: 'Validation Error',
@@ -29,50 +26,33 @@ const signin = async (event: Event) => {
       })
       return
     }
-    if(!authStore){
+
       const { error } = await login(formData.value)
-      
+
       if (error) {
         toast({
           title: 'Login Failed',
           description: error.message || 'Failed to login',
           variant: 'destructive'
-        })
-        return
-      }
-    }
+        })}
+        else {
+          toast({
+          title: 'Success',
+          description: 'Logged in successfully'
+          })
+            router.push('/');
+        }
 
-    const {data: userSession, error : sessionError} = await supabase.auth.getSession()
-    console.log(userSession)
-    authStore.setAuth(userSession.session)
-    if(sessionError) {
-      toast({
-        title : "Session Error",
-        description: " It seems like something went wrong with your session, refresh your page and try again"
-      })
-    }
-    router.push('/')
-    
-    toast({
-      title: 'Success',
-      description: 'Logged in successfully'
-      })
-  } catch (err) {
-    toast({
-      title: 'Error',
-      description: 'An unexpected error occurred',
-      variant: 'destructive'
-    })
   } finally {
     isLoading.value = false
   }
 
-  const session = await supabase.auth.getSession()
-  console.log(session)
-if (!session.data.session) {
-  // Handle unauthenticated state
-  throw new Error('User not authenticated')
-}
+//   const session = await supabase.auth.getSession()
+//   console.log(session)
+// if (!session.data.session) {
+//   // Handle unauthenticated state
+//   throw new Error('User not authenticated')
+// }
 }
 </script>
 
@@ -95,46 +75,29 @@ if (!session.data.session) {
               v-model="formData.email"
             />
           </div>
-          
+
           <div class="grid gap-2">
             <div class="flex items-center justify-between">
               <Label for="password">Password</Label>
-              <RouterLink 
-                to="/forgot-password" 
+              <RouterLink
+                to="/forgot-password"
                 class="text-xs text-muted-foreground hover:text-primary"
               >
                 Forgot password?
               </RouterLink>
             </div>
-            <Input
-              id="password"
-              type="password"
-              required
-              v-model="formData.password"
-            />
+            <Input id="password" type="password" required v-model="formData.password" />
           </div>
-          
-          <Button 
-            type="submit" 
-            :disabled="isLoading"
-          >
-            <template v-if="isLoading">
-              Logging in...
-            </template>
-            <template v-else>
-              Login
-            </template>
+
+          <Button type="submit" :disabled="isLoading">
+            <template v-if="isLoading"> Logging in... </template>
+            <template v-else> Login </template>
           </Button>
         </form>
-        
+
         <div class="mt-4 text-sm text-center text-muted-foreground">
           Don't have an account?
-          <RouterLink 
-            to="/register" 
-            class="text-primary hover:underline"
-          >
-            Register
-          </RouterLink>
+          <RouterLink to="/register" class="text-primary hover:underline"> Register </RouterLink>
         </div>
       </CardContent>
     </Card>

@@ -4,10 +4,10 @@ export default {
   getUsers() {
     return expressClient.get(`/users`)
   },
-  getPodcasters(){
+  getPodcasters() {
     return expressClient.get('/podcasters')
   },
-  getPodcasts(){
+  getPodcasts() {
     return expressClient.get('/podcasts')
   },
 }

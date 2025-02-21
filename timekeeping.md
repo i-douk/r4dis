@@ -62,9 +62,10 @@
 | 21.02. |  5   | changes to  backend, add uuid to add references to public users and public po
 dcasters with  auth.users, rewriting of sequelize models/umzug migrations  |
 | milest | 100  | ------------------------100 hours completed-------------------------|
+|        |  1   |  |
 |        |  0   |  |
 |        |  0   |  |
-|        |  0   |  |
+| milest | 101  | ------------------------125 hours completed-------------------------|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |

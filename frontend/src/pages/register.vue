@@ -4,16 +4,17 @@ const formData = ref({
   username: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 const router = useRouter()
 
 const signup = async () => {
   const isRegistered = await register(formData.value)
-  if (isRegistered){
-    console.log("registration successful")
+  if (isRegistered) {
+    console.log('registration successful')
     router.push('/')
-}}
+  }
+}
 </script>
 
 <template>
@@ -41,8 +42,7 @@ const signup = async () => {
               v-model="formData.username"
             />
           </div>
-          <div class="flex flex-col sm:flex-row justify-between gap-4">
-          </div>
+          <div class="flex flex-col sm:flex-row justify-between gap-4"></div>
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>
             <Input

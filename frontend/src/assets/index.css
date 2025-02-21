@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @layer base {
   :root {
@@ -67,7 +67,6 @@
 }
 
 @layer base {
-
   body {
     @apply bg-black text-white;
   }
