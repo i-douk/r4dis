@@ -66,6 +66,13 @@ const signin = async (event: Event) => {
   } finally {
     isLoading.value = false
   }
+
+  const session = await supabase.auth.getSession()
+  console.log(session)
+if (!session.data.session) {
+  // Handle unauthenticated state
+  throw new Error('User not authenticated')
+}
 }
 </script>
 

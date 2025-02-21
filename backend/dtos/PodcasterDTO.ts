@@ -3,7 +3,7 @@ import { SubscriptionDTO } from "./SubscriptionDTO";
 import { UserDTO } from "./UserDTO";
 
 export class PodcasterDTO {
-  public id: number;
+  public id: string;
   public username: string;
   public premium?: boolean;
   public disabled?: boolean;

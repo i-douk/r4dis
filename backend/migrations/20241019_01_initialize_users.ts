@@ -4,9 +4,10 @@ module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable("users", {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        allowNull: false,
+        references: { model: { tableName: 'users', schema: 'auth' }, key: 'id' },
       },
       email: {
         type: DataTypes.STRING,
@@ -22,10 +23,10 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      // password: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      // },
       verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -40,7 +41,7 @@ module.exports = {
     });
 
     await queryInterface.addColumn("users", "podcaster_id", {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: { model: "podcasters", key: "id" },
     });
     await queryInterface.addColumn("users", "podcast_id", {

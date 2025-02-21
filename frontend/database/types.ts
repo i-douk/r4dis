@@ -203,7 +203,6 @@ export type Database = {
           disabled: boolean | null
           email: string
           id: number
-          password: string
           podcast_id: number | null
           podcaster_id: number | null
           role: Database["public"]["Enums"]["enum_users_role"] | null
@@ -219,7 +218,6 @@ export type Database = {
           disabled?: boolean | null
           email: string
           id?: number
-          password: string
           podcast_id?: number | null
           podcaster_id?: number | null
           role?: Database["public"]["Enums"]["enum_users_role"] | null
@@ -235,7 +233,6 @@ export type Database = {
           disabled?: boolean | null
           email?: string
           id?: number
-          password?: string
           podcast_id?: number | null
           podcaster_id?: number | null
           role?: Database["public"]["Enums"]["enum_users_role"] | null

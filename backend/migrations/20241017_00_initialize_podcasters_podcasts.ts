@@ -6,9 +6,10 @@ module.exports = {
     // Create 'podcasters' table
     await queryInterface.createTable("podcasters", {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        allowNull: false,
+        references: { model: { tableName: 'users', schema: 'auth' }, key: 'id' },
       },
       email: {
         type: DataTypes.STRING,
@@ -19,10 +20,10 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      // password: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      // },
       premium: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -80,7 +81,7 @@ module.exports = {
 
     if (results.length === 0) {
       await queryInterface.addColumn("podcasts", "podcaster_id", {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: { model: "podcasters", key: "id" },
       });

@@ -1,23 +1,24 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/db";
-import hashPassword from "../utils/hashHook";
+// import hashPassword from "../utils/hashHook";
 
 class Podcaster extends Model {
   public premium?: boolean;
   public disabled?: boolean;
   public email?: string;
-  public id?: number;
+  public id!: string;
   public username!: string;
-  public password?: string;
   public verified!: boolean;
 }
 
 Podcaster.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
+      references: { model: { tableName: 'users', schema: 'auth' }, key: 'id' }
+
     },
     email: {
       type: DataTypes.STRING,
@@ -33,25 +34,25 @@ Podcaster.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [8, 100], // Minimum length requirement
-        isStrongPassword(value: string) {
-          if (
-            !/[A-Z]/.test(value) ||
-            !/[a-z]/.test(value) ||
-            !/[0-9]/.test(value) ||
-            !/[@$!%*?&#]/.test(value)
-          ) {
-            throw new Error(
-              "Password must contain uppercase, lowercase, number, and special character",
-            );
-          }
-        },
-      },
-    },
+    // password: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate: {
+    //     len: [8, 100], // Minimum length requirement
+    //     isStrongPassword(value: string) {
+    //       if (
+    //         !/[A-Z]/.test(value) ||
+    //         !/[a-z]/.test(value) ||
+    //         !/[0-9]/.test(value) ||
+    //         !/[@$!%*?&#]/.test(value)
+    //       ) {
+    //         throw new Error(
+    //           "Password must contain uppercase, lowercase, number, and special character",
+    //         );
+    //       }
+    //     },
+    //   },
+    // },
     premium: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -90,17 +91,17 @@ Podcaster.init(
   },
 );
 
-// Password hashing hook
-Podcaster.beforeCreate(async (podcaster) => {
-  if (podcaster.password) {
-    podcaster.password = await hashPassword(podcaster.password);
-  }
-});
+// // Password hashing hook
+// Podcaster.beforeCreate(async (podcaster) => {
+//   if (podcaster.password) {
+//     podcaster.password = await hashPassword(podcaster.password);
+//   }
+// });
 
-Podcaster.beforeUpdate(async (podcaster: any) => {
-  if (podcaster.changed("password")) {
-    podcaster.password = await hashPassword(podcaster.password);
-  }
-});
+// Podcaster.beforeUpdate(async (podcaster: any) => {
+//   if (podcaster.changed("password")) {
+//     podcaster.password = await hashPassword(podcaster.password);
+//   }
+// });
 
 export default Podcaster;

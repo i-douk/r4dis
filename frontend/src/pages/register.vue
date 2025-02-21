@@ -42,26 +42,6 @@ const signup = async () => {
             />
           </div>
           <div class="flex flex-col sm:flex-row justify-between gap-4">
-            <!-- <div class="grid gap-2">
-              <Label id="first_name" class="text-left">First Name</Label>
-              <Input
-                id="first_name"
-                type="text"
-                placeholder="John"
-                required
-                v-model="formData.firstName"
-              />
-            </div>
-            <div class="grid gap-2"> -->
-              <!-- <Label id="last_name" class="text-left">Last Name</Label>
-              <Input
-                id="last_name"
-                type="text"
-                placeholder="Doe"
-                required
-                v-model="formData.lastName"
-              />
-            </div> -->
           </div>
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>

@@ -10,7 +10,7 @@ export enum Role {
 }
 // dtos/PodcasterDTO.ts
 export class UserDTO {
-  public id: number;
+  public id: string;
   public username: string;
   public disabled?: boolean;
   public avatar_url: string | null;

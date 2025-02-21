@@ -1,13 +1,13 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/db";
-import hashPassword from "../utils/hashHook";
+// import hashPassword from "../utils/hashHook";
 
 class User extends Model {
   public disabled?: boolean;
   public email?: string;
-  public id?: number;
+  public id!: string;
   public username?: string;
-  public password?: string;
+  // public password?: string;
   public role!: "admin" | "user" | "superuser";
   public avatar_url: string | undefined;
 }
@@ -15,9 +15,10 @@ class User extends Model {
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
+      references: { model: { tableName: 'users', schema: 'auth' }, key: 'id' }
     },
     email: {
       type: DataTypes.STRING,
@@ -33,25 +34,25 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [8, 100], // Minimum length requirement
-        isStrongPassword(value: string) {
-          if (
-            !/[A-Z]/.test(value) ||
-            !/[a-z]/.test(value) ||
-            !/[0-9]/.test(value) ||
-            !/[@$!%*?&#]/.test(value)
-          ) {
-            throw new Error(
-              "Password must contain uppercase, lowercase, number, and special character",
-            );
-          }
-        },
-      },
-    },
+    // password: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate: {
+    //     len: [8, 100], // Minimum length requirement
+    //     isStrongPassword(value: string) {
+    //       if (
+    //         !/[A-Z]/.test(value) ||
+    //         !/[a-z]/.test(value) ||
+    //         !/[0-9]/.test(value) ||
+    //         !/[@$!%*?&#]/.test(value)
+    //       ) {
+    //         throw new Error(
+    //           "Password must contain uppercase, lowercase, number, and special character",
+    //         );
+    //       }
+    //     },
+    //   },
+    // },
     verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -80,27 +81,27 @@ User.init(
     timestamps: true,
     modelName: "user",
     defaultScope: {
-      attributes: { exclude: ["password", "role"] },
+      attributes: { exclude: [ "role"] },
     },
     scopes: {
       sensitive: {
-        attributes: { include: ["password", "role"] },
+        attributes: { include: [ "role"] },
       },
     },
   },
 );
 
-// Password hashing hook
-User.beforeCreate(async (user) => {
-  if (user.password) {
-    user.password = await hashPassword(user.password);
-  }
-});
+// // Password hashing hook
+// User.beforeCreate(async (user) => {
+//   if (user.password) {
+//     user.password = await hashPassword(user.password);
+//   }
+// });
 
-User.beforeUpdate(async (user: any) => {
-  if (user.changed("password")) {
-    user.password = await hashPassword(user.password);
-  }
-});
+// User.beforeUpdate(async (user: any) => {
+//   if (user.changed("password")) {
+//     user.password = await hashPassword(user.password);
+//   }
+// });
 
 export default User;

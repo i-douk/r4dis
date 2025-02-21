@@ -7,11 +7,11 @@ const links = [
   },
   {
     title: 'Podcasters',
-    to: '/:d/podcasters',
+    to: '#',
   },
   {
     title: 'Podcasts',
-    to: '/:d/podcasts',
+    to: '#',
   },
   {
     title: 'Community',
