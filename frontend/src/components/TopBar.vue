@@ -3,15 +3,13 @@ import router from '@/router'
 import { logout } from '../utils/supaAuth'
 
 const authStore = useAuthStore()
+const { userProfile } = storeToRefs(useAuthStore())
 
 const handleLogout = async () => {
-  console.log('Logout button clicked') // Debugging
   await logout(authStore) // Pass the store as an argument
   router.push('/login')
-  console.log('Redirected to home page') // Debugging
 }
-
-console.log(authStore.user)
+console.log(userProfile)
 </script>
 <template>
   <header>
@@ -36,8 +34,11 @@ console.log(authStore.user)
             >Sign in</RouterLink
           >
           <RouterLink
-            to="/:id/myaccount"
             v-if="authStore.userProfile"
+            :to="{
+                  name: '/users/[username]',
+                  params: { username: authStore.userProfile?.username }
+                  }"
             activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700"
             >My account</RouterLink

@@ -5,7 +5,6 @@ import { useAuthStore } from '@/stores/auth'
 import { login } from '@/utils/supaAuth'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { supabase } from '@/lib/supabaseClient'
-
 const { toast } = useToast()
 const authStore = useAuthStore()
 const router = useRouter()
