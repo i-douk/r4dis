@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import { login } from '@/utils/supaAuth'
-import { useToast } from '@/components/ui/toast/use-toast'
 import { supabase } from '@/lib/supabaseClient'
+import { Toaster } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/toast/use-toast'
 const { toast } = useToast()
+
+
 const authStore = useAuthStore()
 const router = useRouter()
 const formData = ref({

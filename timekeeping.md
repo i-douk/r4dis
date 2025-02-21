@@ -62,7 +62,7 @@
 | 21.02. |  3   | changes to  backend, add uuid to add references to public users and public podcasters with  auth.users, rewriting of sequelize models/umzug migrations  |
 |        |  2   | fixed authentication and auth store, buttons in topbar change when logged in |
 | milest | 100  | ------------------------100 hours completed-------------------------|
-| 21.02  |  0   |  |
+| 21.02  |  0.5 | add dynamic routing to account page |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
@@ -72,7 +72,7 @@
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
-| milest |  0   | ------------------------125 hours completed-------------------------|
+| milest | 100.5 | ------------------------125 hours completed-------------------------|
 |        |  0   |  |
 | 22.02  |  0   |  |
 |        |  0   |  |

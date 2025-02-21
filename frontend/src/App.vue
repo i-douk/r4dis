@@ -6,6 +6,7 @@ onMounted(() => {
 </script>
 <template>
   <UserLayout>
+    <Toaster />
     <RouterView />
   </UserLayout>
 </template>
