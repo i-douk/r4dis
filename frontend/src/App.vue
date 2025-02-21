@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import UserLayout from './layouts/UserLayout.vue'
+import { useAuthStore } from '@/stores/auth';
+import UserLayout from './layouts/UserLayout.vue';
 onMounted(() => {
   useAuthStore().trackAuthChanges()
 })
