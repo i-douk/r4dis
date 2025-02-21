@@ -59,14 +59,13 @@
 |        |  1   | add sidebar, links |
 | 19.02  |  2   | fix sidebar  |
 |        |  1   | fix logout |
+| 21.02. |  5   | changes to  backend, add uuid to add references to public users and public po
+dcasters with  auth.users, rewriting of sequelize models/umzug migrations  |
+| milest | 100  | ------------------------100 hours completed-------------------------|
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
-| milest | 95   | ------------------------100 hours completed-------------------------|
 |        |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
-| 20.02  |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |

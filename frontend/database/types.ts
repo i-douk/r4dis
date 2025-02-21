@@ -14,19 +14,19 @@ export type Database = {
           id: number
           podcast_id: number
           starred: boolean
-          user_id: number
+          user_id: string
         }
         Insert: {
           id?: number
           podcast_id: number
           starred?: boolean
-          user_id: number
+          user_id: string
         }
         Update: {
           id?: number
           podcast_id?: number
           starred?: boolean
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -64,9 +64,8 @@ export type Database = {
           disabled: boolean | null
           earnings: number | null
           email: string
-          id: number
+          id: string
           links: string[] | null
-          password: string
           premium: boolean | null
           subscriptioncount: number
           updated_at: string
@@ -79,9 +78,8 @@ export type Database = {
           disabled?: boolean | null
           earnings?: number | null
           email: string
-          id?: number
+          id: string
           links?: string[] | null
-          password: string
           premium?: boolean | null
           subscriptioncount?: number
           updated_at: string
@@ -94,9 +92,8 @@ export type Database = {
           disabled?: boolean | null
           earnings?: number | null
           email?: string
-          id?: number
+          id?: string
           links?: string[] | null
-          password?: string
           premium?: boolean | null
           subscriptioncount?: number
           updated_at?: string
@@ -112,7 +109,7 @@ export type Database = {
           followcount: number
           id: number
           name: string
-          podcaster_id: number | null
+          podcaster_id: string | null
           transcribed: boolean
           updated_at: string
           urls: string[]
@@ -123,7 +120,7 @@ export type Database = {
           followcount?: number
           id?: number
           name: string
-          podcaster_id?: number | null
+          podcaster_id?: string | null
           transcribed?: boolean
           updated_at: string
           urls: string[]
@@ -134,7 +131,7 @@ export type Database = {
           followcount?: number
           id?: number
           name?: string
-          podcaster_id?: number | null
+          podcaster_id?: string | null
           transcribed?: boolean
           updated_at?: string
           urls?: string[]
@@ -155,27 +152,27 @@ export type Database = {
           frozen: boolean
           id: number
           paid: boolean
-          podcaster_id: number
+          podcaster_id: string
           stipend: number
-          user_id: number
+          user_id: string
         }
         Insert: {
           comments?: string[] | null
           frozen?: boolean
           id?: number
           paid?: boolean
-          podcaster_id: number
+          podcaster_id: string
           stipend?: number
-          user_id: number
+          user_id: string
         }
         Update: {
           comments?: string[] | null
           frozen?: boolean
           id?: number
           paid?: boolean
-          podcaster_id?: number
+          podcaster_id?: string
           stipend?: number
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -202,9 +199,9 @@ export type Database = {
           created_at: string
           disabled: boolean | null
           email: string
-          id: number
+          id: string
           podcast_id: number | null
-          podcaster_id: number | null
+          podcaster_id: string | null
           role: Database["public"]["Enums"]["enum_users_role"] | null
           updated_at: string
           username: string
@@ -217,9 +214,9 @@ export type Database = {
           created_at: string
           disabled?: boolean | null
           email: string
-          id?: number
+          id: string
           podcast_id?: number | null
-          podcaster_id?: number | null
+          podcaster_id?: string | null
           role?: Database["public"]["Enums"]["enum_users_role"] | null
           updated_at: string
           username: string
@@ -232,9 +229,9 @@ export type Database = {
           created_at?: string
           disabled?: boolean | null
           email?: string
-          id?: number
+          id?: string
           podcast_id?: number | null
-          podcaster_id?: number | null
+          podcaster_id?: string | null
           role?: Database["public"]["Enums"]["enum_users_role"] | null
           updated_at?: string
           username?: string
