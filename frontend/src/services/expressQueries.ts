@@ -10,4 +10,7 @@ export default {
   getPodcasts() {
     return expressClient.get('/podcasts')
   },
+  editUser(id : string) {
+    return expressClient(`/users/${id}`)
+  }
 }

@@ -59,5 +59,8 @@ export default defineConfig({
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))  },
-      }
+      },
+      esbuild: {
+        target: "esnext", // Ensures support for optional chaining
+      },
 })
