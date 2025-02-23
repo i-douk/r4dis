@@ -4,124 +4,168 @@ import { storeToRefs } from 'pinia';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import expressService from '../../services/expressQueries';
-const authStore = useAuthStore();
-const { userProfile , user } = storeToRefs(authStore);
-import { Toaster } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/toast/use-toast';
-const { toast } = useToast();
+import { supabase } from '@/lib/supabaseClient';
+import expressService from '../../services/expressQueries';
+import { ref, watch, computed, h } from 'vue';
 
+const { toast } = useToast();
+const authStore = useAuthStore();
+const { userProfile, user } = storeToRefs(authStore);
+
+const editMode = ref(false);
 const formData = ref({
   username: '',
   email: '',
   about: '',
   avatar_url: '',
-})
+});
 
-const editMode = ref(false)
+// Watch `userProfile` changes and set form fields initially
+watch(userProfile, (newProfile) => {
+  if (newProfile) {
+    formData.value = {
+      username: newProfile.username || '',
+      email: newProfile.email || '',
+      about: newProfile.about || '',
+      avatar_url: newProfile.avatar_url || '',
+    };
+  }
+}, { immediate: true });
 
-const toggleMode = () => {
-  editMode.value = !editMode.value
-}
+// Compute if the form has changed
+const isFormChanged = computed(() => {
+  return (
+    formData.value.username !== userProfile.value?.username ||
+    formData.value.email !== userProfile.value?.email ||
+    formData.value.about !== userProfile.value?.about ||
+    formData.value.avatar_url !== userProfile.value?.avatar_url
+  );
+});
+
+const toggleEditMode = () => {
+  editMode.value = !editMode.value;
+};
+
+const handleFileUpload = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  const { data, error } = await supabase.storage
+    .from('avatars')
+    .upload(`public/${file.name}`, file, { upsert: true });
+
+  if (error) {
+    toast({ title: 'Avatar upload failed', variant: 'destructive' });
+  } else {
+    formData.value.avatar_url = data.path;
+  }
+};
 
 const handleSubmit = async () => {
-  const { error : supaError } = await supabase.auth.updateUser({
-    email: formData.email.value,
-  })
-  const { error : expressError } = await expressService.editUser(
-    user.id , {
-      username : formData.username.value,
-      avatar_url: formData.avatar_url.value,
-      about : formData.about.value
-    
-  })
-
-  if( expressError || supaError){
-    toast({
-      title: 'Something went wrong, please try again',
-      variant: 'destructive'
-    })
+  if (!isFormChanged.value) {
+    editMode.value = false;
+    return;
   }
 
-  toast({
-    title: 'You updated your user Profile',
-    description: h(
-      'pre',
-      { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' },
-      h('code', { class: 'text-white' }, JSON.stringify(formData, null, 2)),
-    ),
-  })
-}
+  console.log('Editing in progress...');
+
+  const updates: any = {};
+
+  if (formData.value.username !== userProfile.value?.username) {
+    updates.username = formData.value.username;
+  }
+  if (formData.value.email !== userProfile.value?.email) {
+    const { error: supaError } = await supabase.auth.updateUser({ email: formData.value.email });
+    if (supaError) {
+      console.error('Supabase error:', supaError);
+      toast({ title: 'Failed to update email', variant: 'destructive' });
+      return;
+    }
+    updates.email = formData.value.email;
+  }
+  if (formData.value.about !== userProfile.value?.about) {
+    updates.about = formData.value.about;
+  }
+  if (formData.value.avatar_url !== userProfile.value?.avatar_url) {
+    updates.avatar_url = formData.value.avatar_url;
+  }
+
+  if (Object.keys(updates).length > 0) {
+    const { error: expressError } = await expressService.editUser(user.value.id, updates);
+    if (expressError) {
+      console.error('Express error:', expressError);
+      toast({ title: 'Something went wrong, please try again', variant: 'destructive' });
+      return;
+    }
+
+    toast({ title: 'Profile updated successfully' });
+  }
+
+  editMode.value = false;
+};
 
 const cancelEditing = () => {
-  editMode.value = !editMode.value
-}
+  // Reset form data to original values
+  formData.value = {
+    username: userProfile.value?.username || '',
+    email: userProfile.value?.email || '',
+    about: userProfile.value?.about || '',
+    avatar_url: userProfile.value?.avatar_url || '',
+  };
+  editMode.value = false;
+};
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
-      <Avatar class="w-20 h-20">
+      <Avatar class="w-32 h-32"> <!-- Increased avatar size -->
         <AvatarImage :src="userProfile?.avatar_url || ''" alt="User Avatar" />
-        <AvatarFallback>{{ userProfile?.username[0] }}</AvatarFallback>
+        <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ userProfile?.username }}</p>
       <p class="mt-1 text-sm text-gray-500">{{ userProfile?.about }}</p>
     </div>
 
-    <div class="w-full rounded-lg bg-gray-900 p-5 shadow-md">
-      <!-- Edit moode off -->
-      <div v-if="editMode == false" class="mt-2 text-white">
+    <div class="w-full rounded-lg bg-gray-800 p-5 shadow-md">
+      <div v-if="!editMode" class="mt-2 text-white">
         <p class="text-left font-bold text-white p-2">About Me</p>
-        <p class="text-left font-semi text-white">
-          {{ userProfile?.about || 'Tell us about you!' }}
-        </p>
+        <p class="text-left font-semi text-white">{{ userProfile?.about || 'Tell us about you!' }}</p>
         <p class="text-left font-bold text-white p-2">Username</p>
-        <p class="text-left font-semi text-white">{{ userProfile.username }}</p>
+        <p class="text-left font-semi text-white p-1">{{ userProfile?.username }}</p>
         <p class="text-left font-bold text-white p-2">Email</p>
-        <p class="text-left font-semi text-white">{{ userProfile.email }}</p>
-        <Button class="mt-4 w-full" @click="toggleMode">Edit Profile</Button>
+        <p class="text-left font-semi text-white p-1">{{ userProfile?.email }}</p>
+        <Button class="mt-4 w-full" @click="toggleEditMode">Edit Profile</Button>
       </div>
-      <!-- Edit moode on -->
+
       <div v-else class="mt-3 space-y-3">
-        <form class="w-full space-y-6" @submit="handleSubmit">
+        <form class="w-full space-y-6" @submit.prevent="handleSubmit">
           <div class="grid gap-2">
-            <Label for="avatar_url">Avatar</Label>
-            <Input id="avatar_url" type="file" />
+            <label for="avatar_url" class="text-left">Avatar</label>
+            <Input id="avatar_url" type="file" @change="handleFileUpload" />
           </div>
           <div class="grid gap-2">
-            <Label id="username" class="text-left">Username</Label>
-            <Input
-              id="username"
-              type="text"
-              :placeholder="userProfile.username"
-              required
-              v-model="formData.username"
-            />
+            <label for="username" class="text-left">Username</label>
+            <Input id="username" type="text" required v-model="formData.username" />
           </div>
           <div class="grid gap-2">
-            <Label id="email" class="text-left">Email</Label>
-            <Input
-              :value="userProfile.email"
-              id="email"
-              type="email"
-              required
-              v-model="formData.email"
-            />
+            <label for="email" class="text-left">Email</label>
+            <Input id="email" type="email" disabled required v-model="formData.email" />
           </div>
           <div class="grid gap-2">
-            <Label id="about" class="text-left">About</Label>
-            <TextArea
+            <label for="about" class="text-left">About</label>
+            <textarea
+              class="border rounded-md p-2 w-full bg-gray-700 text-white"
               id="about"
-              type="about"
-              :placeholder="userProfile?.about"
+              rows="3"
               required
-              v-model="formData.email"
-            />
+              v-model="formData.about"
+            ></textarea>
           </div>
-          <Button type="submit" class="w-full"> Save Edited </Button>
+          <Button type="submit" class="w-full">Save Changes</Button>
         </form>
-        <Button @click="cancelEditing" class="w-full"> Leave without saving </Button>
+        <Button @click="cancelEditing" class="w-full">Cancel</Button>
       </div>
     </div>
   </div>

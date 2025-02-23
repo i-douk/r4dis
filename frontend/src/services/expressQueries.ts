@@ -1,4 +1,3 @@
-import { tokenExtractor } from '@/utils/tokenExtractor'
 import { expressClient } from './expressClient'
 import { supabase } from '@/lib/supabaseClient'
 
@@ -15,11 +14,11 @@ export default {
     return expressClient.get('/podcasts')
   },
   async editUser(id: string, data: any) {
-    const  token   = session.session?.access_token; 
+    if(error) return error
     return expressClient.put(`/users/${id}`, data, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token,
+        'Authorization': `Bearer ${session.session?.access_token}`,
       }
     });
   }
