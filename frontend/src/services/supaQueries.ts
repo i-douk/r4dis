@@ -23,3 +23,12 @@ export type UserProfile = QueryData<typeof singleUserQuery>
 export const userQuery = ({ column, value }: { column: string; value: string }) => {
   return supabase.from('users').select().eq(column, value).single()
 }
+
+
+export const getPublicUrl =  (fileLocalPath : string) => {
+  const { data } = supabase
+  .storage
+  .from('avatar_images')
+  .getPublicUrl(fileLocalPath)
+  return data.publicUrl
+}

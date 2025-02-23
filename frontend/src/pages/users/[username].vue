@@ -8,7 +8,7 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import { supabase } from '@/lib/supabaseClient'
 import expressService from '../../services/expressQueries'
 import { ref, watch, computed, h } from 'vue'
-import { userQuery } from '@/services/supaQueries'
+import { getPublicUrl, userQuery } from '@/services/supaQueries'
 import router from '@/router'
 const { toast } = useToast()
 const authStore = useAuthStore()
@@ -72,7 +72,7 @@ const handleFileUpload = async (event: Event) => {
       toast({ title: 'Avatar upload failed', variant: 'destructive' });
     } else {
       console.log('Avatar uploaded successfully:', storageData);
-      formData.value.avatar_url = storageData.fullPath;
+      formData.value.avatar_url = storageData.path;
     }
   } catch (error) {
     console.error('Upload failed:', error);
@@ -110,9 +110,8 @@ const handleSubmit = async () => {
   }
 
   if (Object.keys(updates).length > 0) {
-    const {} = await expressService.editUser(user.value.id, updates)
-    if (expressError) {
-      console.error('Express error:', expressError)
+    const response = await expressService.editUser(user.value.id, updates)
+    if (response.status === 422) {
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })
       return
     }
@@ -156,7 +155,7 @@ const deleteUser = async () => {
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
       <Avatar class="w-32 h-32">
-        <AvatarImage :src="userProfile?.avatar_url || ''" alt="User Avatar" />
+        <AvatarImage :src="getPublicUrl(userProfile?.avatar_url) || ''" alt="User Avatar" />
         <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ userProfile?.username }}</p>
