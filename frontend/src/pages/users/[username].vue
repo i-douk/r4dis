@@ -8,11 +8,18 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 const authStore = useAuthStore();
 const { userProfile } = storeToRefs(authStore);
 
+const formData = ref({
+  username: '',
+  email: '',
+  about: '',
+})
+
 const editMode = ref(false);
 
 const toggleMode = () => {
   editMode.value = !editMode.value
 }
+
 
 const handleSubmit = (values) => {
   toast({
@@ -35,32 +42,49 @@ const handleSubmit = (values) => {
     </div>
 
     <div class="w-full rounded-lg bg-gray-900 p-5 shadow-md">
-      <p class="text-left font-bold text-white">About Me</p>
-
+      
+      <!-- Edit moode off -->
       <div v-if="editMode == false" class="mt-2 text-white">
+        <p class="text-left font-bold text-white">About Me</p>
         <p>{{ userProfile?.about || "Tell us about you!" }}</p>
         <Button class="mt-4 w-full" @click="toggleMode">Edit Profile</Button>
       </div>
-
+      <!-- Edit moode on -->
       <div v-else class="mt-3 space-y-3">
-        <form class="w-full space-y-6" @submit.prevent="handleSubmit">
-          <FormField v-slot="{ componentField }" name="about">
-  <FormItem>
-    <FormLabel>About</FormLabel>
-    <FormControl>
-      <Textarea
-        placeholder="Tell us a little bit about yourself, make it short and catchy"
-        class="resize-none"
-        v-bind="componentField"
-      />
-    </FormControl>
-    <FormDescription>
-      You can <span>@mention</span> other users and organizations.
-    </FormDescription>
-    <FormMessage />
-  </FormItem>
-</FormField>
-  </form>
+        <form class="w-full space-y-6" @submit="onSubmit">
+          <div class="grid gap-2">
+            <Label id="about" class="text-left">About</Label>
+            <TextArea
+              id="about"
+              type="about"
+              :placeholder="userProfile?.about"
+              required
+              v-model="formData.email"
+            />
+          </div>
+          <div class="grid gap-2">
+            <Label id="username" class="text-left">Username</Label>
+            <Input
+              id="username"
+              type="text"
+              :placeholder="userProfile.username"
+              required
+              v-model="formData.username"
+            />
+          </div>
+          <div class="grid gap-2">
+            <Label id="email" class="text-left">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              :placeholder="userProfile?.email"
+              required
+              v-model="formData.abnout"
+            />
+          </div>
+          <Button type="submit" class="w-full"> Save Edited </Button>
+          <Button @click="" class="w-full"> Leave without saving </Button>
+        </form>
       </div>
     </div>
   </div>
