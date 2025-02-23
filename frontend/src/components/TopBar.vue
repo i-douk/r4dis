@@ -36,9 +36,9 @@ console.log(userProfile)
           <RouterLink
             v-if="authStore.userProfile"
             :to="{
-                  name: '/users/[username]',
-                  params: { username: authStore.userProfile?.username }
-                  }"
+              name: '/users/[username]',
+              params: { username: authStore.userProfile?.username },
+            }"
             activeClass="border-indigo-500"
             exactActiveClass="border-indigo-700"
             >My account</RouterLink

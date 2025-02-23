@@ -5,12 +5,11 @@ import { Toaster } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/toast/use-toast'
 const { toast } = useToast()
 
-
 const authStore = useAuthStore()
 const router = useRouter()
 const formData = ref({
   email: '',
-  password: ''
+  password: '',
 })
 const isLoading = ref(false)
 
@@ -21,37 +20,36 @@ const signin = async () => {
       toast({
         title: 'Validation Error',
         description: 'Please fill in all fields',
-        variant: 'destructive'
+        variant: 'destructive',
       })
       return
     }
 
-      const { error } = await login(formData.value)
+    const { error } = await login(formData.value)
 
-      if (error) {
-        toast({
-          title: 'Login Failed',
-          description: error.message || 'Failed to login',
-          variant: 'destructive'
-        })}
-        else {
-          toast({
-          title: 'Success',
-          description: 'Logged in successfully'
-          })
-            router.push('/');
-        }
-
+    if (error) {
+      toast({
+        title: 'Login Failed',
+        description: error.message || 'Failed to login',
+        variant: 'destructive',
+      })
+    } else {
+      toast({
+        title: 'Success',
+        description: 'Logged in successfully',
+      })
+      router.push('/')
+    }
   } finally {
     isLoading.value = false
   }
 
-//   const session = await supabase.auth.getSession()
-//   console.log(session)
-// if (!session.data.session) {
-//   // Handle unauthenticated state
-//   throw new Error('User not authenticated')
-// }
+  //   const session = await supabase.auth.getSession()
+  //   console.log(session)
+  // if (!session.data.session) {
+  //   // Handle unauthenticated state
+  //   throw new Error('User not authenticated')
+  // }
 }
 </script>
 
