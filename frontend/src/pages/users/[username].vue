@@ -9,7 +9,6 @@ import { supabase } from '@/lib/supabaseClient'
 import expressService from '../../services/expressQueries'
 import { ref, watch, computed, h } from 'vue'
 import { userQuery } from '@/services/supaQueries'
-
 const { toast } = useToast()
 const authStore = useAuthStore()
 const { userProfile, user } = storeToRefs(authStore)
@@ -51,22 +50,32 @@ const isFormChanged = computed(() => {
 const toggleEditMode = () => {
   editMode.value = !editMode.value
 }
-
 const handleFileUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (!file) return
+  const file = (event.target as HTMLInputElement).files?.[0];
 
-  const { data : storageData, error : storageError } = await supabase.storage
-    .from('avatar_images')
-    .upload(`public/${file.name}`, file, { upsert: true })
-  console.log(storageData)
-  if (storageError) {
-    console.log(storageError)
-    toast({ title: 'Avatar upload failed', variant: 'destructive' })
-  } else {
-    formData.value.avatar_url = storageData.path
+  if (!file) return;
+
+  try {
+    // Upload the file with upsert enabled
+    const { data: storageData, error: storageError } = await supabase.storage
+      .from('avatar_images')
+      .upload(`public/${file.name}`, file, {
+        cacheControl: '3600',
+        upsert: true,
+      });
+
+    if (storageError) {
+      console.log(storageError);
+      toast({ title: 'Avatar upload failed', variant: 'destructive' });
+    } else {
+      console.log('Avatar uploaded successfully:', storageData);
+      formData.value.avatar_url = storageData.fullPath;
+    }
+  } catch (error) {
+    console.error('Upload failed:', error);
+    toast({ title: 'Avatar upload failed', variant: 'destructive' });
   }
-}
+};
 
 const handleSubmit = async () => {
   if (!isFormChanged.value) {
