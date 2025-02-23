@@ -1,37 +1,42 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
-import { storeToRefs } from 'pinia';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { useToast } from '@/components/ui/toast/use-toast';
-import { supabase } from '@/lib/supabaseClient';
-import expressService from '../../services/expressQueries';
-import { ref, watch, computed, h } from 'vue';
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { supabase } from '@/lib/supabaseClient'
+import expressService from '../../services/expressQueries'
+import { ref, watch, computed, h } from 'vue'
+import { userQuery } from '@/services/supaQueries'
 
-const { toast } = useToast();
-const authStore = useAuthStore();
-const { userProfile, user } = storeToRefs(authStore);
+const { toast } = useToast()
+const authStore = useAuthStore()
+const { userProfile, user } = storeToRefs(authStore)
 
-const editMode = ref(false);
+const editMode = ref(false)
 const formData = ref({
   username: '',
   email: '',
   about: '',
   avatar_url: '',
-});
+})
 
 // Watch `userProfile` changes and set form fields initially
-watch(userProfile, (newProfile) => {
-  if (newProfile) {
-    formData.value = {
-      username: newProfile.username || '',
-      email: newProfile.email || '',
-      about: newProfile.about || '',
-      avatar_url: newProfile.avatar_url || '',
-    };
-  }
-}, { immediate: true });
+watch(
+  userProfile,
+  (newProfile) => {
+    if (newProfile) {
+      formData.value = {
+        username: newProfile.username || '',
+        email: newProfile.email || '',
+        about: newProfile.about || '',
+        avatar_url: newProfile.avatar_url || '',
+      }
+    }
+  },
+  { immediate: true },
+)
 
 // Compute if the form has changed
 const isFormChanged = computed(() => {
@@ -40,70 +45,77 @@ const isFormChanged = computed(() => {
     formData.value.email !== userProfile.value?.email ||
     formData.value.about !== userProfile.value?.about ||
     formData.value.avatar_url !== userProfile.value?.avatar_url
-  );
-});
+  )
+})
 
 const toggleEditMode = () => {
-  editMode.value = !editMode.value;
-};
+  editMode.value = !editMode.value
+}
 
 const handleFileUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (!file) return;
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (!file) return
 
-  const { data, error } = await supabase.storage
-    .from('avatars')
-    .upload(`public/${file.name}`, file, { upsert: true });
-
-  if (error) {
-    toast({ title: 'Avatar upload failed', variant: 'destructive' });
+  const { data : storageData, error : storageError } = await supabase.storage
+    .from('avatar_images')
+    .upload(`public/${file.name}`, file, { upsert: true })
+  console.log(storageData)
+  if (storageError) {
+    console.log(storageError)
+    toast({ title: 'Avatar upload failed', variant: 'destructive' })
   } else {
-    formData.value.avatar_url = data.path;
+    formData.value.avatar_url = storageData.path
   }
-};
+}
 
 const handleSubmit = async () => {
   if (!isFormChanged.value) {
-    editMode.value = false;
-    return;
+    editMode.value = false
+    return
   }
 
-  console.log('Editing in progress...');
+  console.log('Editing in progress...')
 
-  const updates: any = {};
+  const updates: any = {}
 
   if (formData.value.username !== userProfile.value?.username) {
-    updates.username = formData.value.username;
+    updates.username = formData.value.username
   }
   if (formData.value.email !== userProfile.value?.email) {
-    const { error: supaError } = await supabase.auth.updateUser({ email: formData.value.email });
+    const { error: supaError } = await supabase.auth.updateUser({ email: formData.value.email })
     if (supaError) {
-      console.error('Supabase error:', supaError);
-      toast({ title: 'Failed to update email', variant: 'destructive' });
-      return;
+      console.error('Supabase error:', supaError)
+      toast({ title: 'Failed to update email', variant: 'destructive' })
+      return
     }
-    updates.email = formData.value.email;
+    updates.email = formData.value.email
   }
   if (formData.value.about !== userProfile.value?.about) {
-    updates.about = formData.value.about;
+    updates.about = formData.value.about
   }
   if (formData.value.avatar_url !== userProfile.value?.avatar_url) {
-    updates.avatar_url = formData.value.avatar_url;
+    updates.avatar_url = formData.value.avatar_url
   }
 
   if (Object.keys(updates).length > 0) {
-    const { error: expressError } = await expressService.editUser(user.value.id, updates);
+    const { error: expressError } = await expressService.editUser(user.value.id, updates)
     if (expressError) {
-      console.error('Express error:', expressError);
-      toast({ title: 'Something went wrong, please try again', variant: 'destructive' });
-      return;
+      console.error('Express error:', expressError)
+      toast({ title: 'Something went wrong, please try again', variant: 'destructive' })
+      return
     }
 
-    toast({ title: 'Profile updated successfully' });
+    const { data } = await userQuery({
+      column: 'id',
+      value: user.value.id,
+    })
+
+    userProfile.value = { ...data }
+    toast({ title: 'Profile updated successfully' })
   }
 
-  editMode.value = false;
-};
+  editMode.value = false
+}
 
 const cancelEditing = () => {
   // Reset form data to original values
@@ -112,15 +124,16 @@ const cancelEditing = () => {
     email: userProfile.value?.email || '',
     about: userProfile.value?.about || '',
     avatar_url: userProfile.value?.avatar_url || '',
-  };
-  editMode.value = false;
-};
+  }
+  editMode.value = false
+}
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
-      <Avatar class="w-32 h-32"> <!-- Increased avatar size -->
+      <Avatar class="w-32 h-32">
+        <!-- Increased avatar size -->
         <AvatarImage :src="userProfile?.avatar_url || ''" alt="User Avatar" />
         <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
@@ -131,7 +144,9 @@ const cancelEditing = () => {
     <div class="w-full rounded-lg bg-gray-800 p-5 shadow-md">
       <div v-if="!editMode" class="mt-2 text-white">
         <p class="text-left font-bold text-white p-2">About Me</p>
-        <p class="text-left font-semi text-white">{{ userProfile?.about || 'Tell us about you!' }}</p>
+        <p class="text-left font-semi text-white">
+          {{ userProfile?.about || 'Tell us about you...' }}
+        </p>
         <p class="text-left font-bold text-white p-2">Username</p>
         <p class="text-left font-semi text-white p-1">{{ userProfile?.username }}</p>
         <p class="text-left font-bold text-white p-2">Email</p>

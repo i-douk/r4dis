@@ -14,12 +14,12 @@ export default {
     return expressClient.get('/podcasts')
   },
   async editUser(id: string, data: any) {
-    if(error) return error
+    if (error) return error
     return expressClient.put(`/users/${id}`, data, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.session?.access_token}`,
-      }
-    });
-  }
+        Authorization: `Bearer ${session.session?.access_token}`,
+      },
+    })
+  },
 }
