@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabaseClient'
 import expressService from '../../services/expressQueries'
 import { ref, watch, computed, h } from 'vue'
 import { userQuery } from '@/services/supaQueries'
+import router from '@/router'
 const { toast } = useToast()
 const authStore = useAuthStore()
 const { userProfile, user } = storeToRefs(authStore)
@@ -47,9 +48,11 @@ const isFormChanged = computed(() => {
   )
 })
 
+//enter edit mode
 const toggleEditMode = () => {
   editMode.value = !editMode.value
 }
+
 const handleFileUpload = async (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
 
@@ -107,7 +110,7 @@ const handleSubmit = async () => {
   }
 
   if (Object.keys(updates).length > 0) {
-    const { error: expressError } = await expressService.editUser(user.value.id, updates)
+    const {} = await expressService.editUser(user.value.id, updates)
     if (expressError) {
       console.error('Express error:', expressError)
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })
@@ -136,13 +139,23 @@ const cancelEditing = () => {
   }
   editMode.value = false
 }
+
+const deleteUser = async () => {
+   const response = await expressService.deleteUser(user.value.id)
+   if(response.status === 204) {
+     toast({ title : 'We are sad to see you go, come back around any time'});
+     router.push('/login')
+    } else {
+      toast({ title : 'We couldn\'t delete your account , try again'});
+      router.push('/')
+   }
+  }
 </script>
 
 <template>
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
       <Avatar class="w-32 h-32">
-        <!-- Increased avatar size -->
         <AvatarImage :src="userProfile?.avatar_url || ''" alt="User Avatar" />
         <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
@@ -161,6 +174,26 @@ const cancelEditing = () => {
         <p class="text-left font-bold text-white p-2">Email</p>
         <p class="text-left font-semi text-white p-1">{{ userProfile?.email }}</p>
         <Button class="mt-4 w-full" @click="toggleEditMode">Edit Profile</Button>
+        <Dialog>
+    <DialogTrigger as-child>
+      <Button class="mt-4 w-full"  variant="destructive">
+        Delete my account
+      </Button>
+    </DialogTrigger>
+    <DialogContent class="sm:max-w-md">
+      <DialogHeader>
+        <DialogTitle>Delete my account</DialogTitle>
+        <DialogDescription>
+          Are you sure you want to delete your public account? This action is irreversible.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter class="sm:justify-start">
+        <DialogClose as-child>
+          <Button @click="deleteUser" variant="destructive" size="sm" class="px-3"> Permenantly delete</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
       </div>
 
       <div v-else class="mt-3 space-y-3">
@@ -183,7 +216,7 @@ const cancelEditing = () => {
               class="border rounded-md p-2 w-full bg-gray-700 text-white"
               id="about"
               rows="3"
-              required
+          
               v-model="formData.about"
             ></textarea>
           </div>

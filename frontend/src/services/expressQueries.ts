@@ -19,4 +19,12 @@ export default {
       },
     })
   },
+  async deleteUser(id: string) {
+    return expressClient.delete(`/users/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await tokenExtractor()}`,
+      },
+    })
+  },
 }
