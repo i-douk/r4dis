@@ -13,7 +13,7 @@ console.log(userProfile)
 </script>
 <template>
   <header>
-    <div flex flex-grow class="flex justify-between p-5">
+    <div flex flex-grow class="flex justify-between p-2 border border-amber-800 border-dotted border-b-1">
       <RouterLink to="/">
         <img alt="Vue logo" src="@/assets/logo.png" width="175" height="125" />
       </RouterLink>
