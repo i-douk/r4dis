@@ -1,17 +1,16 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
 
-export const register = async (formData: RegisterForm, role : string) => {
+export const register = async (formData: RegisterForm, role: string) => {
   const { error } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
-    options : {
-      data : {
-        role : role,
-        username: formData.username
-      }
-    }
-
+    options: {
+      data: {
+        role: role,
+        username: formData.username,
+      },
+    },
   })
   if (error) return { error }
   return true

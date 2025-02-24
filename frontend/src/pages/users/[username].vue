@@ -54,9 +54,9 @@ const toggleEditMode = () => {
 }
 
 const handleFileUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
+  const file = (event.target as HTMLInputElement).files?.[0]
 
-  if (!file) return;
+  if (!file) return
 
   try {
     // Upload the file with upsert enabled
@@ -65,20 +65,20 @@ const handleFileUpload = async (event: Event) => {
       .upload(`public/${file.name}`, file, {
         cacheControl: '3600',
         upsert: true,
-      });
+      })
 
     if (storageError) {
-      console.log(storageError);
-      toast({ title: 'Avatar upload failed', variant: 'destructive' });
+      console.log(storageError)
+      toast({ title: 'Avatar upload failed', variant: 'destructive' })
     } else {
-      console.log('Avatar uploaded successfully:', storageData);
-      formData.value.avatar_url = storageData.path;
+      console.log('Avatar uploaded successfully:', storageData)
+      formData.value.avatar_url = storageData.path
     }
   } catch (error) {
-    console.error('Upload failed:', error);
-    toast({ title: 'Avatar upload failed', variant: 'destructive' });
+    console.error('Upload failed:', error)
+    toast({ title: 'Avatar upload failed', variant: 'destructive' })
   }
-};
+}
 
 const handleSubmit = async () => {
   if (!isFormChanged.value) {
@@ -140,15 +140,15 @@ const cancelEditing = () => {
 }
 
 const deleteUser = async () => {
-   const response = await expressService.deleteUser(user.value.id)
-   if(response.status === 204) {
-     toast({ title : 'We are sad to see you go, come back around any time'});
-     router.push('/login')
-    } else {
-      toast({ title : 'We couldn\'t delete your account , try again'});
-      router.push('/')
-   }
+  const response = await expressService.deleteUser(user.value.id)
+  if (response.status === 204) {
+    toast({ title: 'We are sad to see you go, come back around any time' })
+    router.push('/login')
+  } else {
+    toast({ title: "We couldn't delete your account , try again" })
+    router.push('/')
   }
+}
 </script>
 
 <template>
@@ -161,9 +161,7 @@ const deleteUser = async () => {
       <p class="mt-2 text-lg font-semibold">{{ userProfile?.username }}</p>
       <p class="mt-1 text-sm text-gray-500">{{ userProfile?.about }}</p>
     </div>
-    <div>
-      "User role:", {{user.user_metadata.role}}
-    </div>
+    <div>"User role:", {{ user.user_metadata.role }}</div>
 
     <div class="w-full rounded-lg bg-black/50 border border-dashed p-5 shadow-md">
       <div v-if="!editMode" class="mt-2 text-white">
@@ -177,25 +175,25 @@ const deleteUser = async () => {
         <p class="text-left font-semi text-white p-1">{{ userProfile?.email }}</p>
         <Button class="mt-4 w-full" @click="toggleEditMode">Edit Profile</Button>
         <Dialog>
-    <DialogTrigger as-child>
-      <Button class="mt-4 w-full"  variant="destructive">
-        Delete my account
-      </Button>
-    </DialogTrigger>
-    <DialogContent class="sm:max-w-md">
-      <DialogHeader>
-        <DialogTitle>Delete my account</DialogTitle>
-        <DialogDescription>
-          Are you sure you want to delete your public account? This action is irreversible.
-        </DialogDescription>
-      </DialogHeader>
-      <DialogFooter class="sm:justify-start">
-        <DialogClose as-child>
-          <Button @click="deleteUser" variant="destructive" size="sm" class="px-3"> Permenantly delete</Button>
-        </DialogClose>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+          <DialogTrigger as-child>
+            <Button class="mt-4 w-full" variant="destructive"> Delete my account </Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Delete my account</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete your public account? This action is irreversible.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter class="sm:justify-start">
+              <DialogClose as-child>
+                <Button @click="deleteUser" variant="destructive" size="sm" class="px-3">
+                  Permenantly delete</Button
+                >
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div v-else class="mt-3 space-y-3">
@@ -218,7 +216,6 @@ const deleteUser = async () => {
               class="border rounded-md p-2 w-full bg-gray-700 text-white"
               id="about"
               rows="3"
-          
               v-model="formData.about"
             ></textarea>
           </div>

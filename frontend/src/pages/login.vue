@@ -7,23 +7,25 @@ const { toast } = useToast()
 
 const authStore = useAuthStore()
 const router = useRouter()
+usePageStore().pageData.title = ''
+
 const isLoading = ref(false)
 const formData = ref({
   email: '',
   password: '',
 })
-const roleDescr = ref ({
-  role: "user",
-  emoji: "👤"
+const roleDescr = ref({
+  role: 'user',
+  emoji: '👤',
 })
 
 const toggleRole = () => {
-  const { emoji, role } = roleDescr.value;
+  const { emoji, role } = roleDescr.value
   roleDescr.value = {
     emoji: emoji === '👤' ? '🎙️' : '👤',
-    role: role === 'user' ? 'podcaster' : 'user'
-  };
-};
+    role: role === 'user' ? 'podcaster' : 'user',
+  }
+}
 
 const signin = async () => {
   try {
@@ -55,13 +57,14 @@ const signin = async () => {
   } finally {
     isLoading.value = false
   }
-
 }
 </script>
 
 <template>
-  <div class="mx-auto flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]">
-    <Card class="max-w-sm w-full mx-auto">
+  <div
+    class="mx-auto mt-2 flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]"
+  >
+    <Card class="max-w-sm w-full mx-auto border-2 border-dotted">
       <CardHeader>
         <CardTitle class="text-2xl">{{ roleDescr.emoji }} Login</CardTitle>
         <CardDescription>Login to your account</CardDescription>
@@ -105,7 +108,9 @@ const signin = async () => {
         <div class="mt-4 text-sm text-center text-muted-foreground p-y-10">
           Do you have a podcaster account ?
           <div class="">
-            <Button variant="outline" @click="toggleRole"> {{ roleDescr.emoji }} {{ roleDescr.role }} account </Button>
+            <Button variant="outline" @click="toggleRole">
+              {{ roleDescr.emoji }} {{ roleDescr.role }} account
+            </Button>
           </div>
         </div>
       </CardContent>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { register } from '@/utils/supaAuth'
+usePageStore().pageData.title = ''
+
 const formData = ref({
   username: '',
   email: '',
@@ -8,18 +10,18 @@ const formData = ref({
 })
 const router = useRouter()
 
-const roleDescr = ref ({
-  role: "user",
-  emoji: "👤"
+const roleDescr = ref({
+  role: 'user',
+  emoji: '👤',
 })
 
 const toggleRole = () => {
-  const { emoji, role } = roleDescr.value;
+  const { emoji, role } = roleDescr.value
   roleDescr.value = {
     emoji: emoji === '👤' ? '🎙️' : '👤',
-    role: role === 'user' ? 'podcaster' : 'user'
-  };
-};
+    role: role === 'user' ? 'podcaster' : 'user',
+  }
+}
 
 const signup = async () => {
   const isRegistered = await register(formData.value, roleDescr.value.role)
@@ -32,11 +34,11 @@ const signup = async () => {
 
 <template>
   <div
-    class="mx-auto w-full flex justify-center items-center p-10 text-center -mt-10 min-h-[90vh] h-full"
+    class="mx-auto mt-2 flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]"
   >
-    <Card class="max-w-sm w-full mx-auto h-full">
+    <Card class="max-w-sm w-full mx-auto border-2 border-dotted">
       <CardHeader>
-        <CardTitle class="text-2xl"> {{ roleDescr.emoji }}  Register </CardTitle>
+        <CardTitle class="text-2xl"> {{ roleDescr.emoji }} Register </CardTitle>
         <CardDescription> Create a new account </CardDescription>
       </CardHeader>
       <CardContent>
@@ -100,7 +102,9 @@ const signup = async () => {
         <div class="mt-4 text-sm text-center text-muted-foreground p-y-10">
           Do you have a podcaster account ?
           <div class="">
-            <Button variant="outline" @click="toggleRole"> {{ roleDescr.emoji }} {{ roleDescr.role }} account </Button>
+            <Button variant="outline" @click="toggleRole">
+              {{ roleDescr.emoji }} {{ roleDescr.role }} account
+            </Button>
           </div>
         </div>
       </CardContent>
