@@ -2,7 +2,7 @@
 import { cn } from '@/lib/utils'
 const links = [
   {
-    title: 'Home',
+    title: 'Feed',
     to: '/',
   },
   {
@@ -12,22 +12,19 @@ const links = [
   {
     title: 'Podcasts',
     to: '#',
-  },
-  {
-    title: 'Community',
-    to: '/community',
-  },
+  }
 ]
 </script>
-
 <template>
-  <div :class="cn('pb-12', $attrs.class ?? '')">
+  <div class="w-full">
     <div class="px-3 py-2">
-      <h2 class="border-1 border-amber-100 mb-2 px-4 text-lg font-semibold tracking-tight">
-        Access
-      </h2>
-      <div class="space-y-1">
-        <Button v-for="link in links" variant="outline" class="w-full justify-start">
+      <div class="flex flex-row gap-2 md:flex-col md:gap-4 w-full">
+        <Button 
+          v-for="link in links" 
+          :key="link.to" 
+          variant="ghost" 
+          class="w-full justify-start"
+        >
           <RouterLink :to="link.to">
             {{ link.title }}
           </RouterLink>
@@ -36,3 +33,4 @@ const links = [
     </div>
   </div>
 </template>
+

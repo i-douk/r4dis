@@ -1,4 +1,45 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const users = ref([])
+import { usePageStore } from '@/stores/page'
+import expressService from '../services/expressQueries'
+import { getPublicUrl } from '@/services/supaQueries'
+
+usePageStore().pageData.title = 'Feed'
+
+// Fetch data asynchronously
+const fetchUsers = async () => {
+  const response = await expressService.getUsers()
+  users.value = response.data
+}
+
+fetchUsers()
+</script>
+
 <template>
-  {{ $route }}
+  <div>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+          <div class ='flex-row p-5 m-10 border border-dashed rounded-md'>
+        <span>
+          <Avatar class="w-15 h-15 border border-dashed">
+            <AvatarImage :src="getPublicUrl(user.avatar_url) || ''" alt="User Avatar" />
+            <AvatarFallback class="text-4xl">{{ user?.username?.[0] || '?' }}</AvatarFallback>
+          </Avatar>
+          </span>
+      <span>
+        <div class="flex">
+          <div>
+            {{ user.username }}
+          </div>
+          <div>
+            {{ user.about }}
+          </div>
+
+        </div>
+
+      </span>
+    </div>
+    </li>
+    </ul>
+  </div>
 </template>

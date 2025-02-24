@@ -27,6 +27,11 @@ const seedUsers = async (entriesNum) => {
     email : users[i].email,
     password : users[i].password,
     username : users[i].username,
+    options : {
+      data :  {
+        role : 'user'
+      }
+    }
   })
   if (error) {
     console.error("Error inserting data:", error);

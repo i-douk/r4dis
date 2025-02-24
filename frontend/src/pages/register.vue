@@ -8,8 +8,21 @@ const formData = ref({
 })
 const router = useRouter()
 
+const roleDescr = ref ({
+  role: "user",
+  emoji: "👤"
+})
+
+const toggleRole = () => {
+  const { emoji, role } = roleDescr.value;
+  roleDescr.value = {
+    emoji: emoji === '👤' ? '🎙️' : '👤',
+    role: role === 'user' ? 'podcaster' : 'user'
+  };
+};
+
 const signup = async () => {
-  const isRegistered = await register(formData.value)
+  const isRegistered = await register(formData.value, roleDescr.value.role)
   if (isRegistered) {
     console.log('registration successful')
     router.push('/')
@@ -23,7 +36,7 @@ const signup = async () => {
   >
     <Card class="max-w-sm w-full mx-auto h-full">
       <CardHeader>
-        <CardTitle class="text-2xl"> Register </CardTitle>
+        <CardTitle class="text-2xl"> {{ roleDescr.emoji }}  Register </CardTitle>
         <CardDescription> Create a new account </CardDescription>
       </CardHeader>
       <CardContent>
@@ -83,6 +96,12 @@ const signup = async () => {
         <div class="mt-4 text-sm text-center">
           Already have an account?
           <RouterLink to="/login" class="underline"> Login </RouterLink>
+        </div>
+        <div class="mt-4 text-sm text-center text-muted-foreground p-y-10">
+          Do you have a podcaster account ?
+          <div class="">
+            <Button variant="outline" @click="toggleRole"> {{ roleDescr.emoji }} {{ roleDescr.role }} account </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

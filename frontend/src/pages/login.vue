@@ -7,11 +7,23 @@ const { toast } = useToast()
 
 const authStore = useAuthStore()
 const router = useRouter()
+const isLoading = ref(false)
 const formData = ref({
   email: '',
   password: '',
 })
-const isLoading = ref(false)
+const roleDescr = ref ({
+  role: "user",
+  emoji: "👤"
+})
+
+const toggleRole = () => {
+  const { emoji, role } = roleDescr.value;
+  roleDescr.value = {
+    emoji: emoji === '👤' ? '🎙️' : '👤',
+    role: role === 'user' ? 'podcaster' : 'user'
+  };
+};
 
 const signin = async () => {
   try {
@@ -44,12 +56,6 @@ const signin = async () => {
     isLoading.value = false
   }
 
-  //   const session = await supabase.auth.getSession()
-  //   console.log(session)
-  // if (!session.data.session) {
-  //   // Handle unauthenticated state
-  //   throw new Error('User not authenticated')
-  // }
 }
 </script>
 
@@ -57,7 +63,7 @@ const signin = async () => {
   <div class="mx-auto flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]">
     <Card class="max-w-sm w-full mx-auto">
       <CardHeader>
-        <CardTitle class="text-2xl">Login</CardTitle>
+        <CardTitle class="text-2xl">{{ roleDescr.emoji }} Login</CardTitle>
         <CardDescription>Login to your account</CardDescription>
       </CardHeader>
       <CardContent>
@@ -95,6 +101,12 @@ const signin = async () => {
         <div class="mt-4 text-sm text-center text-muted-foreground">
           Don't have an account?
           <RouterLink to="/register" class="text-primary hover:underline"> Register </RouterLink>
+        </div>
+        <div class="mt-4 text-sm text-center text-muted-foreground p-y-10">
+          Do you have a podcaster account ?
+          <div class="">
+            <Button variant="outline" @click="toggleRole"> {{ roleDescr.emoji }} {{ roleDescr.role }} account </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

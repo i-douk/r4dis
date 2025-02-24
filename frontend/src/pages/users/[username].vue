@@ -13,7 +13,7 @@ import router from '@/router'
 const { toast } = useToast()
 const authStore = useAuthStore()
 const { userProfile, user } = storeToRefs(authStore)
-
+usePageStore().pageData.title = `${userProfile.value?.username}'s account`
 const editMode = ref(false)
 const formData = ref({
   username: '',
@@ -154,15 +154,18 @@ const deleteUser = async () => {
 <template>
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
-      <Avatar class="w-32 h-32">
+      <Avatar class="w-32 h-32 border border-dashed">
         <AvatarImage :src="getPublicUrl(userProfile?.avatar_url) || ''" alt="User Avatar" />
         <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ userProfile?.username }}</p>
       <p class="mt-1 text-sm text-gray-500">{{ userProfile?.about }}</p>
     </div>
+    <div>
+      "User role:", {{user.user_metadata.role}}
+    </div>
 
-    <div class="w-full rounded-lg bg-gray-800 p-5 shadow-md">
+    <div class="w-full rounded-lg bg-black/50 border border-dashed p-5 shadow-md">
       <div v-if="!editMode" class="mt-2 text-white">
         <p class="text-left font-bold text-white p-2">About Me</p>
         <p class="text-left font-semi text-white">
