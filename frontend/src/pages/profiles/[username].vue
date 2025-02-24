@@ -12,7 +12,7 @@ import { getPublicUrl, userQuery } from '@/services/supaQueries'
 import router from '@/router'
 const { toast } = useToast()
 const authStore = useAuthStore()
-const { userProfile, user } = storeToRefs(authStore)
+const { userProfile, user , podcasterProfile} = storeToRefs(authStore)
 usePageStore().pageData.title = `${userProfile.value?.username}'s account`
 const editMode = ref(false)
 const formData = ref({
@@ -25,6 +25,21 @@ const formData = ref({
 // Watch `userProfile` changes and set form fields initially
 watch(
   userProfile,
+  (newProfile) => {
+    if (newProfile) {
+      formData.value = {
+        username: newProfile.username || '',
+        email: newProfile.email || '',
+        about: newProfile.about || '',
+        avatar_url: newProfile.avatar_url || '',
+      }
+    }
+  },
+  { immediate: true },
+)
+// Watch `podcasterProfile` changes and set form fields initially
+watch(
+  podcasterProfile,
   (newProfile) => {
     if (newProfile) {
       formData.value = {
@@ -163,7 +178,7 @@ const deleteUser = async () => {
     </div>
     <div>"User role:", {{ user.user_metadata.role }}</div>
 
-    <div class="w-full rounded-lg bg-black/50 border border-dashed p-5 shadow-md">
+    <div class="w-full rounded-lg bg-zinc-800 border border-dashed p-5 shadow-md">
       <div v-if="!editMode" class="mt-2 text-white">
         <p class="text-left font-bold text-white p-2">About Me</p>
         <p class="text-left font-semi text-white">

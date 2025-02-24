@@ -2,14 +2,42 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { ref } from 'vue'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabaseClient'
-import { userQuery } from '@/services/supaQueries'
+import { podcasterQuery, userQuery } from '@/services/supaQueries'
 import type { Tables } from 'database/types'
 
 export const useAuthStore = defineStore('auth-store', () => {
   const user = ref<null | User>(null)
   const userProfile = ref<null | Tables<'users'>>(null)
+  const podcasterProfile = ref<null | Tables<'podcasters'>>(null)
   const isTrackingAuthChanges = ref(false)
 
+  //role : podcaster
+  const setPodcasterProfile = async () => {
+    if (!user.value) {
+      podcasterProfile.value = null
+      return
+    }
+
+    try {
+      const { data, error } = await podcasterQuery({
+        column: 'id',
+        value: user.value.id,
+      })
+
+      if (error) {
+        console.error('Error fetching podcaster profile:', error)
+        podcasterProfile.value = null
+      } else {
+        podcasterProfile.value = data || null
+      }
+    } catch (err) {
+      console.error('Unexpected error in setPodcasterProfile:', err)
+      podcasterProfile.value = null
+    }
+  }
+
+
+  // role : user
   const setUserProfile = async () => {
     if (!user.value) {
       userProfile.value = null
@@ -34,15 +62,17 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  const setAuth = async (userSession: Session | null) => {
-    if (!userSession) {
+  const setAuth = async (session: Session | null) => {
+    if (!session) {
       user.value = null
       userProfile.value = null
+      podcasterProfile.value = null
       return
     }
 
-    user.value = userSession.user
+    user.value = session.user
     await setUserProfile()
+    await setPodcasterProfile()
   }
 
   const getSession = async () => {
@@ -84,6 +114,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     getSession,
     trackAuthChanges,
     clearSession,
+    podcasterProfile
   }
 })
 
