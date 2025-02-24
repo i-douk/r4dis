@@ -19,8 +19,24 @@ export default {
       },
     })
   },
-  async deleteUser(id: string) {
+  async deleteProfile(id: string) {
     return expressClient.delete(`/users/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await tokenExtractor()}`,
+      },
+    })
+  },
+  async editPodcaster(id: string, data: any) {
+    return expressClient.put(`/podcasters/${id}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await tokenExtractor()}`,
+      },
+    })
+  },
+  async deletePodcasterProfile(id: string) {
+    return expressClient.delete(`/podcatsers/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${await tokenExtractor()}`,
