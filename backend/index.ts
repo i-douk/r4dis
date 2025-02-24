@@ -28,7 +28,7 @@ app.use(express.json());
 
 // Sync Sequelize models with the database
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("Database synchronized");
     app.listen(config.PORT, async () => {

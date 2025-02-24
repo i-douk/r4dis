@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminLayout: typeof import('./src/layouts/AdminLayout.vue')['default']
     Avatar: typeof import('./src/components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./src/components/ui/avatar/AvatarFallback.vue')['default']
     AvatarImage: typeof import('./src/components/ui/avatar/AvatarImage.vue')['default']
@@ -32,6 +33,7 @@ declare module 'vue' {
     FormItem: typeof import('./src/components/ui/form/FormItem.vue')['default']
     FormLabel: typeof import('./src/components/ui/form/FormLabel.vue')['default']
     FormMessage: typeof import('./src/components/ui/form/FormMessage.vue')['default']
+    GuestLayout: typeof import('./src/layouts/GuestLayout.vue')['default']
     Input: typeof import('./src/components/ui/input/Input.vue')['default']
     Label: typeof import('./src/components/ui/label/Label.vue')['default']
     NavigationMenu: typeof import('./src/components/ui/navigation-menu/NavigationMenu.vue')['default']
@@ -42,6 +44,7 @@ declare module 'vue' {
     NavigationMenuList: typeof import('./src/components/ui/navigation-menu/NavigationMenuList.vue')['default']
     NavigationMenuTrigger: typeof import('./src/components/ui/navigation-menu/NavigationMenuTrigger.vue')['default']
     NavigationMenuViewport: typeof import('./src/components/ui/navigation-menu/NavigationMenuViewport.vue')['default']
+    PodcasterLayout: typeof import('./src/layouts/PodcasterLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Separator: typeof import('./src/components/ui/separator/Separator.vue')['default']
@@ -69,5 +72,6 @@ declare module 'vue' {
     TooltipProvider: typeof import('./src/components/ui/tooltip/TooltipProvider.vue')['default']
     TooltipTrigger: typeof import('./src/components/ui/tooltip/TooltipTrigger.vue')['default']
     TopBar: typeof import('./src/components/TopBar.vue')['default']
+    UserLayout: typeof import('./src/layouts/UserLayout.vue')['default']
   }
 }

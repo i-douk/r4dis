@@ -23,7 +23,7 @@ export default defineConfig({
     tailwindcss(),
     VueRouter({}),
     Components({
-      dirs:['src/components'],
+      dirs:['src/components' , 'src/layouts'],
       dts: true
     }),
     AutoImport({

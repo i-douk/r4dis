@@ -1,12 +1,15 @@
 <script setup lang="ts">
 const users = ref([])
+import { usePageStore } from '@/stores/page'
 import expressService from '../services/expressQueries'
+usePageStore().pageData.title = 'Community'
 
 // Fetch data asynchronously
 const fetchUsers = async () => {
   const response = await expressService.getUsers()
   users.value = response.data
 }
+
 fetchUsers()
 </script>
 
