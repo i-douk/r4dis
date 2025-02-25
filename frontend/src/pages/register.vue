@@ -42,10 +42,6 @@ const signup = async () => {
         <CardDescription> Create a new account </CardDescription>
       </CardHeader>
       <CardContent>
-        <div class="flex flex-col gap-4 mb-4 justify-center items-center">
-          <Button variant="outline" class="w-full"> Register with Google </Button>
-          <Separator label="Or" />
-        </div>
         <form class="grid gap-4" @submit.prevent="signup">
           <div class="grid gap-2">
             <Label id="username" class="text-left">Username</Label>
@@ -99,11 +95,11 @@ const signup = async () => {
           Already have an account?
           <RouterLink to="/login" class="underline"> Login </RouterLink>
         </div>
-        <div class="mt-4 text-sm text-center text-muted-foreground p-y-10">
+        <div  v-if='roleDescr.role==="user"'  class="mt-4 text-sm text-center text-muted-foreground p-y-10">
           Do you have a podcaster account ?
-          <div class="">
-            <Button variant="outline" @click="toggleRole">
-              {{ roleDescr.emoji }} {{ roleDescr.role }} account
+          <div class="mt-5 grid gap-2 ">
+            <Button @click="toggleRole">
+              🎙️ Switch to podcaster's account
             </Button>
           </div>
         </div>
