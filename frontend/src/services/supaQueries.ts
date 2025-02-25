@@ -3,24 +3,24 @@ import type { QueryData } from '@supabase/supabase-js'
 
 export const usersQuery = supabase.from('users').select()
 
-export type UserProfiles = QueryData<typeof allUsersQuery>
+export type Users = QueryData<typeof usersQuery>
 
-export const singleUserQuery = (email: string) =>
+export const singleUserQuery = (username: string) =>
   supabase
     .from('users')
     .select(
       `
       email,
       id,
+      username,
       avatar_url,
-      podcasts {
-      }
+      
       `,
     )
-    .eq('email', email)
+    .eq('username', username)
     .single()
 
-export type UserProfile = QueryData<typeof singleUserQuery>
+export type SingleUser = QueryData<typeof singleUserQuery>
 
 export const userQuery = ({ column, value }: { column: string; value: string }) => {
   return supabase.from('users').select().eq(column, value).single()

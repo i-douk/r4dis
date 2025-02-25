@@ -12,6 +12,10 @@ const links = [
     title: '🎧 Podcasts',
     to: '#',
   },
+  {
+    title : '👥Community',
+    to: '/users'
+  }
 ]
 </script>
 <template>
