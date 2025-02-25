@@ -34,7 +34,7 @@ const handleLogout = async () => {
           <RouterLink
             v-if="authStore.userProfile"
             :to="{
-              name: '/profiles/[username]',
+              name: '/account/users/[username]',
               params: { username: authStore.userProfile?.username },
             }"
             activeClass="border-indigo-500"
@@ -52,7 +52,7 @@ const handleLogout = async () => {
           <RouterLink
             v-if="authStore.podcasterProfile"
             :to="{
-              name: '/profiles/[username]',
+              name: '/account/podcasters/[username]',
               params: { username: authStore.podcasterProfile?.username },
             }"
             activeClass="border-indigo-500"

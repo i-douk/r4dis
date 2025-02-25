@@ -62,31 +62,51 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  const setAuth = async (session: Session | null) => {
+  const setUSerAuth = async (session: Session | null) => {
     if (!session) {
       user.value = null
       userProfile.value = null
+      return
+    }
+    user.value = session.user
+    await setUserProfile()
+  }
+  const setPodcasterAuth = async (session: Session | null) => {
+    if (!session) {
+      user.value = null
       podcasterProfile.value = null
       return
     }
-
     user.value = session.user
-    await setUserProfile()
     await setPodcasterProfile()
   }
 
-  const getSession = async () => {
+  const getUserSession = async () => {
     try {
       const { data, error } = await supabase.auth.getSession()
       if (error) {
         console.error('Error fetching session:', error)
-        await setAuth(null)
+        await setUSerAuth(null)
       } else if (data.session?.user) {
-        await setAuth(data.session)
+        await setUSerAuth(data.session)
       }
     } catch (err) {
       console.error('Unexpected error in getSession:', err)
-      await setAuth(null)
+      await setUSerAuth(null)
+    }
+  }
+  const getPodcasterSession = async () => {
+    try {
+      const { data, error } = await supabase.auth.getSession()
+      if (error) {
+        console.error('Error fetching session:', error)
+        await setPodcasterAuth(null)
+      } else if (data.session?.user) {
+        await setPodcasterAuth(data.session)
+      }
+    } catch (err) {
+      console.error('Unexpected error in getSession:', err)
+      await setPodcasterAuth(null)
     }
   }
 
@@ -96,7 +116,8 @@ export const useAuthStore = defineStore('auth-store', () => {
     isTrackingAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
-        await setAuth(session)
+        await setUSerAuth(session)
+        await setPodcasterAuth(session)
       }, 0)
     })
   }
@@ -110,9 +131,11 @@ export const useAuthStore = defineStore('auth-store', () => {
   return {
     user,
     userProfile,
-    setAuth,
-    getSession,
+    setUSerAuth,
+    setPodcasterAuth,
+    getUserSession,
     trackAuthChanges,
+    getPodcasterSession,
     clearSession,
     podcasterProfile
   }
