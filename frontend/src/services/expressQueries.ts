@@ -1,5 +1,5 @@
 import { tokenExtractor } from '@/utils/tokenExtractor'
-import { expressClient } from './expressClient'
+import { expressClient } from '../lib/expressClient'
 
 export default {
   getUsers() {
@@ -29,14 +29,6 @@ export default {
   },
   async editPodcaster(id: string, data: any) {
     return expressClient.put(`/podcasters/${id}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${await tokenExtractor()}`,
-      },
-    })
-  },
-  async deletePodcasterProfile(id: string) {
-    return expressClient.delete(`/podcatsers/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${await tokenExtractor()}`,

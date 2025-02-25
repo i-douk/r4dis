@@ -36,7 +36,7 @@ const signup = async () => {
   <div
     class="mx-auto mt-2 flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]"
   >
-    <Card class="max-w-sm w-full mx-auto border-2 border-dotted">
+    <Card class="max-w-sm w-full mx-auto">
       <CardHeader>
         <CardTitle class="text-2xl"> {{ roleDescr.emoji }} Register </CardTitle>
         <CardDescription> Create a new account </CardDescription>

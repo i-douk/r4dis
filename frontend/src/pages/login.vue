@@ -64,7 +64,7 @@ const signin = async () => {
   <div
     class="mx-auto mt-2 flex w-full justify-center items-center p-10 text-center -mt-20 min-h-[90vh]"
   >
-    <Card class="max-w-sm w-full mx-auto border-2 border-dotted">
+    <Card class="max-w-sm w-full mx-auto">
       <CardHeader>
         <CardTitle class="text-2xl">{{ roleDescr.emoji }} Login</CardTitle>
         <CardDescription>Login to your account</CardDescription>
@@ -76,7 +76,7 @@ const signin = async () => {
             <Input
               id="email"
               type="email"
-              placeholder="johndoe19@example.com"
+              placeholder="example@example.com"
               required
               v-model="formData.email"
             />

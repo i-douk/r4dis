@@ -22,8 +22,6 @@ const formData = ref({
   avatar_url: '',
 })
 
-console.log(podcasterProfile.value)
-
 // Watch `podcasterProfile` changes and set form fields initially
 watch(
   podcasterProfile,
@@ -112,7 +110,7 @@ const handleSubmit = async () => {
   }
 
   if (Object.keys(updates).length > 0) {
-    const response = await expressService.editUser(user.value.id, updates)
+    const response = await expressService.editPodcaster(user.value.id, updates)
     if (response.status === 422) {
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })
       return
@@ -157,7 +155,7 @@ const cancelEditing = () => {
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
       <Avatar class="w-32 h-32 border bg-gray-500 ">
-        <AvatarImage :src="getPublicUrl(podcasterProfile?.avatar_url) || ''" alt="Podcaster Avatar" />
+        <AvatarImage :src="getPublicUrl(podcasterProfile.avatar_url) || ''" alt="Podcaster Avatar" />
         <AvatarFallback class="text-4xl">{{ podcasterProfile?.username?.[0] || '?' }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ podcasterProfile.username }}</p>
@@ -168,12 +166,12 @@ const cancelEditing = () => {
       <div v-if="!editMode" class="mt-2 text-white">
         <p class="text-left font-bold text-white p-2">About Me</p>
         <p class="text-left font-semi text-white">
-          {{ podcasterProfile?.about || 'Tell us about you...' }}
+          {{ podcasterProfile.about || 'Tell us about you...' }}
         </p>
         <p class="text-left font-bold text-white p-2">Username</p>
-        <p class="text-left font-semi text-white p-1">{{ podcasterProfile?.username }}</p>
+        <p class="text-left font-semi text-white p-1">{{ podcasterProfile.username }}</p>
         <p class="text-left font-bold text-white p-2">Email</p>
-        <p class="text-left font-semi text-white p-1">{{ podcasterProfile?.email }}</p>
+        <p class="text-left font-semi text-white p-1">{{ podcasterProfile.email }}</p>
         <Button class="mt-4 w-full" @click="toggleEditMode">Edit Profile</Button>
         <!-- <Dialog>
     <DialogTrigger as-child>

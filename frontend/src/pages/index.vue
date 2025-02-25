@@ -6,12 +6,10 @@ import { getPublicUrl } from '@/services/supaQueries'
 
 usePageStore().pageData.title = 'Feed'
 
-// Fetch data asynchronously
 const fetchUsers = async () => {
   const response = await expressService.getUsers()
   users.value = response.data
 }
-
 fetchUsers()
 </script>
 

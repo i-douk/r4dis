@@ -74,6 +74,9 @@ Podcaster.init(
     earnings: {
       type: DataTypes.INTEGER,
     },
+    avatar_url: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize,
