@@ -60,6 +60,7 @@ export type Database = {
       podcasters: {
         Row: {
           about: string | null
+          avatar_url: string | null
           created_at: string
           disabled: boolean | null
           earnings: number | null
@@ -74,6 +75,7 @@ export type Database = {
         }
         Insert: {
           about?: string | null
+          avatar_url?: string | null
           created_at: string
           disabled?: boolean | null
           earnings?: number | null
@@ -88,6 +90,7 @@ export type Database = {
         }
         Update: {
           about?: string | null
+          avatar_url?: string | null
           created_at?: string
           disabled?: boolean | null
           earnings?: number | null

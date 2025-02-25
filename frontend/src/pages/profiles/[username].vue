@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { useToast } from '@/components/ui/toast/use-toast'
-import { supabase } from '@/lib/supabaseClient'
-import expressService from '../../services/expressQueries'
-import { ref, watch, computed, h } from 'vue'
-import { getPublicUrl, userQuery } from '@/services/supaQueries'
-import router from '@/router'
-const { toast } = useToast()
-const authStore = useAuthStore()
-const { userProfile, user , podcasterProfile} = storeToRefs(authStore)
-usePageStore().pageData.title = `${userProfile.value?.username}'s account`
-const editMode = ref(false)
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useToast } from '@/components/ui/toast/use-toast';
+import { supabase } from '@/lib/supabaseClient';
+import expressService from '../../services/expressQueries';
+import { ref, watch, computed, h } from 'vue';
+import { getPublicUrl, userQuery } from '@/services/supaQueries';
+import router from '@/router';
+const { toast } = useToast();
+const authStore = useAuthStore();
+const { userProfile, user , podcasterProfile} = storeToRefs(authStore);
+usePageStore().pageData.title = `${userProfile.value?.username}'s account`;
+
+//Refs
+const editMode = ref(false);
 const formData = ref({
   username: '',
   email: '',
   about: '',
   avatar_url: '',
-})
+});
 
 // Watch `userProfile` changes and set form fields initially
 watch(
@@ -36,7 +38,8 @@ watch(
     }
   },
   { immediate: true },
-)
+);
+
 // Watch `podcasterProfile` changes and set form fields initially
 watch(
   podcasterProfile,
@@ -60,16 +63,17 @@ const isFormChanged = computed(() => {
     formData.value.email !== userProfile.value?.email ||
     formData.value.about !== userProfile.value?.about ||
     formData.value.avatar_url !== userProfile.value?.avatar_url
-  )
-})
+  );
+});
 
 //enter edit mode
 const toggleEditMode = () => {
   editMode.value = !editMode.value
-}
+};
 
+//Avatar File Upload
 const handleFileUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
+  const file = (event.target as HTMLInputElement).files?.[0];
 
   if (!file) return
 
@@ -95,14 +99,13 @@ const handleFileUpload = async (event: Event) => {
   }
 }
 
+//HandleForm Submit
 const handleSubmit = async () => {
   if (!isFormChanged.value) {
     editMode.value = false
     return
-  }
-
-  console.log('Editing in progress...')
-
+  };
+  
   const updates: any = {}
 
   if (formData.value.username !== userProfile.value?.username) {
