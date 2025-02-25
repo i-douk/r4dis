@@ -6,14 +6,14 @@ const links = [
   },
   {
     title: '🎙️ Podcasters',
-    to: '#',
+    to: '/podcasters',
   },
   {
     title: '🎧 Podcasts',
-    to: '#',
+    to: '/podcasts',
   },
   {
-    title : '👥Community',
+    title : '👥 Community',
     to: '/users'
   }
 ]
