@@ -12,7 +12,8 @@ const handleLogout = async () => {
   <header>
     <div flex flex-grow class="flex justify-between p-2">
       <RouterLink to="/">
-        <img alt="Vue logo" src="@/assets/logo.png" class="w-[175px] h-auto ml-2" />
+        <img alt="r4dis logo" src="@/assets/logo.png" class="hidden sm:block w-[175px] h-auto ml-2" />
+        <img alt="r4dis logo" src="@/assets/wordmark-logo.png" class="sm:hidden -ml-2 w-[65px] h-auto p-1" />
       </RouterLink>
       <nav>
         <div class="flex justify-between gap-4 p-5">
