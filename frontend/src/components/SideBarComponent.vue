@@ -25,11 +25,11 @@ const discoverylinks = [
 const userActivitylinks = [
   {
     title: '💛 Followings',
-    to: '/account/podcasts',
+    to: `/follows/${userProfile.value?.username}`,
   },
   {
     title: '€ Subscriptions',
-    to: '/account/podcasters',
+    to: `/subs/${userProfile.value?.username}`,
   },
 ]
 const podcasterActivitylinks = [
@@ -45,7 +45,7 @@ const podcasterActivitylinks = [
 const settingLinks = [
   {
     title: '⚙️ My settings',
-    to: '/settings',
+    to: '/account/settings',
   },
   {
     title: '❓ Help',
