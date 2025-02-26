@@ -1,5 +1,6 @@
 import { tokenExtractor } from '@/utils/tokenExtractor'
 import { expressClient } from '../lib/expressClient'
+import type { PodcastForm } from '@/types/PodcastForm'
 
 export default {
   getUsers() {
@@ -35,4 +36,12 @@ export default {
       },
     })
   },
+  async addPodcast(username:string,data: PodcastForm) {
+    return expressClient.post(`/podcasts/${username}`, data , {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await tokenExtractor()}`,
+      }
+    })
+  }
 }
