@@ -8,14 +8,14 @@ onMounted(() => {
 </script>
 <template>
   <UserLayout>
-  <Toaster />
-  <Suspense>
-    <template #default>
-      <RouterView />
-    </template>
-    <template #fallback>
-      <div>Loading...</div>
-    </template>
-  </Suspense>
-</UserLayout>
+    <Toaster />
+    <Suspense>
+      <template #default>
+        <RouterView />
+      </template>
+      <template #fallback>
+        <div>Loading...</div>
+      </template>
+    </Suspense>
+  </UserLayout>
 </template>

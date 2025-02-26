@@ -13,9 +13,9 @@ const links = [
     to: '/podcasts',
   },
   {
-    title : '👥 Community',
-    to: '/users'
-  }
+    title: '👥 Community',
+    to: '/users',
+  },
 ]
 </script>
 <template>

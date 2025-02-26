@@ -95,12 +95,13 @@ const signup = async () => {
           Already have an account?
           <RouterLink to="/login" class="underline"> Login </RouterLink>
         </div>
-        <div  v-if='roleDescr.role==="user"'  class="mt-4 text-sm text-center text-muted-foreground p-y-10">
+        <div
+          v-if="roleDescr.role === 'user'"
+          class="mt-4 text-sm text-center text-muted-foreground p-y-10"
+        >
           Do you wish to register as a podcaster ?
-          <div class="mt-5 grid gap-2 ">
-            <Button @click="toggleRole">
-              🎙️ Switch to podcaster's sign up
-            </Button>
+          <div class="mt-5 grid gap-2">
+            <Button @click="toggleRole"> 🎙️ Switch to podcaster's sign up </Button>
           </div>
         </div>
       </CardContent>

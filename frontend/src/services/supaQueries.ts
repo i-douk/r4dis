@@ -15,32 +15,31 @@ export const singleUserQuery = (username: string) =>
       id,
       username,
       avatar_url,
-      `
+      `,
     )
     .eq('username', username)
     .single()
 
 export type SingleUser = QueryData<typeof singleUserQuery>
 
-
 // Podcaster store Queries
 export const podcastersQuery = supabase.from('podcasters').select()
 
 export type Podcasters = QueryData<typeof podcastersQuery>
 
-export const singlePodcasterQuery = ( username : string) =>
+export const singlePodcasterQuery = (username: string) =>
   supabase
-      .from('podcasters')
-      .select(
-        `
+    .from('podcasters')
+    .select(
+      `
         email
         id,
         username,
         avatar_url,
-        `
-      )
-      .eq('username', username)
-      .single()
+        `,
+    )
+    .eq('username', username)
+    .single()
 
 export type SinglePodcaster = QueryData<typeof singlePodcasterQuery>
 

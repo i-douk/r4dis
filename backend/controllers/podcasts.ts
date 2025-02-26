@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Router } from "express";
 import { Request, Response } from "express";
 import authenticate from "../utils/supaAuth";
@@ -12,7 +13,6 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
         model: models.Podcaster,
         attributes: {
           exclude: [
-            "password",
             "createdAt",
             "updatedAt",
             "username",
@@ -35,6 +35,7 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
       const followerscount = await models.Following.count({
         where: { podcast_id: podcast.id },
       });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return {
         ...podcast.toJSON(),
         followerscount,
@@ -52,6 +53,7 @@ podcastsRouter.get("/:username", async (req: Request, res: Response) => {
   });
   if (podcaster) {
     const podcasts = await models.Podcast.findAll({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       where: { podcaster_id: podcaster?.toJSON().id },
     });
     res.json(podcasts);
@@ -73,6 +75,7 @@ podcastsRouter.post(
 
     // if checked create the podcast
     if (podcaster ) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const newpod = await models.Podcast.create({
         ...req.body,
         podcaster_id: podcaster.id,

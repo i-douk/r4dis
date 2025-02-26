@@ -3,7 +3,6 @@ import router from '@/router'
 import { logout } from '../utils/supaAuth'
 
 const authStore = useAuthStore()
-
 const handleLogout = async () => {
   await logout(authStore) // Pass the store as an argument
   router.push('/login')
@@ -31,6 +30,13 @@ const handleLogout = async () => {
             exactActiveClass="border-indigo-700"
             >Sign in</RouterLink
           >
+          <Button
+            v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'"
+            class="-my-1"
+            variant="outline"
+          >
+            <a href="/podcasts/createPodcast"> + Add podcast </a>
+          </Button>
           <RouterLink
             v-if="authStore.userProfile"
             :to="{
@@ -41,14 +47,7 @@ const handleLogout = async () => {
             exactActiveClass="border-indigo-700"
             >My account</RouterLink
           >
-          <a
-            v-if="authStore.userProfile"
-            href="#"
-            @click.prevent="handleLogout"
-            class="border-indigo-500"
-          >
-            Logout
-          </a>
+          <a v-if="authStore.userProfile" href="#" @click.prevent="handleLogout"> Logout </a>
           <RouterLink
             v-if="authStore.podcasterProfile"
             :to="{
@@ -59,14 +58,7 @@ const handleLogout = async () => {
             exactActiveClass="border-indigo-700"
             >My account</RouterLink
           >
-          <a
-            v-if="authStore.podcasterProfile"
-            href="#"
-            @click.prevent="handleLogout"
-            class="border-indigo-500"
-          >
-            Logout
-          </a>
+          <a v-if="authStore.podcasterProfile" href="#" @click.prevent="handleLogout"> Logout </a>
         </div>
       </nav>
     </div>

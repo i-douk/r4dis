@@ -54,9 +54,9 @@ const toggleEditMode = () => {
 }
 
 const handleFileUpload = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
+  const file = (event.target as HTMLInputElement).files?.[0]
 
-  if (!file) return;
+  if (!file) return
 
   try {
     // Upload the file with upsert enabled
@@ -65,20 +65,20 @@ const handleFileUpload = async (event: Event) => {
       .upload(`public/${file.name}`, file, {
         cacheControl: '3600',
         upsert: true,
-      });
+      })
 
     if (storageError) {
-      console.log(storageError);
-      toast({ title: 'Avatar upload failed', variant: 'destructive' });
+      console.log(storageError)
+      toast({ title: 'Avatar upload failed', variant: 'destructive' })
     } else {
-      console.log('Avatar uploaded successfully:', storageData);
-      formData.value.avatar_url = storageData.path;
+      console.log('Avatar uploaded successfully:', storageData)
+      formData.value.avatar_url = storageData.path
     }
   } catch (error) {
-    console.error('Upload failed:', error);
-    toast({ title: 'Avatar upload failed', variant: 'destructive' });
+    console.error('Upload failed:', error)
+    toast({ title: 'Avatar upload failed', variant: 'destructive' })
   }
-};
+}
 
 const handleSubmit = async () => {
   if (!isFormChanged.value) {
@@ -154,9 +154,14 @@ const cancelEditing = () => {
 <template>
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
-      <Avatar class="w-32 h-32 border bg-gray-500 ">
-        <AvatarImage :src="getPublicUrl(podcasterProfile.avatar_url) || ''" alt="Podcaster Avatar" />
-        <AvatarFallback class="text-4xl">{{ podcasterProfile?.username?.[0] || '?' }}</AvatarFallback>
+      <Avatar class="w-32 h-32 border bg-gray-500">
+        <AvatarImage
+          :src="getPublicUrl(podcasterProfile.avatar_url) || ''"
+          alt="Podcaster Avatar"
+        />
+        <AvatarFallback class="text-4xl">{{
+          podcasterProfile?.username?.[0] || '?'
+        }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ podcasterProfile.username }}</p>
       <p class="mt-1 text-sm text-gray-500">{{ podcasterProfile.about }}</p>
@@ -215,7 +220,6 @@ const cancelEditing = () => {
               class="border rounded-md p-2 w-full bg-gray-700 text-white"
               id="about"
               rows="3"
-          
               v-model="formData.about"
             ></textarea>
           </div>

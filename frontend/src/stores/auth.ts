@@ -36,7 +36,6 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-
   // role : user
   const setUserProfile = async () => {
     if (!user.value) {
@@ -137,7 +136,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     trackAuthChanges,
     getPodcasterSession,
     clearSession,
-    podcasterProfile
+    podcasterProfile,
   }
 })
 
