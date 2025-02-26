@@ -1,6 +1,26 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { QueryData } from '@supabase/supabase-js'
 
+// Podcast Store Queries
+export const podcastsQuery = supabase.from('podcasts').select()
+
+export type Podcasts = QueryData<typeof podcastsQuery>
+
+export const podcastsPerPodcasterQuery = (podcaster_id: string) =>
+  supabase
+    .from('podcasts')
+    .select(
+      `
+      name,
+      description,
+      url
+      `,
+    )
+    .eq('podcaster_id', podcaster_id)
+
+export type PodcastsPerPodcaster= QueryData<typeof podcastsPerPodcasterQuery>
+
+
 // User store queries
 export const usersQuery = supabase.from('users').select()
 

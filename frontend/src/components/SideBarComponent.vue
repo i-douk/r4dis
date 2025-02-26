@@ -34,12 +34,12 @@ const userActivitylinks = [
 ]
 const podcasterActivitylinks = [
   {
-    title: '📊 My dashboard',
-    to: '/account/podcasters',
+    title: '📡 My Pods',
+    to: `/podcasts/${podcasterProfile.value?.username}`,
   },
   {
-    title: '📡 My Pods',
-    to: '/account/podcasters',
+    title: '📊 Insights',
+    to: '/podcasters/insights',
   },
 ]
 const settingLinks = [
