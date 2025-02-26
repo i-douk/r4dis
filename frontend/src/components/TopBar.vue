@@ -11,7 +11,7 @@ const handleLogout = async () => {
 </script>
 <template>
   <header>
-    <div flex flex-grow class="flex justify-between p-2">
+    <div class="flex flex-grow justify-between sm:p-2 p-0">
       <RouterLink to="/">
         <img
           alt="r4dis logo"
@@ -21,7 +21,7 @@ const handleLogout = async () => {
         <img
           alt="r4dis logo"
           src="@/assets/wordmark-logo.png"
-          class="sm:hidden -ml-2 w-[65px] h-auto p-1 mt-4"
+          class="sm:hidden -ml-2 w-[60px] h-auto  mt-4"
         />
       </RouterLink>
       <nav>
@@ -80,7 +80,12 @@ const handleLogout = async () => {
               }}</AvatarFallback>
             </Avatar>
           </RouterLink>
-          <a class="hidden sm:block" v-if="authStore.podcasterProfile" href="#" @click.prevent="handleLogout">
+          <a
+            class="hidden sm:block"
+            v-if="authStore.podcasterProfile"
+            href="#"
+            @click.prevent="handleLogout"
+          >
             ⏻ Logout
           </a>
         </div>

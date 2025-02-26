@@ -13,7 +13,7 @@ await getPodcasts()
 <template>
   <ul>
     <li v-for="podcast in podcasts" :key="podcast.id">
-      {{ podcast.name }} by {{  podcast.podcaster_id }}
+      {{ podcast.name }} by {{ podcast.podcaster_id }}
     </li>
   </ul>
 </template>

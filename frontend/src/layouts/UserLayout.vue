@@ -22,6 +22,8 @@ const isSidebarOpen = ref(true)
     <div class="grid lg:grid-cols-6 flex-grow">
       <!-- SideBar -->
       <SideBarComponent
+        :isSidebarOpen="isSidebarOpen"
+        @closeSidebar="isSidebarOpen = false"
         :class="[
           'col-span-1 inset-y-0 left-0 w-64 transform lg:transform-none transition-transform ease-in-out duration-300',
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full absolute',

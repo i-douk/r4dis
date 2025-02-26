@@ -18,8 +18,7 @@ export const podcastsPerPodcasterQuery = (podcaster_id: string) =>
     )
     .eq('podcaster_id', podcaster_id)
 
-export type PodcastsPerPodcaster= QueryData<typeof podcastsPerPodcasterQuery>
-
+export type PodcastsPerPodcaster = QueryData<typeof podcastsPerPodcasterQuery>
 
 // User store queries
 export const usersQuery = supabase.from('users').select()
