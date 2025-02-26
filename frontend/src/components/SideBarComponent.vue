@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 const { userProfile, podcasterProfile } = storeToRefs(authStore)
+import router from '@/router'
+import { logout } from '../utils/supaAuth'
 
 const discoverylinks = [
   {
@@ -50,9 +52,14 @@ const settingLinks = [
     to: '/help',
   },
 ]
+
+const handleLogout = async () => {
+  await logout(authStore)
+  router.push('/login')
+}
 </script>
 <template>
-  <div class="w-full flex-nowrapmt-5 lg:border-r-2 border-dotted">
+  <div class="w-full flex-nowrap lg:border-r-2 border-dotted">
     <div class="px-3 py-2">
       <div class="text-xl font-semibold p-1 mb-1">Discover</div>
       <div class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
@@ -67,7 +74,9 @@ const settingLinks = [
           </RouterLink>
         </Button>
       </div>
-      <div class="my-2 border-b-2 border-dotted"></div>
+      <div 
+        class="my-2 border-b-2 border-dotted"
+        v-if="userProfile || podcasterProfile"></div>
       <div v-if="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         My activity
       </div>
@@ -86,14 +95,14 @@ const settingLinks = [
       </div>
       <div v-if="userProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
         <Button
-          v-for="link in userActivitylinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
+        v-for="link in userActivitylinks"
+        :key="link.to"
+        variant="ghost"
+        class="w-full justify-start"
         >
-          <RouterLink :to="link.to">
-            {{ link.title }}
-          </RouterLink>
+        <RouterLink :to="link.to">
+          {{ link.title }}
+        </RouterLink>
         </Button>
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
@@ -101,19 +110,33 @@ const settingLinks = [
         Settings
       </div>
       <div
-        v-if="userProfile || podcasterProfile"
-        class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
+      v-if="userProfile || podcasterProfile"
+      class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
-        <Button
-          v-for="link in settingLinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
-        >
-          <RouterLink :to="link.to">
-            {{ link.title }}
+      <Button
+      v-for="link in settingLinks"
+      :key="link.to"
+      variant="ghost"
+      class="w-full justify-start"
+      >
+      <RouterLink :to="link.to">
+        {{ link.title }}
           </RouterLink>
         </Button>
+      </div>
+      <div 
+        class=" my-2 border-b-2 border-dotted"
+        v-if="userProfile || podcasterProfile"></div>
+      <div
+      v-if="userProfile || podcasterProfile"
+      class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
+      >
+      <Button
+        class="justify-start"
+          variant="ghost"
+          >
+          <a @click.prevent="handleLogout"> ⏻ Log out</a>
+      </Button>
       </div>
     </div>
   </div>

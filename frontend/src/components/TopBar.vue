@@ -81,7 +81,7 @@ const handleLogout = async () => {
             </Avatar>
           </RouterLink>
           <a class="hidden sm:block" v-if="authStore.podcasterProfile" href="#" @click.prevent="handleLogout">
-            Logout
+            ⏻ Logout
           </a>
         </div>
       </nav>

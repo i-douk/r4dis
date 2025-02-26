@@ -12,6 +12,7 @@ import { getPublicUrl, podcasterQuery } from '@/services/supaQueries'
 const { toast } = useToast()
 const authStore = useAuthStore()
 const { podcasterProfile, user } = storeToRefs(authStore)
+usePageStore().pageData.title = ''
 
 const editMode = ref(false)
 const formData = ref({
