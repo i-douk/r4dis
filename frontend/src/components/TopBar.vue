@@ -10,7 +10,7 @@ const handleLogout = async () => {
 </script>
 <template>
   <header>
-    <div flex flex-grow class="flex justify-between p-2 border-dotted border-b-2">
+    <div flex flex-grow class="flex justify-between p-2">
       <RouterLink to="/">
         <img alt="Vue logo" src="@/assets/logo.png" class="w-[175px] h-auto ml-2" />
       </RouterLink>
