@@ -4,7 +4,7 @@ import { logout } from '../utils/supaAuth'
 
 const authStore = useAuthStore()
 const handleLogout = async () => {
-  await logout(authStore) // Pass the store as an argument
+  await logout(authStore)
   router.push('/login')
 }
 </script>
@@ -12,7 +12,7 @@ const handleLogout = async () => {
   <header>
     <div flex flex-grow class="flex justify-between p-2 border-dotted border-b-2">
       <RouterLink to="/">
-        <img alt="Vue logo" src="@/assets/logo.png" width="150" height="100" />
+        <img alt="Vue logo" src="@/assets/logo.png" class="w-[175px] h-auto ml-2" />
       </RouterLink>
       <nav>
         <div class="flex justify-between gap-4 p-5">
@@ -35,7 +35,7 @@ const handleLogout = async () => {
             class="-my-1"
             variant="outline"
           >
-            <a href="/podcasts/createPodcast"> + Add podcast </a>
+            <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>
           </Button>
           <RouterLink
             v-if="authStore.userProfile"

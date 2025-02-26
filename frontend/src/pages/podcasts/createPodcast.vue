@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import router from '@/router';
-import { ref } from 'vue';
-import expressService from '@/services/expressQueries';
-import { useToast } from '@/components/ui/toast/use-toast';
-const { toast } = useToast();
-usePageStore().pageData.title = 'Create a podcast';
+import router from '@/router'
+import { ref } from 'vue'
+import expressService from '@/services/expressQueries'
+import { useToast } from '@/components/ui/toast/use-toast'
+const { toast } = useToast()
+usePageStore().pageData.title = 'Create a podcast'
 const authStore = useAuthStore()
 const { podcasterProfile } = storeToRefs(authStore)
 const formData = ref({
@@ -14,16 +14,22 @@ const formData = ref({
 })
 
 const handleSubmit = async () => {
-  if(podcasterProfile.value){
-    const response = await expressService.addPodcast(podcasterProfile?.value?.username, formData.value);
-    if(response.status === 404){
+  if (podcasterProfile.value) {
+    const response = await expressService.addPodcast(
+      podcasterProfile?.value?.username,
+      formData.value,
+    )
+    if (response.status === 404) {
       toast({ title: 'Podcast creating failed', variant: 'destructive' })
     }
-    if(response.status === 201){
-      toast({ title: `${formData.value.name} was added sucessfully by ${podcasterProfile?.value?.username}`, variant: 'destructive' })
+    if (response.status === 201) {
+      toast({
+        title: `${formData.value.name} was added sucessfully by ${podcasterProfile?.value?.username}`,
+        variant: 'destructive',
+      })
     }
   }
-
+  router.push(`account/podcasters/${podcasterProfile.value?.username}`)
 }
 
 const addLink = () => {

@@ -36,12 +36,12 @@ export default {
       },
     })
   },
-  async addPodcast(username:string,data: PodcastForm) {
-    return expressClient.post(`/podcasts/${username}`, data , {
+  async addPodcast(username: string, data: PodcastForm) {
+    return expressClient.post(`/podcasts/${username}`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${await tokenExtractor()}`,
-      }
+      },
     })
-  }
+  },
 }

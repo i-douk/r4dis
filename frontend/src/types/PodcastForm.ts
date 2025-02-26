@@ -1,4 +1,4 @@
-export interface PodcastForm  {
+export interface PodcastForm {
   name: string
   description: string
   urls: string[]
