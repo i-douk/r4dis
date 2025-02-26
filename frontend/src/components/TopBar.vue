@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
+import { getPublicUrl } from '@/services/supaQueries'
 
 const authStore = useAuthStore()
 const handleLogout = async () => {
@@ -12,40 +13,43 @@ const handleLogout = async () => {
   <header>
     <div flex flex-grow class="flex justify-between p-2">
       <RouterLink to="/">
-        <img alt="r4dis logo" src="@/assets/logo.png" class="hidden sm:block w-[175px] h-auto ml-2" />
-        <img alt="r4dis logo" src="@/assets/wordmark-logo.png" class="sm:hidden -ml-2 w-[65px] h-auto p-1" />
+        <img
+          alt="r4dis logo"
+          src="@/assets/logo.png"
+          class="hidden sm:block w-[175px] h-auto ml-2"
+        />
+        <img
+          alt="r4dis logo"
+          src="@/assets/wordmark-logo.png"
+          class="sm:hidden -ml-2 w-[65px] h-auto p-1 mt-4"
+        />
       </RouterLink>
       <nav>
         <div class="flex justify-between gap-4 p-5">
           <RouterLink
             to="/register"
             v-if="authStore.userProfile == null && authStore.podcasterProfile === null"
-            activeClass="border-indigo-500"
-            exactActiveClass="border-indigo-700"
             >Sign up
           </RouterLink>
           <RouterLink
             to="/login"
             v-if="authStore.userProfile == null && authStore.podcasterProfile === null"
-            activeClass="border-indigo-500"
-            exactActiveClass="border-indigo-700"
             >Sign in</RouterLink
           >
-          <Button
-            v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'"
-            class="-my-1"
-            variant="outline"
-          >
-            <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>
-          </Button>
+          <div class="sm:mt-2 lg:-mt-1 md:-mt-1">
+            <Button
+              v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'"
+              variant="outline"
+            >
+              <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>
+            </Button>
+          </div>
           <RouterLink
             v-if="authStore.userProfile"
             :to="{
               name: '/account/users/[username]',
               params: { username: authStore.userProfile?.username },
             }"
-            activeClass="border-indigo-500"
-            exactActiveClass="border-indigo-700"
             >My account</RouterLink
           >
           <a v-if="authStore.userProfile" href="#" @click.prevent="handleLogout"> Logout </a>
@@ -55,11 +59,30 @@ const handleLogout = async () => {
               name: '/account/podcasters/[username]',
               params: { username: authStore.podcasterProfile?.username },
             }"
-            activeClass="border-indigo-500"
-            exactActiveClass="border-indigo-700"
+            class="hidden sm:block"
             >My account</RouterLink
           >
-          <a v-if="authStore.podcasterProfile" href="#" @click.prevent="handleLogout"> Logout </a>
+          <RouterLink
+            v-if="authStore.podcasterProfile"
+            :to="{
+              name: '/account/podcasters/[username]',
+              params: { username: authStore.podcasterProfile?.username },
+            }"
+            class="sm:hidden"
+          >
+            <Avatar class="w-10 h-10 border border-dotted">
+              <AvatarImage
+                :src="getPublicUrl(authStore.podcasterProfile?.avatar_url) || ''"
+                alt="User Avatar"
+              />
+              <AvatarFallback class="text-xl">{{
+                authStore.podcasterProfile?.username?.[0] || '?'
+              }}</AvatarFallback>
+            </Avatar>
+          </RouterLink>
+          <a class="hidden sm:block" v-if="authStore.podcasterProfile" href="#" @click.prevent="handleLogout">
+            Logout
+          </a>
         </div>
       </nav>
     </div>

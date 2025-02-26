@@ -8,7 +8,7 @@ const isSidebarOpen = ref(true)
 <template>
   <div class="min-h-screen flex flex-col justify-between">
     <!-- TopBar -->
-    <div class="flex flex-row border-b-2 border-dotted ">
+    <div class="flex flex-row border-b-2 border-dotted">
       <button
         class="flex-none p-2 m-2 text-xl hover:underline"
         @click="isSidebarOpen = !isSidebarOpen"
@@ -29,7 +29,7 @@ const isSidebarOpen = ref(true)
       />
 
       <!-- Main Content -->
-      <main :class="['lg:col-span-4 p-4 flex-grow',]">
+      <main :class="['lg:col-span-4 p-4 flex-grow']">
         <div class="flex items-center">
           <h1 class="text-lg font-semibold md:text-xl">
             {{ pageData.title }}
