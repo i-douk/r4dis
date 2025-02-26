@@ -1,4 +1,8 @@
 <script setup lang="ts">
+
+const authStore = useAuthStore();
+const { userProfile, podcasterProfile } = storeToRefs(authStore);
+
 const discoverylinks = [
   {
     title: '📋 Feed',
@@ -19,11 +23,15 @@ const discoverylinks = [
 ]
 const activitylinks = [
   {
-    title: '➜ My podcasts',
+    title: '💛 Followings',
     to: '/account/podcasts'
   },
   {
-    title: '➜ My podcasters',
+    title: '€ Subscriptions',
+    to: '/account/podcasters'
+  },
+  {
+    title: '📊 My Dashboard',
     to: '/account/podcasters'
   },
 
@@ -31,7 +39,7 @@ const activitylinks = [
 const settingLinks = [
   {
     title: '⚙️ My settings',
-    to: '/account/settings'
+    to: '/settings'
   },
   {
     title: '❓ Help',

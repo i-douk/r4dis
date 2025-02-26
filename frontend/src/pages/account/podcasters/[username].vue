@@ -9,7 +9,6 @@ import { supabase } from '@/lib/supabaseClient'
 import expressService from '@/services/expressQueries'
 import { ref, watch, computed, h } from 'vue'
 import { getPublicUrl, podcasterQuery } from '@/services/supaQueries'
-import router from '@/router'
 const { toast } = useToast()
 const authStore = useAuthStore()
 const { podcasterProfile, user } = storeToRefs(authStore)
