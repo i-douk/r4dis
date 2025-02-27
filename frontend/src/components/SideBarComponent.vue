@@ -36,12 +36,12 @@ const discoverylinks = [
 const userActivitylinks = [
   {
     title: '💛 Followings',
-    to: userProfile.value ? `/follows/${userProfile.value?.username}` : '#',
+    to: '/podcasts/followings'
 
   },
   {
     title: '€ Subscriptions',
-    to: userProfile.value ? `/subs/${userProfile.value?.username}` : '#',
+    to: '/podcasters/subscriptions'
   },
 ]
 const podcasterActivitylinks = [

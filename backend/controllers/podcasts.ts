@@ -15,7 +15,6 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
           exclude: [
             "createdAt",
             "updatedAt",
-            "username",
             "disabled",
           ],
         },

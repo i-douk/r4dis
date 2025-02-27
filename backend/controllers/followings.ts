@@ -4,21 +4,12 @@ import authenticate from "../utils/supaAuth";
 import Following from "../models/following";
 const followingRouter = Router();
 
-// GET ALL FOLLOWINGS FOR ADMIN AND SUPERUSER
+// GET ALL FOLLOWINGS 
 followingRouter.get(
   "/",
-  authenticate,
   async (_req, res) => {
-    const role  = 'admin';
-    if (role === "admin") {
-    // if (role === "superuser" || role === "admin") {
-      const followings: Following[] = await models.Following.findAll({});
-      res.status(200).json(followings);
-    } else {
-      res
-        .status(422)
-        .json({ message: "not enough persmissions to access followings" });
-    }
+    const followings: Following[] = await models.Following.findAll({});
+    res.status(200).json(followings);
   },
 );
 

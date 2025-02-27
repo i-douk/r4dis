@@ -27,9 +27,9 @@ const handleSubmit = async () => {
         title: `${formData.value.name} was added sucessfully by ${podcasterProfile?.value?.username}`,
         variant: 'destructive',
       })
+      router.push('/podcasts/mypods')
     }
   }
-  router.push(`account/podcasters/${podcasterProfile.value?.username}`)
 }
 
 const addLink = () => {

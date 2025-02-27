@@ -1,13 +1,31 @@
 <script setup lang="ts">
 import { usePodcastsStore } from '@/stores/loaders/podcasts'
-
+import expressService from '@/services/expressQueries'
 usePageStore().pageData.title = 'Podcasts'
-
+import { useAuthStore } from '@/stores/auth'
+import { toast } from '@/components/ui/toast/use-toast'
+const authStore = useAuthStore()
+const { userProfile } = storeToRefs(authStore)
 const podcastsLoader = usePodcastsStore()
 const { podcasts } = storeToRefs(podcastsLoader)
 const { getPodcasts } = podcastsLoader
 
 await getPodcasts()
+
+const handleFollow = async (podcastId : number) => {
+  const response = await expressService.followPodcast(podcastId,userProfile.value.id);
+  if( response.status === 201) {
+    toast({
+      title : ' You just followed this pod'
+    })
+  } else if ( response.status === 422) {
+     toast({
+       title : ' You are already following this pod'
+     })
+
+   }
+}
+console.log(podcasts.value)
 </script>
 
 <template>
@@ -16,21 +34,24 @@ await getPodcasts()
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription
-          >{{ podcast.followcount }} followers</CardDescription
+          >{{ podcast.followerscount }} followers</CardDescription
         >
       </CardHeader>
       <CardContent>
         was posted by
         <b>{{
-          podcast.podcaster_id
+          podcast.podcaster.username
         }}</b></CardContent
       >
-      <CardFooter>
+      <CardFooter class="flex gap-2">
         <Button>
           <RouterLink
             :to="{ name: '/podcasts/[id]', params: { id: podcast.id } }"
             >See podcast</RouterLink
           >
+        </Button>
+        <Button @click='handleFollow(podcast.id)' variant ='outline'>
+          ♥ Follow
         </Button>
       </CardFooter>
     </Card>
