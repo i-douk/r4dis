@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
-const { userProfile } = storeToRefs(authStore)
+const { userProfile ,podcasterProfile } = storeToRefs(authStore)
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
 import { useWindowSize } from '@vueuse/core'
@@ -9,7 +9,6 @@ import { computed } from "vue";
 const emit = defineEmits(['closeSidebar']);
 const { width } = useWindowSize();
 const isSmallScreen = computed(() => width.value < 1024)
-const podcasterProfile = computed(() => authStore.podcasterProfile);
 defineProps({
   isSidebarOpen: Boolean,
 });
@@ -48,7 +47,7 @@ const userActivitylinks = [
 const podcasterActivitylinks = [
   {
     title: '📡 My Pods',
-    to: podcasterProfile.value ? `/podcasts/${podcasterProfile.value.username}` : '#',
+    to: '/podcasts/mypods',
   },
   {
     title: '📊 Insights',
