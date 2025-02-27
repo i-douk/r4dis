@@ -1,6 +1,38 @@
 <script setup lang="ts">
-usePageStore().pageData.title = 'Podcasts'
+import { usePodcastsStore } from '@/stores/loaders/podcasts'
+usePageStore().pageData.title = 'My pods'
+const authStore = useAuthStore()
+const { podcasterProfile} = storeToRefs(authStore)
+const myPodsLoader = usePodcastsStore()
+const { podcastsPerPodcaster } = storeToRefs(myPodsLoader)
+const { getPodcastsPerPodcaster } = myPodsLoader
+await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
 </script>
-<template>
 
+<template>
+  <div class=" p-5 grid grid-cols-4 gap-4">
+    <Card class='hover:border-dashed' v-for="podcast in podcastsPerPodcaster">
+      <CardHeader>
+        <CardTitle>{{ podcast.name }}</CardTitle>
+        <CardDescription
+          >{{ podcast.followcount }} followers</CardDescription
+        >
+      </CardHeader>
+      <CardContent>
+        was posted by
+        <b>{{
+          podcast.podcaster_id
+        }}</b></CardContent
+      >
+      <CardFooter>
+        <Button>
+          <RouterLink
+            :to="{ name: '/podcasts/[id]', params: { id: podcast.id } }"
+            >See podcast</RouterLink
+          >
+        </Button>
+        <Card> Added on {{  podcast.created_at }}</Card>
+      </CardFooter>
+    </Card>
+  </div>
 </template>

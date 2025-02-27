@@ -40,9 +40,9 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
     }
   }
 
-  const getPodcastsPerPodcaster = async (username: string) => {
+  const getPodcastsPerPodcaster = async (podcaster_id: string) => {
     podcastsPerPodcaster.value = null
-    const { data, error, status } = await loadPodcastsPerPodcaster(username)
+    const { data, error, status } = await loadPodcastsPerPodcaster(podcaster_id)
     if (error) console.log(error, status)
     if (data) podcastsPerPodcaster.value = data
 

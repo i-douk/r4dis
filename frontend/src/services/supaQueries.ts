@@ -10,13 +10,7 @@ export type Podcasts = QueryData<typeof podcastsQuery>
 export const podcastsPerPodcasterQuery = (podcaster_id: string) =>
   supabase
     .from('podcasts')
-    .select(
-      `
-      name,
-      description,
-      url
-      `,
-    )
+    .select()
     .eq('podcaster_id', podcaster_id)
 
 export type PodcastsPerPodcaster = QueryData<typeof podcastsPerPodcasterQuery>
