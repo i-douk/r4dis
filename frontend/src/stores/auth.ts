@@ -9,7 +9,8 @@ export const useAuthStore = defineStore('auth-store', () => {
   const user = ref<null | User>(null)
   const userProfile = ref<null | Tables<'users'>>(null)
   const podcasterProfile = ref<null | Tables<'podcasters'>>(null)
-  const isTrackingAuthChanges = ref(false)
+  const isTrackingUserAuthChanges = ref(false)
+  const isTrackingPodcasterAuthChanges = ref(false)
 
   //role : podcaster
   const setPodcasterProfile = async () => {
@@ -110,9 +111,9 @@ export const useAuthStore = defineStore('auth-store', () => {
   }
 
   const trackPodcasterAuthChanges = () => {
-    if (isTrackingAuthChanges.value) return
+    if (isTrackingPodcasterAuthChanges.value) return
 
-    isTrackingAuthChanges.value = true
+    isTrackingPodcasterAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
         await setPodcasterAuth(session)
@@ -120,9 +121,9 @@ export const useAuthStore = defineStore('auth-store', () => {
     })
   }
   const trackUserAuthChanges = () => {
-    if (isTrackingAuthChanges.value) return
+    if (isTrackingUserAuthChanges.value) return
 
-    isTrackingAuthChanges.value = true
+    isTrackingUserAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
         await setUSerAuth(session)
@@ -131,10 +132,9 @@ export const useAuthStore = defineStore('auth-store', () => {
   }
 
   const clearSession = () => {
-    console.log('Clearing session...') // Debugging
     user.value = null
     userProfile.value = null
-    console.log('Session cleared:', user.value, userProfile.value) // Debugging
+    podcasterProfile.value = null
   }
   return {
     user,

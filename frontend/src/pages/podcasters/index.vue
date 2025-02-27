@@ -23,7 +23,7 @@ console.log(podcasters.value)
       <CardContent>
         has posted
         <b>{{
-          podcaster.podcasts.lengths > 0 && podcaster.podcasts[0] ? podcaster.podcasts[0].name : 'nothing yet'
+          podcaster.podcasts && podcaster.podcasts.length > 0 ? podcaster.podcasts[0].name : 'nothing yet'
         }}</b></CardContent
       >
       <CardFooter>

@@ -13,7 +13,7 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
       {
         model: models.Podcast,
         as: "podcasts",
-        attributes: { exclude: [""] },
+        attributes: { exclude: [] },
       },
       {
         model: models.User,
@@ -32,6 +32,7 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
       const subscriberscount = await models.Subscription.count({
         where: { podcaster_id: podcaster.id },
       });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return {
         ...podcaster.toJSON(),
         subscriberscount,

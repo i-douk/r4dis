@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { usePageStore } from '@/stores/page'
+
+const authStore = useAuthStore()
 onMounted(() => {
-  useAuthStore().trackUserAuthChanges()
-  useAuthStore().trackPodcasterAuthChanges()
+  authStore.trackUserAuthChanges()
+  authStore.trackPodcasterAuthChanges()
   usePageStore()
 })
 </script>
@@ -15,7 +17,7 @@ onMounted(() => {
         <RouterView />
       </template>
       <template #fallback>
-        <div>Loading...</div>
+        <div>Loading page...</div>
       </template>
     </Suspense>
   </UserLayout>

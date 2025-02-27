@@ -1,19 +1,20 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
-const { userProfile, podcasterProfile } = storeToRefs(authStore)
+const { userProfile } = storeToRefs(authStore)
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
 import { useWindowSize } from '@vueuse/core'
-
+import { computed } from "vue";
 // Define event emitter to notify parent
-const emit = defineEmits(['closeSidebar'])
-const { width } = useWindowSize()
+const emit = defineEmits(['closeSidebar']);
+const { width } = useWindowSize();
 const isSmallScreen = computed(() => width.value < 1024)
-console.log(isSmallScreen)
+const podcasterProfile = computed(() => authStore.podcasterProfile);
 defineProps({
   isSidebarOpen: Boolean,
-})
+});
 
+console.log(podcasterProfile.value)
 
 const discoverylinks = [
   {
@@ -36,18 +37,18 @@ const discoverylinks = [
 const userActivitylinks = [
   {
     title: '💛 Followings',
-    to: userProfile.value?.username ? `/follows/${userProfile.value?.username}` : '#',
+    to: userProfile.value ? `/follows/${userProfile.value?.username}` : '#',
 
   },
   {
     title: '€ Subscriptions',
-    to: userProfile.value?.username ? `/subs/${userProfile.value?.username}` : '#',
+    to: userProfile.value ? `/subs/${userProfile.value?.username}` : '#',
   },
 ]
 const podcasterActivitylinks = [
   {
     title: '📡 My Pods',
-    to: podcasterProfile.value?.username ? `/podcasts/${podcasterProfile.value.username}` : '#',
+    to: podcasterProfile.value ? `/podcasts/${podcasterProfile.value.username}` : '#',
   },
   {
     title: '📊 Insights',
@@ -98,11 +99,11 @@ const closeSidebar = () => {
 
       <div :class="['my-2 border-b-2 border-dotted', isSidebarOpen? 'lg:border-r-2 border-dotted':'']" v-if="userProfile || podcasterProfile"></div>
 
-      <div v-if="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
+      <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         My activity
       </div>
 
-      <div v-if="podcasterProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
+      <div v-show="podcasterProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
         <Button
           v-for="link in podcasterActivitylinks"
           :key="link.to"
@@ -117,7 +118,7 @@ const closeSidebar = () => {
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
 
-      <div v-if="userProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
+      <div v-show="userProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
         <Button
           v-for="link in userActivitylinks"
           :key="link.to"
@@ -132,12 +133,12 @@ const closeSidebar = () => {
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
 
-      <div v-if="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
+      <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         Settings
       </div>
 
       <div
-        v-if="userProfile || podcasterProfile"
+        v-show="userProfile || podcasterProfile"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
         <Button
@@ -156,7 +157,7 @@ const closeSidebar = () => {
       <div class="my-2 border-b-2 border-dotted" v-if="userProfile || podcasterProfile"></div>
 
       <div
-        v-if="userProfile || podcasterProfile"
+        v-show="userProfile || podcasterProfile"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
         <Button class="justify-start" variant="ghost">
