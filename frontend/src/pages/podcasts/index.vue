@@ -11,13 +11,8 @@ await getPodcasts()
 </script>
 
 <template>
-  <ul>
-    <li v-for="podcast in podcasts" :key="podcast.id">
-      {{ podcast.name }} by {{ podcast.podcaster_id }}
-    </li>
-  </ul>
-  <div class="grid grid-cols-4 gap-4">
-    <Card v-for="podcast in podcasts">
+  <div class=" p-5 grid grid-cols-4 gap-4">
+    <Card class='hover:border-dashed' v-for="podcast in podcasts">
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription
@@ -31,12 +26,12 @@ await getPodcasts()
         }}</b></CardContent
       >
       <CardFooter>
-        <!-- <Button>
+        <Button>
           <RouterLink
-            :to="{ name: '/podcasts/[name]', params: { name: podcast.name } }"
-            >See podcaster</RouterLink
+            :to="{ name: '/podcasts/[id]', params: { id: podcast.id } }"
+            >See podcast</RouterLink
           >
-        </Button> -->
+        </Button>
       </CardFooter>
     </Card>
   </div>

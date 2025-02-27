@@ -46,7 +46,7 @@ const userActivitylinks = [
 const podcasterActivitylinks = [
   {
     title: '📡 My Pods',
-    to: `/podcasts/${podcasterProfile.value?.username}`,
+    to: `/podcasts/podcasts`,
   },
   {
     title: '📊 Insights',

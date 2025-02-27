@@ -13,17 +13,17 @@ console.log(podcasters.value)
 
 <template>
   <div class="grid grid-cols-4 gap-4">
-    <Card v-for="podcaster in podcasters">
+    <Card class='hover:border-dashed' v-for="podcaster in podcasters">
       <CardHeader>
         <CardTitle>{{ podcaster.username }}</CardTitle>
         <CardDescription
-          >{{ podcaster.subscriptioncount }} subscriptions</CardDescription
+          >{{ podcaster.subscriptioncount? podcaster.subscriptioncount : 0 }} subscriptions</CardDescription
         >
       </CardHeader>
       <CardContent>
         has posted
         <b>{{
-          podcaster.podcasts && podcaster.podcasts[0] ? podcaster.podcasts[0].name : 'nothing yet'
+          podcaster.podcasts.lengths > 0 && podcaster.podcasts[0] ? podcaster.podcasts[0].name : 'nothing yet'
         }}</b></CardContent
       >
       <CardFooter>

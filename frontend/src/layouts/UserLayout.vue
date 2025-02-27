@@ -31,8 +31,8 @@ const isSidebarOpen = ref(true)
       />
 
       <!-- Main Content -->
-      <main :class="['lg:col-span-4 p-4 flex-grow']">
-        <div class="flex items-center">
+      <main :class="[isSidebarOpen? 'lg:col-span-5 p-10 flex-grow' :'lg:col-span-6 p-10 flex-grow']">
+        <div class="flex items-grow">
           <h1 class="text-lg font-semibold md:text-xl">
             {{ pageData.title }}
           </h1>
