@@ -2,7 +2,8 @@
 import { useAuthStore } from '@/stores/auth'
 import { usePageStore } from '@/stores/page'
 onMounted(() => {
-  useAuthStore().trackAuthChanges()
+  useAuthStore().trackUserAuthChanges()
+  useAuthStore().trackPodcasterAuthChanges()
   usePageStore()
 })
 </script>

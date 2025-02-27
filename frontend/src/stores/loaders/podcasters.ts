@@ -2,7 +2,7 @@ import {
   singlePodcasterQuery,
   podcastersQuery,
   type SinglePodcaster,
-  type Podcasters,
+  type PodcastersType,
 } from '@/services/supaQueries'
 import expressService from '@/services/expressQueries'
 import { defineStore } from 'pinia'
@@ -10,7 +10,7 @@ import { useMemoize } from '@vueuse/core'
 
 export const usePodcastersStore = defineStore('podcasters-store', () => {
   const singlePodcaster = ref<SinglePodcaster | null>(null)
-  const podcasters = ref<Podcasters | null>(null)
+  const podcasters = ref<PodcastersType | null>(null)
 
   const loadpodcasters = useMemoize(async (key: string) => {
     return await expressService.getPodcasters()

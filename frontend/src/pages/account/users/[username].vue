@@ -110,6 +110,7 @@ const handleSubmit = async () => {
   }
 
   if (Object.keys(updates).length > 0) {
+    
     const response = await expressService.editUser(user.value.id, updates)
     if (response.status === 422) {
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })

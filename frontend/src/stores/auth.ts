@@ -109,14 +109,23 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  const trackAuthChanges = () => {
+  const trackPodcasterAuthChanges = () => {
+    if (isTrackingAuthChanges.value) return
+
+    isTrackingAuthChanges.value = true
+    supabase.auth.onAuthStateChange((event, session) => {
+      setTimeout(async () => {
+        await setPodcasterAuth(session)
+      }, 0)
+    })
+  }
+  const trackUserAuthChanges = () => {
     if (isTrackingAuthChanges.value) return
 
     isTrackingAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
         await setUSerAuth(session)
-        await setPodcasterAuth(session)
       }, 0)
     })
   }
@@ -133,7 +142,8 @@ export const useAuthStore = defineStore('auth-store', () => {
     setUSerAuth,
     setPodcasterAuth,
     getUserSession,
-    trackAuthChanges,
+    trackUserAuthChanges,
+    trackPodcasterAuthChanges,
     getPodcasterSession,
     clearSession,
     podcasterProfile,

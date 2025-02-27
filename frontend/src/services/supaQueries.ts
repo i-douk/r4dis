@@ -44,7 +44,7 @@ export type SingleUser = QueryData<typeof singleUserQuery>
 // Podcaster store Queries
 export const podcastersQuery = supabase.from('podcasters').select()
 
-export type Podcasters = QueryData<typeof podcastersQuery>
+export type PodcastersType = QueryData<typeof podcastersQuery>
 
 export const singlePodcasterQuery = (username: string) =>
   supabase
@@ -66,6 +66,7 @@ export type SinglePodcaster = QueryData<typeof singlePodcasterQuery>
 export const userQuery = ({ column, value }: { column: string; value: string }) => {
   return supabase.from('users').select().eq(column, value).single()
 }
+export type UserType = QueryData<typeof userQuery>
 
 export const podcasterQuery = ({ column, value }: { column: string; value: string }) => {
   return supabase.from('podcasters').select().eq(column, value).single()
