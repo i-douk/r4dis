@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import { usePodcastsStore } from '@/stores/loaders/podcasts'
 usePageStore().pageData.title = 'My pods'
 const authStore = useAuthStore()
@@ -6,6 +9,10 @@ const { podcasterProfile} = storeToRefs(authStore)
 const myPodsLoader = usePodcastsStore()
 const { podcastsPerPodcaster } = storeToRefs(myPodsLoader)
 const { getPodcastsPerPodcaster } = myPodsLoader
+const formatTimeAgo = (date: string | number | dayjs.Dayjs | Date | null | undefined) => {
+  return dayjs(date).fromNow(); 
+};
+
 await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
 </script>
 
@@ -16,6 +23,9 @@ await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription
           >{{ podcast.followcount }} followers</CardDescription
+        >
+        <CardDescription
+          > Added {{  formatTimeAgo(podcast.created_at) }}</CardDescription
         >
       </CardHeader>
       <CardContent>
@@ -31,7 +41,6 @@ await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
             >See podcast</RouterLink
           >
         </Button>
-        <Card> Added on {{  podcast.created_at }}</Card>
       </CardFooter>
     </Card>
   </div>
