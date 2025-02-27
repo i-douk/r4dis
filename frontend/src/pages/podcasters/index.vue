@@ -8,12 +8,32 @@ const { podcasters } = storeToRefs(podcastersLoader)
 const { getPodcasters } = podcastersLoader
 
 await getPodcasters()
+console.log(podcasters.value)
 </script>
 
 <template>
-  <ul>
-    <li v-for="podcaster in podcasters" :key="podcaster.id">
-      {{ podcaster.username }}
-    </li>
-  </ul>
+  <div class="grid grid-cols-4 gap-4">
+    <Card v-for="podcaster in podcasters">
+      <CardHeader>
+        <CardTitle>{{ podcaster.username }}</CardTitle>
+        <CardDescription
+          >{{ podcaster.subscriptioncount }} subscriptions</CardDescription
+        >
+      </CardHeader>
+      <CardContent>
+        has posted
+        <b>{{
+          podcaster.podcasts && podcaster.podcasts[0] ? podcaster.podcasts[0].name : 'nothing yet'
+        }}</b></CardContent
+      >
+      <CardFooter>
+        <Button>
+          <RouterLink
+            :to="{ name: '/podcasters/[username]', params: { username: podcaster.username } }"
+            >See podcaster</RouterLink
+          >
+        </Button>
+      </CardFooter>
+    </Card>
+  </div>
 </template>

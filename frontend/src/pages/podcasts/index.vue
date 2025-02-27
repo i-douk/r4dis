@@ -16,4 +16,28 @@ await getPodcasts()
       {{ podcast.name }} by {{ podcast.podcaster_id }}
     </li>
   </ul>
+  <div class="grid grid-cols-4 gap-4">
+    <Card v-for="podcast in podcasts">
+      <CardHeader>
+        <CardTitle>{{ podcast.name }}</CardTitle>
+        <CardDescription
+          >{{ podcast.followcount }} followers</CardDescription
+        >
+      </CardHeader>
+      <CardContent>
+        was posted by
+        <b>{{
+          podcast.podcaster_id
+        }}</b></CardContent
+      >
+      <CardFooter>
+        <!-- <Button>
+          <RouterLink
+            :to="{ name: '/podcasts/[name]', params: { name: podcast.name } }"
+            >See podcaster</RouterLink
+          >
+        </Button> -->
+      </CardFooter>
+    </Card>
+  </div>
 </template>

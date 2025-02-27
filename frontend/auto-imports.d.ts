@@ -66,6 +66,7 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const usePageStore: typeof import('./src/stores/page')['usePageStore']
   const usePodcastersStore: typeof import('./src/stores/loaders/podcasters')['usePodcastersStore']
+  const usePodcastsStore: typeof import('./src/stores/loaders/podcasts')['usePodcastsStore']
   const useProfilesStore: typeof import('./src/stores/loaders/users')['useProfilesStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
