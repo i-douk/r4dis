@@ -29,7 +29,7 @@ console.log(podcasts.value)
 </script>
 
 <template>
-  <div class=" p-5 grid grid-cols-4 gap-4">
+  <div class=" p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
     <Card class='hover:border-dashed' v-for="podcast in podcasts">
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
@@ -46,7 +46,7 @@ console.log(podcasts.value)
       <CardFooter class="flex gap-2">
         <Button>
           <RouterLink
-            :to="{ name: '/podcasts/[id]', params: { id: podcast.id } }"
+            :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
             >See podcast</RouterLink
           >
         </Button>

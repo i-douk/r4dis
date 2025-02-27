@@ -1,4 +1,6 @@
 import express from "express";
+import { createServer } from 'node:http';
+import { Server } from 'socket.io';
 const app = express();
 import "express-async-errors";
 import config from "./utils/config";
@@ -13,7 +15,6 @@ import podcastsRouter from "./controllers/podcasts";
 import logoutRouter from "./controllers/logout";
 import followingRouter from "./controllers/followings";
 import subscriptionsRouter from "./controllers/subscriptions";
-
 import cors from "cors";
 app.use(cors());
 app.use("/api/users", usersRouter);
@@ -25,6 +26,19 @@ app.use("/api/followings", followingRouter);
 app.use("/api/subscriptions", subscriptionsRouter);
 app.use("/api/logout", logoutRouter);
 app.use(express.json());
+
+
+const server = createServer(app);
+const io = new Server(server, {
+  path: "http://localhost:3000/api/",
+  cors: {
+    origin :["http://localhost:5173/"]
+  }
+});
+
+io.on('connection', (_socket) => {
+  console.log('a user connected');
+});
 
 // Sync Sequelize models with the database
 sequelize

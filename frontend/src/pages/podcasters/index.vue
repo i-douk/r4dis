@@ -12,7 +12,7 @@ console.log(podcasters.value)
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-4">
+  <div class=" p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
     <Card class='hover:border-dashed' v-for="podcaster in podcasters">
       <CardHeader>
         <CardTitle>{{ podcaster.username }}</CardTitle>

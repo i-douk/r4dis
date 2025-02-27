@@ -34,25 +34,6 @@ Podcaster.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // password: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     len: [8, 100], // Minimum length requirement
-    //     isStrongPassword(value: string) {
-    //       if (
-    //         !/[A-Z]/.test(value) ||
-    //         !/[a-z]/.test(value) ||
-    //         !/[0-9]/.test(value) ||
-    //         !/[@$!%*?&#]/.test(value)
-    //       ) {
-    //         throw new Error(
-    //           "Password must contain uppercase, lowercase, number, and special character",
-    //         );
-    //       }
-    //     },
-    //   },
-    // },
     premium: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

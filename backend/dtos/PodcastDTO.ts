@@ -13,7 +13,7 @@ export class PodcastDTO {
   public updated_at: string;
   public transcribed: boolean;
   public urls: string[];
-  public slug?: string;
+  public slug: string;
   public podcaster: PodcasterDTO;
   public followers?: UserDTO[];
   public following?: FollowingDTO;
@@ -23,6 +23,7 @@ export class PodcastDTO {
     this.transcribed = podcast.transcribed;
     this.name = podcast.name;
     this.urls = podcast.urls;
+    this.slug = podcast.slug;
     this.avatar_url = podcast.avatar_url;
     this.updated_at = podcast.updated_at;
     this.followerscount = podcast.followerscount;

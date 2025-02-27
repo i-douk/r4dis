@@ -9,6 +9,7 @@ class Podcast extends Model {
   public urls!: string[];
   public description?: string;
   public podcastId!: number;
+  public slug!: string;
 }
 
 Podcast.init(
@@ -34,6 +35,10 @@ Podcast.init(
       defaultValue: false,
       allowNull: false,
     },
+    slug : {
+      type : DataTypes.STRING,
+      allowNull: false
+    }
   },
   {
     sequelize,

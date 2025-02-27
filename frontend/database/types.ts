@@ -113,6 +113,7 @@ export type Database = {
           id: number
           name: string
           podcaster_id: string | null
+          slug: string | null
           transcribed: boolean
           updated_at: string
           urls: string[]
@@ -124,6 +125,7 @@ export type Database = {
           id?: number
           name: string
           podcaster_id?: string | null
+          slug?: string | null
           transcribed?: boolean
           updated_at: string
           urls: string[]
@@ -135,6 +137,7 @@ export type Database = {
           id?: number
           name?: string
           podcaster_id?: string | null
+          slug?: string | null
           transcribed?: boolean
           updated_at?: string
           urls?: string[]

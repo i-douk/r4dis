@@ -29,7 +29,7 @@ declare module 'vue-router/auto-routes' {
     '/podcasters/insights': RouteRecordInfo<'/podcasters/insights', '/podcasters/insights', Record<never, never>, Record<never, never>>,
     '/podcasters/subscriptions': RouteRecordInfo<'/podcasters/subscriptions', '/podcasters/subscriptions', Record<never, never>, Record<never, never>>,
     '/podcasts/': RouteRecordInfo<'/podcasts/', '/podcasts', Record<never, never>, Record<never, never>>,
-    '/podcasts/[id]': RouteRecordInfo<'/podcasts/[id]', '/podcasts/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/podcasts/[slug]': RouteRecordInfo<'/podcasts/[slug]', '/podcasts/:slug', { slug: ParamValue<true> }, { slug: ParamValue<false> }>,
     '/podcasts/createPodcast': RouteRecordInfo<'/podcasts/createPodcast', '/podcasts/createPodcast', Record<never, never>, Record<never, never>>,
     '/podcasts/followings': RouteRecordInfo<'/podcasts/followings', '/podcasts/followings', Record<never, never>, Record<never, never>>,
     '/podcasts/mypods': RouteRecordInfo<'/podcasts/mypods', '/podcasts/mypods', Record<never, never>, Record<never, never>>,

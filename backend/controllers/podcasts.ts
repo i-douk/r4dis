@@ -45,7 +45,7 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
   res.json(podcastsWithFollowCount.map((podcast) => new PodcastDTO(podcast)));
 });
 
-// fetch all porcasts added by a podcaster //
+// fetch all podcasts added by a podcaster //
 podcastsRouter.get("/:username", async (req: Request, res: Response) => {
   const podcaster = await models.Podcaster.findOne({
     where: { username: req.params.username },
@@ -60,6 +60,7 @@ podcastsRouter.get("/:username", async (req: Request, res: Response) => {
     res.status(404).json({ error: "podcaster not found" });
   }
 });
+
 // add podcast by current podcaster //
 podcastsRouter.post(
   "/:username",
@@ -110,13 +111,14 @@ podcastsRouter.put(
   authenticate,
   async (req: Request, res: Response) => {
     const podcastId = req.params.id;
-    const { name, description, transcribed, urls } = req.body;
+    const { name, description, transcribed, urls ,slug } = req.body;
     const podcastToEdit = await models.Podcast.findByPk(podcastId);
     if (podcastToEdit) {
       podcastToEdit.name = name;
       podcastToEdit.description = description;
       podcastToEdit.transcribed = transcribed;
       podcastToEdit.urls = urls;
+      podcastToEdit.slug = slug;
       await podcastToEdit?.save();
       res.json(podcastToEdit);
     } else {

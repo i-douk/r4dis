@@ -17,7 +17,7 @@ await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
 </script>
 
 <template>
-  <div class=" p-5 grid grid-cols-4 gap-4">
+  <div class=" p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
     <Card class='hover:border-dashed' v-for="podcast in podcastsPerPodcaster">
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
@@ -29,16 +29,25 @@ await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
         >
       </CardHeader>
       <CardContent>
-        was posted by
-        <b>{{
-          podcast.podcaster_id
-        }}</b></CardContent
+        <b></b></CardContent
       >
-      <CardFooter>
+      <CardFooter class='flex gap-2 flex-wrap'>
         <Button>
           <RouterLink
-            :to="{ name: '/podcasts/[id]', params: { id: podcast.id } }"
+            :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
             >See podcast</RouterLink
+          >
+        </Button>
+        <Button>
+          <RouterLink
+            :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
+            >Edit</RouterLink
+          >
+        </Button>
+        <Button variant='destructive'>
+          <RouterLink
+            :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
+            >🗑️</RouterLink
           >
         </Button>
       </CardFooter>
