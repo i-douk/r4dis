@@ -71,8 +71,6 @@ podcastsRouter.post(
       where: { username: req.params.username },
     });
 
-    console.log(podcaster);
-
     // if checked create the podcast
     if (podcaster ) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
