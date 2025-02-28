@@ -48,14 +48,16 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
 });
 
 // GET SINGLE PODCASTER BY ID WITH PUBLIC DATA THROUGH DEFAULTSCOPE
-podcastersRouter.get("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const podcaster = await models.Podcaster.scope("defaultScope").findByPk(id, {
+podcastersRouter.get("/:username", async (req: Request, res: Response) => {
+  const { username } = req.params;  // Changed from 'id' to 'username' to match the parameter
+  
+  const podcaster = await models.Podcaster.scope("defaultScope").findOne({
+    where: { username: username },  // Fixed syntax - removed extra comma and combined where clause
     include: [
       {
         model: models.Podcast,
         as: "podcasts",
-        attributes: { exclude: [""] },
+        attributes: { exclude: [""] },  // Note: empty exclude doesn't do anything
       },
       {
         model: models.User,
@@ -69,6 +71,7 @@ podcastersRouter.get("/:id", async (req: Request, res: Response) => {
       },
     ],
   });
+  
   if (podcaster) {
     const podcasterDTO = new PodcasterDTO(podcaster);
     res.json(podcasterDTO);

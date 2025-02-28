@@ -55,6 +55,11 @@ export default {
         }
       }
     );
+  },
+  async getPodcaster(username:string){
+    return expressClient.get(
+      `/podcasters/${username}`
+    )
   }
   
 }
