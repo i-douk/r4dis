@@ -12,15 +12,15 @@ const { getPodcasts } = podcastsLoader
 
 await getPodcasts()
 
-const handleFollow = async (podcastId: number) => {
+const handleFollow = async (podcast, podcastId: number) => {
   const response = await expressService.followPodcast(podcastId, userProfile.value.id)
   if (response.status === 201) {
     toast({
-      title: ' You just followed this pod',
+      title: `You just followed ${podcast}`,
     })
   } else if (response.status === 422) {
     toast({
-      title: ' You are already following this pod',
+      title: `You are already following ${podcast}`,
     })
   }
 }
@@ -43,7 +43,7 @@ const handleFollow = async (podcastId: number) => {
             >See podcast</RouterLink
           >
         </Button>
-        <Button @click="handleFollow(podcast.id)" variant="outline"> ♥ Follow </Button>
+        <Button @click="handleFollow(podcast.name,podcast.id)" variant="outline"> ♥ Follow </Button>
       </CardFooter>
     </Card>
   </div>
