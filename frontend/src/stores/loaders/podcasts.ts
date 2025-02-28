@@ -6,8 +6,8 @@ import {
 } from '@/services/supaQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
-import expressService from '@/services/expressQueries';
-import type { Tables } from 'database/types';
+import expressService from '@/services/expressQueries'
+import type { Tables } from 'database/types'
 
 export const usePodcastsStore = defineStore('podcasts-store', () => {
   const podcastsPerPodcaster = ref<PodcastsPerPodcaster | null>(null)

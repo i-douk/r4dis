@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
-import { z } from "zod";
+import { z } from 'zod'
 
 export const tokenExtractor = async () => {
   const { data, error } = await supabase.auth.getSession()
@@ -11,11 +11,11 @@ export const tokenExtractor = async () => {
 export function toSlug(str: string) {
   return str
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '') 
+    .replace(/[^a-z0-9\s]/g, '')
     .trim()
-    .replace(/\s+/g, '-');
+    .replace(/\s+/g, '-')
 }
 
-export function isValidSlug(slug:string) {
-  return /^[a-z0-9-]+$/.test(slug);
+export function isValidSlug(slug: string) {
+  return /^[a-z0-9-]+$/.test(slug)
 }

@@ -52,14 +52,11 @@ export default {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${await tokenExtractor()}`,
-        }
-      }
-    );
-  },
-  async getPodcaster(username:string){
-    return expressClient.get(
-      `/podcasters/${username}`
+        },
+      },
     )
-  }
-  
+  },
+  async getPodcaster(username: string) {
+    return expressClient.get(`/podcasters/${username}`)
+  },
 }

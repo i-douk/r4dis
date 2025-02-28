@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
-const { userProfile ,podcasterProfile } = storeToRefs(authStore)
+const { userProfile, podcasterProfile } = storeToRefs(authStore)
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
 import { useWindowSize } from '@vueuse/core'
-import { computed } from "vue";
+import { computed } from 'vue'
 // Define event emitter to notify parent
-const emit = defineEmits(['closeSidebar']);
-const { width } = useWindowSize();
+const emit = defineEmits(['closeSidebar'])
+const { width } = useWindowSize()
 const isSmallScreen = computed(() => width.value < 1024)
 defineProps({
   isSidebarOpen: Boolean,
-});
+})
 
 console.log(podcasterProfile.value)
 
@@ -36,12 +36,11 @@ const discoverylinks = [
 const userActivitylinks = [
   {
     title: '💛 Followings',
-    to: '/podcasts/followings'
-
+    to: '/podcasts/followings',
   },
   {
     title: '€ Subscriptions',
-    to: '/podcasters/subscriptions'
+    to: '/podcasters/subscriptions',
   },
 ]
 const podcasterActivitylinks = [
@@ -79,7 +78,7 @@ const closeSidebar = () => {
 }
 </script>
 <template>
-  <div :class="['w-full flex-nowrap', isSidebarOpen? 'lg:border-r-2 border-dotted':'']">
+  <div :class="['w-full flex-nowrap', isSidebarOpen ? 'lg:border-r-2 border-dotted' : '']">
     <div class="px-3 py-2">
       <div class="text-xl font-semibold p-1 mb-1">Discover</div>
       <div class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
@@ -96,7 +95,13 @@ const closeSidebar = () => {
         </Button>
       </div>
 
-      <div :class="['my-2 border-b-2 border-dotted', isSidebarOpen? 'lg:border-r-2 border-dotted':'']" v-if="userProfile || podcasterProfile"></div>
+      <div
+        :class="[
+          'my-2 border-b-2 border-dotted',
+          isSidebarOpen ? 'lg:border-r-2 border-dotted' : '',
+        ]"
+        v-if="userProfile || podcasterProfile"
+      ></div>
 
       <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         My activity

@@ -16,12 +16,12 @@ const handleLogout = async () => {
         <img
           alt="r4dis logo"
           src="@/assets/logo.png"
-          class="hidden sm:block w-[175px] h-auto ml-2"
+          class="hidden sm:block w-[150px] h-auto justify-center mt-2"
         />
         <img
           alt="r4dis logo"
           src="@/assets/wordmark-logo.png"
-          class="sm:hidden -ml-2 w-[60px] h-auto  mt-4"
+          class="sm:hidden -ml-2 w-[60px] h-auto mt-4"
         />
       </RouterLink>
       <nav>
@@ -37,10 +37,7 @@ const handleLogout = async () => {
             >Sign in</RouterLink
           >
           <div class="sm:mt-2 lg:-mt-1 md:-mt-1">
-            <Button
-              v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'"
-          
-            >
+            <Button v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'">
               <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>
             </Button>
           </div>
