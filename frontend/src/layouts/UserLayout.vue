@@ -6,6 +6,8 @@ const { pageData } = storeToRefs(usePageStore())
 const isSidebarOpen = ref(true)
 </script>
 <template>
+    <div class="relative -inset-px bg-gradient-to-r from-[#050505] via-[#1b1a1a] to-[#050505]">
+
   <div class="min-h-screen flex flex-col justify-between">
     <!-- TopBar -->
     <div class="flex flex-row border-b-2 border-dotted">
@@ -41,5 +43,6 @@ const isSidebarOpen = ref(true)
       </main>
     </div>
     <Footer />
+  </div>
   </div>
 </template>

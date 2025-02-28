@@ -39,7 +39,7 @@ const handleLogout = async () => {
           <div class="sm:mt-2 lg:-mt-1 md:-mt-1">
             <Button
               v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'"
-              variant="outline"
+          
             >
               <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>
             </Button>

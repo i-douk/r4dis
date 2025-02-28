@@ -30,10 +30,7 @@ app.use(express.json());
 
 const server = createServer(app);
 const io = new Server(server, {
-  path: "http://localhost:3000/api/",
-  cors: {
-    origin :["http://localhost:5173/"]
-  }
+  path: "http://localhost:3001"
 });
 
 io.on('connection', (_socket) => {
