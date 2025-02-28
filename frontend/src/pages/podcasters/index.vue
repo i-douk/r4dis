@@ -1,13 +1,27 @@
 <script setup lang="ts">
-import { usePodcastersStore } from '@/stores/loaders/podcasters'
-
-usePageStore().pageData.title = 'Podcasters'
-
-const podcastersLoader = usePodcastersStore()
-const { podcasters } = storeToRefs(podcastersLoader)
-const { getPodcasters } = podcastersLoader
-
+import { usePodcastersStore } from '@/stores/loaders/podcasters';
+import { useAuthStore } from '@/stores/auth'
+usePageStore().pageData.title = 'Podcasters';
+import expressService from '@/services/expressQueries';
+const authStore = useAuthStore();
+const podcastersLoader = usePodcastersStore();
+const { podcasters } = storeToRefs(podcastersLoader);
+const { getPodcasters } = podcastersLoader;
+const { userProfile } = storeToRefs(authStore);
 await getPodcasters()
+
+const handleSubscribe = async (podcasterId: string) => {
+  const response = await expressService.subscribeToPodcaster(podcasterId, userProfile.value.id)
+  if (response.status === 201) {
+    toast({
+      title: ' You just subscribed to this pod',
+    })
+  } else if (response.status === 422) {
+    toast({
+      title: ' You are already subscribed to this podcaster',
+    })
+  }
+}
 </script>
 
 <template>
@@ -17,7 +31,7 @@ await getPodcasters()
         <CardTitle>{{ podcaster.username }}</CardTitle>
         <CardDescription
           >{{
-            podcaster.subscriptioncount ? podcaster.subscriptioncount : 0
+            podcaster.subscriberscount ? podcaster.subscriberscount : 0
           }}
           subscriptions</CardDescription
         >
@@ -31,14 +45,14 @@ await getPodcasters()
         }}</b></CardContent
       >
       <CardFooter>
-        <div class="flex gap-2">
+        <div class="flex gap-2 flex-wrap">
           <Button>
             <RouterLink
               :to="{ name: '/podcasters/[username]', params: { username: podcaster.username } }"
               >See podcaster</RouterLink
             >
           </Button>
-          <Button @click="handleSubscribe(podcast.id)" variant="outline"> 🎁 Subscribe </Button>
+          <Button @click="handleSubscribe(podcaster.id)" variant="outline"> ⭐ Subscribe </Button>
         </div>
       </CardFooter>
     </Card>

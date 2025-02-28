@@ -13,7 +13,7 @@ followingRouter.get(
   },
 );
 
-// ADD FOLLOWING RELATION BETWEEN
+// ADD FOLLOWING RELATION BETWEEN user and podcast
 followingRouter.post(
   "/",
   authenticate,

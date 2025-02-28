@@ -47,7 +47,19 @@ export default {
   async followPodcast(podcastId: any, userId: string) {
     return expressClient.post(
       `/followings`,
-      { podcastId, userId }, // Data object inside the function
+      { podcastId, userId },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${await tokenExtractor()}`,
+        },
+      },
+    )
+  },
+  async subscribeToPodcaster(podcasterId: string, userId: string) {
+    return expressClient.post(
+      `/subscriptions`,
+      { podcasterId, userId , stipend: 0}, 
       {
         headers: {
           'Content-Type': 'application/json',

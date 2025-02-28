@@ -26,32 +26,27 @@ subscriptionsRouter.post(
   "/",
   authenticate,
   async (req, res) => {
-    const role  = 'admin';
-    if (role === "admin") {
-      const { userId, podcasterId, stipend } = req.body;
-      const existingSusbcription = await models.Subscription.findOne({
-        where: { userId: userId, podcasterId: podcasterId },
-      });
-      if (!existingSusbcription) {
-        const subscriptionAddition = {
-          podcasterId,
-          userId,
-          stipend,
-        };
 
-        await models.Subscription.create(subscriptionAddition);
-        res.status(201).send(subscriptionAddition);
-      } else {
-        res.status(422).json({
-          message:
-            "There is already a subscription relation tying this user to this podcaster",
-        });
-      }
+    const { userId, podcasterId, stipend } = req.body;
+    const existingSusbcription = await models.Subscription.findOne({
+      where: { userId: userId, podcasterId: podcasterId },
+    });
+    if (!existingSusbcription) {
+      const subscriptionToCreate = {
+        podcasterId,
+        userId,
+        stipend,
+      };
+
+      await models.Subscription.create(subscriptionToCreate);
+      res.status(201).send(subscriptionToCreate);
     } else {
-      res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+      res.status(422).json({
+        message:
+            "There is already a subscription relation tying this user to this podcaster",
+      });
     }
+   
   },
 );
 
