@@ -10,6 +10,7 @@ class Podcast extends Model {
   public description?: string;
   public podcastId!: number;
   public slug!: string;
+  public cover_url?: string;
 }
 
 Podcast.init(
@@ -38,6 +39,9 @@ Podcast.init(
     slug : {
       type : DataTypes.STRING,
       allowNull: false
+    },
+    cover_url : {
+      type : DataTypes.STRING
     }
   },
   {

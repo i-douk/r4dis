@@ -24,7 +24,6 @@ const handleFollow = async (podcastId: number) => {
     })
   }
 }
-console.log(podcasts.value)
 </script>
 
 <template>

@@ -46,7 +46,7 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
 });
 
 // fetch all podcasts added by a podcaster //
-podcastsRouter.get("/:username", async (req: Request, res: Response) => {
+podcastsRouter.get("/podcaster/:username", async (req: Request, res: Response) => {
   const podcaster = await models.Podcaster.findOne({
     where: { username: req.params.username },
   });
@@ -58,6 +58,17 @@ podcastsRouter.get("/:username", async (req: Request, res: Response) => {
     res.json(podcasts);
   } else {
     res.status(404).json({ error: "podcaster not found" });
+  }
+});
+// fetch specific podcast by slug //
+podcastsRouter.get("/:slug", async (req: Request, res: Response) => {
+  const podcast = await models.Podcast.findOne({
+    where: { slug: req.params.slug },
+  });
+  if (podcast) {
+    res.status(201).json(podcast);
+  } else {
+    res.status(404).json({ error: "no podcast matches this slug" });
   }
 });
 

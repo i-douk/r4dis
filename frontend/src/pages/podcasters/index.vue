@@ -8,7 +8,6 @@ const { podcasters } = storeToRefs(podcastersLoader)
 const { getPodcasters } = podcastersLoader
 
 await getPodcasters()
-console.log(podcasters.value)
 </script>
 
 <template>

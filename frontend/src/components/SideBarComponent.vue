@@ -13,8 +13,6 @@ defineProps({
   isSidebarOpen: Boolean,
 })
 
-console.log(podcasterProfile.value)
-
 const discoverylinks = [
   {
     title: '📋 Feed',
@@ -83,26 +81,19 @@ const closeSidebar = () => {
       <div class="text-xl font-semibold p-1 mb-1">Discover</div>
       <div class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
         <Button
-          v-for="link in discoverylinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
-          @click="closeSidebar"
+        v-for="link in discoverylinks"
+        :key="link.to"
+        variant="ghost"
+        class="w-full justify-start"
+        @click="closeSidebar"
         >
-          <RouterLink :to="link.to">
-            {{ link.title }}
-          </RouterLink>
-        </Button>
-      </div>
-
-      <div
-        :class="[
-          'my-2 border-b-2 border-dotted',
-          isSidebarOpen ? 'lg:border-r-2 border-dotted' : '',
-        ]"
-        v-if="userProfile || podcasterProfile"
-      ></div>
-
+        <RouterLink :to="link.to">
+          {{ link.title }}
+        </RouterLink>
+      </Button>
+    </div>
+    <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
+    
       <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         My activity
       </div>
@@ -142,7 +133,7 @@ const closeSidebar = () => {
       </div>
 
       <div
-        v-show="userProfile || podcasterProfile"
+        v-if="userProfile?.id || podcasterProfile?.id"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
         <Button
@@ -158,10 +149,10 @@ const closeSidebar = () => {
         </Button>
       </div>
 
-      <div class="my-2 border-b-2 border-dotted" v-if="userProfile || podcasterProfile"></div>
+      <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
 
       <div
-        v-show="userProfile || podcasterProfile"
+        v-if="userProfile || podcasterProfile"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
         <Button class="justify-start" variant="ghost">

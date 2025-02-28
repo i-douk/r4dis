@@ -2,7 +2,6 @@ import {
   podcastsPerPodcasterQuery,
   podcastsQuery,
   type PodcastsPerPodcaster,
-  type Podcasts,
 } from '@/services/supaQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
@@ -10,7 +9,7 @@ import expressService from '@/services/expressQueries'
 import type { Tables } from 'database/types'
 
 export const usePodcastsStore = defineStore('podcasts-store', () => {
-  const podcastsPerPodcaster = ref<PodcastsPerPodcaster | null>(null)
+  const podcastsPerPodcaster = ref<PodcastsPerPodcaster[] | null>([])
   const podcasts = ref<null | Tables<'podcasts'>>(null)
 
   const loadPodcasts = useMemoize(async (key: string) => {
@@ -58,8 +57,7 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
 
   const getPodcasts = async () => {
     podcasts.value = null
-    const { data, error, status } = await loadPodcasts('Podcasts')
-    if (error) console.log(error, status)
+    const { data } = await loadPodcasts('podcasts')
     if (data) podcasts.value = data
     validateCache({
       ref: podcasts,

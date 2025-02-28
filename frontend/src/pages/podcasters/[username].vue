@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import expressService from '@/services/expressQueries'
 const { username } = useRoute('/podcasters/[username]').params
+usePageStore().pageData.title = username + "\'s is rad"
 import { getPublicUrl } from '@/services/supaQueries'
 const fetchPodcaster = async (username: string) => {
   return await expressService.getPodcaster(username)
 }
 
-usePageStore().pageData.title = username + "\'s page"
 const response = await fetchPodcaster(username)
 console.log(response.data)
 const podcasterData = response.data

@@ -14,6 +14,7 @@ export class PodcastDTO {
   public transcribed: boolean;
   public urls: string[];
   public slug: string;
+  public cover_url?: string;
   public podcaster: PodcasterDTO;
   public followers?: UserDTO[];
   public following?: FollowingDTO;
@@ -24,6 +25,7 @@ export class PodcastDTO {
     this.name = podcast.name;
     this.urls = podcast.urls;
     this.slug = podcast.slug;
+    this.cover_url = podcast.cover_url;
     this.avatar_url = podcast.avatar_url;
     this.updated_at = podcast.updated_at;
     this.followerscount = podcast.followerscount;
