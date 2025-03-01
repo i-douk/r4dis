@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useUsersStore } from '@/stores/loaders/users'
 import { useAuthStore } from '@/stores/auth'
 import type { ColumnDef } from '@tanstack/vue-table'
 import { h } from 'vue'
-
 // Stores
 const authStore = useAuthStore()
 const { userProfile } = storeToRefs(authStore)
 const myUserLoader = useUsersStore()
 const { singleUser } = storeToRefs(myUserLoader)
 const { getSingleUser } = myUserLoader
-const followings: Following[]= []
 // State
 
 interface Following {
@@ -21,25 +18,39 @@ interface Following {
     id: string
     starred: boolean
   }
-}
-
-  if (userProfile.value?.username && singleUser.value) {
-    await getSingleUser(userProfile.value.username)
-    followings = singleUser.value.followings || [] 
-  }
+} 
 
 // Columns for the table
 const columns: ColumnDef<Following>[] = [
   {
-    accessorKey: 'following',
-    header: () => h('div', { class: 'text-right' }, 'Podcast'),
+    accessorKey: 'name',
+    header: () => h('div', { class: 'text-right' }, 'followed podcast'),
     cell: ({ row }) => {
       const podcast = String(row.getValue('name'))
       return h('div', { class: 'text-right font-medium' }, podcast)
     },
   },
+  {
+    accessorKey: 'slug',
+    header: () => h('div', { class: 'text-right' }, 'see podcast'),
+    cell: ({ row }) => {
+      const slug = String(row.getValue('slug'))
+      return h('div', { class: 'text-right font-medium' }, slug)
+    },
+  },
+  {
+    accessorKey: 'following',
+    header: () => h('div', { class: 'text-right' }, 'Fav'),
+    cell: ({ row }) => {
+      let rendered = ''
+      const following = Object(row.getValue('following'))
+      following.starred? rendered = 'yes' : "no"
+      return h('div', { class: 'text-right font-medium' }, rendered)
+    },
+  },
 ]
-console.log(followings)
+await getSingleUser(userProfile.value.username)
+const followings = singleUser.value.followings
 </script>
 
 <template>
