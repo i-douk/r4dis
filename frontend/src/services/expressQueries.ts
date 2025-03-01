@@ -59,7 +59,7 @@ export default {
   async subscribeToPodcaster(podcasterId: string, userId: string) {
     return expressClient.post(
       `/subscriptions`,
-      { podcasterId, userId , stipend: 0}, 
+      { podcasterId, userId, stipend: 0 },
       {
         headers: {
           'Content-Type': 'application/json',

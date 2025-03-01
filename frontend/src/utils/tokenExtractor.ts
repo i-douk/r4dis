@@ -6,5 +6,3 @@ export const tokenExtractor = async () => {
   const token = data.session?.access_token
   return token
 }
-
-

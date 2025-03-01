@@ -17,7 +17,7 @@ onMounted(() => {
         <RouterView />
       </template>
       <template #fallback>
-        <div>Loading page...</div>
+        <iconify-icon icon="lucide:loader-circle"></iconify-icon>
       </template>
     </Suspense>
   </UserLayout>

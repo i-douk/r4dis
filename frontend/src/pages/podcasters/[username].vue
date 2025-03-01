@@ -40,19 +40,16 @@ console.log(podcasterData)
         {{ podcasterData.subscriptioncount ? podcasterData.subscriptioncount : 0 }} people
         subscribed
       </div>
-      <div class="flex flex-col gap-2">
-      </div>
+      <div class="flex flex-col gap-2"></div>
       <ul class="flex flex-wrap">
         <li v-for="link in podcasterData.links">
           <Button variant="outline"> 🔗 {{ link }}</Button>
         </li>
       </ul>
-      <div>
-        about: {{ podcasterData.about }}
-      </div>
+      <div>about: {{ podcasterData.about }}</div>
     </div>
     <div>
-      <h3> Podcasts</h3>
+      <h3>Podcasts</h3>
       <ul>
         <li v-for="podcast in podcasterData.podcasts">
           {{ podcast.title }}

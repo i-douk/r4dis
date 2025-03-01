@@ -9,8 +9,8 @@ import expressService from '@/services/expressQueries'
 import type { Tables } from 'database/types'
 
 export const usePodcastsStore = defineStore('podcasts-store', () => {
-  const podcastsPerPodcaster = ref<PodcastsPerPodcaster[] | null>([])
-  const podcasts = ref<null | Tables<'podcasts'>>(null)
+  const podcastsPerPodcaster = ref<PodcastsPerPodcaster | null>(null)
+  const podcasts = ref<null | Tables<'podcasts'>[]>(null)
 
   const loadPodcasts = useMemoize(async (key: string) => {
     return await expressService.getPodcasts()

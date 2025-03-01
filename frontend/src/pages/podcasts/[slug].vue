@@ -23,8 +23,12 @@ console.log(podcastData)
     </RouterLink>
     <div class="flex flex-col justify-between border border-dashed rounded-sm p-8">
       <div class="flex justify-start gap-5 flex-wrap">
-          <img v-if="podcastData.cover_url" :src="getPublicUrl(podcastData.cover_url) || ''" alt="Podcast Cover" />
-          <img v-else src="@/assets/r4dis-cover.png" alt="Podcast Cover" />
+        <img
+          v-if="podcastData.cover_url"
+          :src="getPublicUrl(podcastData.cover_url) || ''"
+          alt="Podcast Cover"
+        />
+        <img v-else src="@/assets/r4dis-cover.png" alt="Podcast Cover" />
         <div class="text-xl font-bold mt-10">
           {{ podcastData.name }}
         </div>
@@ -34,21 +38,16 @@ console.log(podcastData)
         </div>
       </div>
       <div class="text-neutral-400 text-sm text-center">
-        {{ podcastData.followcount ? podcastData.followcount : 0 }} people
-        are following
+        {{ podcastData.followcount ? podcastData.followcount : 0 }} people are following
       </div>
-      <div class="flex flex-col gap-2">
-      </div>
+      <div class="flex flex-col gap-2"></div>
       <ul class="flex flex-wrap">
         <li v-for="url in podcastData.urls">
           <Button variant="outline"> 🔗 {{ url }}</Button>
         </li>
       </ul>
-      <div>
-        description: {{ podcastData.description }}
-      </div>
+      <div>description: {{ podcastData.description }}</div>
     </div>
-    <div>
-    </div>
+    <div></div>
   </div>
 </template>

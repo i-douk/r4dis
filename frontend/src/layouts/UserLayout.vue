@@ -34,7 +34,7 @@ const isSidebarOpen = ref(true)
         <!-- Main Content -->
         <main
           :class="[isSidebarOpen ? 'lg:col-span-6 p-10 flex-grow' : 'lg:col-span-7 p-10 flex-grow']"
-            :key="$route.fullPath"
+          :key="$route.fullPath"
         >
           <div class="flex items-grow">
             <h1 class="text-lg font-semibold md:text-xl">

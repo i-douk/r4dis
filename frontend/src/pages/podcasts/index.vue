@@ -43,7 +43,9 @@ const handleFollow = async (podcast, podcastId: number) => {
             >See podcast</RouterLink
           >
         </Button>
-        <Button @click="handleFollow(podcast.name,podcast.id)" variant="outline"> ♥ Follow </Button>
+        <Button @click="handleFollow(podcast.name, podcast.id)" variant="outline">
+          ♥ Follow
+        </Button>
       </CardFooter>
     </Card>
   </div>

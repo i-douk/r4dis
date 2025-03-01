@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { usePodcastersStore } from '@/stores/loaders/podcasters';
+import { usePodcastersStore } from '@/stores/loaders/podcasters'
 import { useAuthStore } from '@/stores/auth'
-usePageStore().pageData.title = 'Podcasters';
-import expressService from '@/services/expressQueries';
-const authStore = useAuthStore();
-const podcastersLoader = usePodcastersStore();
-const { podcasters } = storeToRefs(podcastersLoader);
-import { toast } from '@/components/ui/toast/use-toast';
-const { getPodcasters } = podcastersLoader;
-const { userProfile } = storeToRefs(authStore);
+usePageStore().pageData.title = 'Podcasters'
+import expressService from '@/services/expressQueries'
+const authStore = useAuthStore()
+const podcastersLoader = usePodcastersStore()
+const { podcasters } = storeToRefs(podcastersLoader)
+import { toast } from '@/components/ui/toast/use-toast'
+const { getPodcasters } = podcastersLoader
+const { userProfile } = storeToRefs(authStore)
 await getPodcasters()
 console.log(podcasters.value)
 const handleSubscribe = async (podcaster, podcasterId: string) => {
@@ -53,7 +53,9 @@ const handleSubscribe = async (podcaster, podcasterId: string) => {
               >See podcaster</RouterLink
             >
           </Button>
-          <Button @click="handleSubscribe(podcaster.username,podcaster.id)" variant="outline"> ⭐ Subscribe </Button>
+          <Button @click="handleSubscribe(podcaster.username, podcaster.id)" variant="outline">
+            ⭐ Subscribe
+          </Button>
         </div>
       </CardFooter>
     </Card>

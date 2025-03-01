@@ -58,6 +58,7 @@ declare module 'vue' {
     SheetTitle: typeof import('./src/components/ui/sheet/SheetTitle.vue')['default']
     SheetTrigger: typeof import('./src/components/ui/sheet/SheetTrigger.vue')['default']
     SideBarComponent: typeof import('./src/components/SideBarComponent.vue')['default']
+    SideBarLinks: typeof import('./src/components/SideBarLinks.vue')['default']
     Skeleton: typeof import('./src/components/ui/skeleton/Skeleton.vue')['default']
     Textarea: typeof import('./src/components/ui/textarea/Textarea.vue')['default']
     Toast: typeof import('./src/components/ui/toast/Toast.vue')['default']

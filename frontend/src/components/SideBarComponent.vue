@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 const { userProfile, podcasterProfile } = storeToRefs(authStore)
+import SideBarLinks from './SideBarLinks.vue'
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
 import { useWindowSize } from '@vueuse/core'
@@ -15,46 +16,55 @@ defineProps({
 
 const discoverylinks = [
   {
-    title: '📋 Feed',
+    title: ' Feed',
     to: '/',
+    icon: 'lucide:book-open-text',
   },
   {
-    title: '🎙️ Podcasters',
+    title: ' Podcasters',
     to: '/podcasters',
+    icon: 'lucide:mic',
   },
   {
-    title: '🎧 Podcasts',
+    title: ' Podcasts',
     to: '/podcasts',
+    icon: 'lucide:headphones',
   },
 ]
 const userActivitylinks = [
   {
-    title: '💛 Followings',
+    title: 'Followings',
     to: '/podcasts/followings',
+    icon: 'lucide:heart-handshake',
   },
   {
-    title: '€ Subscriptions',
+    title: 'Subscriptions',
     to: '/podcasters/subscriptions',
+    icon: 'lucide:award',
   },
 ]
 const podcasterActivitylinks = [
   {
-    title: '📡 My Pods',
+    title: 'My Pods',
     to: '/podcasts/mypods',
+    icon: 'lucide:satellite-dish',
   },
   {
-    title: '📊 Insights',
+    title: 'Insights',
     to: '/podcasters/insights',
+    icon: 'lucide:chart-line',
   },
 ]
 const settingLinks = [
   {
-    title: '⚙️ My settings',
+    title: 'My settings',
     to: '/account/settings',
+    icon: 'lucide:settings',
   },
   {
-    title: '❓ Help',
+    title: 'Help',
     to: '/help',
+    icon: 'lucide:circle-help',
   },
 ]
 
@@ -75,52 +85,21 @@ const closeSidebar = () => {
   <div :class="['w-full flex-nowrap', isSidebarOpen ? 'lg:border-r-2 border-dotted' : '']">
     <div class="px-3 py-2">
       <div class="text-xl font-semibold p-1 mb-1">Discover</div>
-      <div class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
-        <Button
-        v-for="link in discoverylinks"
-        :key="link.to"
-        variant="ghost"
-        class="w-full justify-start"
-        @click="closeSidebar"
-        >
-        <RouterLink :to="link.to">
-          {{ link.title }}
-        </RouterLink>
-      </Button>
-    </div>
-    <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
-    
+      <SideBarLinks :links="discoverylinks" :closeSidebar="closeSidebar" />
+      <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
+
       <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
         My activity
       </div>
 
       <div v-show="podcasterProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
-        <Button
-          v-for="link in podcasterActivitylinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
-          @click="closeSidebar"
-        >
-          <RouterLink :to="link.to">
-            {{ link.title }}
-          </RouterLink>
-        </Button>
+        <SideBarLinks :links="podcasterActivitylinks" :closeSidebar="closeSidebar" />
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
 
       <div v-show="userProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
-        <Button
-          v-for="link in userActivitylinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
-          @click="closeSidebar"
-        >
-          <RouterLink :to="link.to">
-            {{ link.title }}
-          </RouterLink>
-        </Button>
+        <SideBarLinks :links="userActivitylinks" :closeSidebar="closeSidebar" />
+
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
 
@@ -139,6 +118,7 @@ const closeSidebar = () => {
           class="w-full justify-start"
           @click="closeSidebar"
         >
+          <iconify-icon :icon="link.icon"></iconify-icon>
           <RouterLink :to="link.to">
             {{ link.title }}
           </RouterLink>
@@ -152,7 +132,8 @@ const closeSidebar = () => {
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
         <Button class="justify-start" variant="ghost">
-          <a @click.prevent="handleLogout"> ⏻ Log out</a>
+          <iconify-icon icon="lucide:log-out"></iconify-icon>
+          <a @click.prevent="handleLogout">Log out</a>
         </Button>
       </div>
     </div>
