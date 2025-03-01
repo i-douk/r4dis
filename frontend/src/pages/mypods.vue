@@ -9,7 +9,7 @@ const { podcasterProfile } = storeToRefs(authStore)
 const myPodsLoader = usePodcastsStore()
 const { podcastsPerPodcaster } = storeToRefs(myPodsLoader)
 const { getPodcastsPerPodcaster } = myPodsLoader
-const formatTimeAgo = (date: string | number | dayjs.Dayjs | Date | null | undefined) => {
+const formatTimeAgo = (date: string | number | Date | dayjs.Dayjs | null | undefined) => {
   return dayjs(date).fromNow()
 }
 

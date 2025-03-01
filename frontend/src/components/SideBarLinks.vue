@@ -19,11 +19,8 @@ defineProps<{
       class="w-full justify-start"
       @click="closeSidebar"
     >
-      <iconify-icon 
-      :icon="link.icon"></iconify-icon>
-      <RouterLink
-      activeClass="font-bold text-green-200"
-      :to="link.to">
+      <iconify-icon :icon="link.icon"></iconify-icon>
+      <RouterLink activeClass="font-bold text-green-200" :to="link.to">
         {{ link.title }}
       </RouterLink>
     </Button>

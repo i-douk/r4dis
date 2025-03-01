@@ -11,10 +11,12 @@ const isSidebarOpen = ref(true)
       <!-- TopBar -->
       <div class="flex flex-row border-b-2 border-dotted">
         <button
-          class="flex-none p-2 m-2 cursor-pointer text-xl hover:underline"
+          class="p-5 mt-2 text-xl cursor-pointer hover:text-green-200"
           @click="isSidebarOpen = !isSidebarOpen"
         >
-        <iconify-icon :icon="isSidebarOpen? 'lucide:panel-left-close': 'lucide:panel-left-open'"></iconify-icon>
+          <iconify-icon
+            :icon="isSidebarOpen ? 'lucide:panel-left-close' : 'lucide:panel-left-open'"
+          ></iconify-icon>
         </button>
         <TopBar class="flex-1" />
       </div>

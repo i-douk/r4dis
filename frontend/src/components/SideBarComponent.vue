@@ -34,19 +34,19 @@ const discoverylinks = [
 const userActivitylinks = [
   {
     title: 'Followings',
-    to: '/podcasts/followings',
+    to: '/followings',
     icon: 'lucide:heart-handshake',
   },
   {
     title: 'Subscriptions',
-    to: '/podcasters/subscriptions',
+    to: '/subscriptions',
     icon: 'lucide:award',
   },
 ]
 const podcasterActivitylinks = [
   {
     title: 'My Pods',
-    to: '/podcasts/mypods',
+    to: '/mypods',
     icon: 'lucide:satellite-dish',
   },
   {
@@ -111,18 +111,7 @@ const closeSidebar = () => {
         v-if="userProfile?.id || podcasterProfile?.id"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
-        <Button
-          v-for="link in settingLinks"
-          :key="link.to"
-          variant="ghost"
-          class="w-full justify-start"
-          @click="closeSidebar"
-        >
-          <iconify-icon :icon="link.icon"></iconify-icon>
-          <RouterLink :to="link.to">
-            {{ link.title }}
-          </RouterLink>
-        </Button>
+        <SideBarLinks :links="settingLinks" :closeSidebar="closeSidebar" />
       </div>
 
       <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>

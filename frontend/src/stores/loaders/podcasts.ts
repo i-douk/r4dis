@@ -1,7 +1,4 @@
-import {
-  podcastsPerPodcasterQuery,
-  type PodcastsPerPodcaster,
-} from '@/services/supaQueries'
+import { podcastsPerPodcasterQuery, type PodcastsPerPodcaster } from '@/services/supaQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
 import expressService from '@/services/expressQueries'

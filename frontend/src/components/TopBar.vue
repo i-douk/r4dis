@@ -69,7 +69,11 @@ const handleLogout = async () => {
           >
             <Avatar class="w-10 h-10 border border-dotted">
               <AvatarImage
-                :src="getPublicUrl(authStore.podcasterProfile?.avatar_url) || ''"
+                :src="
+                  authStore && authStore.podcasterProfile && authStore.podcasterProfile.avatar_url
+                    ? getPublicUrl(authStore.podcasterProfile.avatar_url)
+                    : ''
+                "
                 alt="User Avatar"
               />
               <AvatarFallback class="text-xl">{{

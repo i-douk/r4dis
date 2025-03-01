@@ -50,7 +50,7 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
     validateCache({
       ref: singlePodcaster,
       query: singlePodcasterQuery,
-      key: 'podcasters',
+      key: username,
       loaderFn: loadSinglePodcaster,
     })
   }

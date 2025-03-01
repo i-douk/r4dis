@@ -1,8 +1,8 @@
-import { singleUserQuery, usersQuery, type SingleUser, type Users } from '@/services/supaQueries';
-import { defineStore } from 'pinia';
-import { useMemoize } from '@vueuse/core';
-import expressService from '@/services/expressQueries';
-import type { Tables } from 'database/types';
+import { singleUserQuery, usersQuery, type SingleUser, type Users } from '@/services/supaQueries'
+import { defineStore } from 'pinia'
+import { useMemoize } from '@vueuse/core'
+import expressService from '@/services/expressQueries'
+import type { Tables } from 'database/types'
 export const useUsersStore = defineStore('users-store', () => {
   const singleUser = ref<null | Tables<'users'>>(null)
   const users = ref<Users | null>(null)
@@ -44,7 +44,7 @@ export const useUsersStore = defineStore('users-store', () => {
     validateCache({
       ref: singleUser,
       query: expressService.getSingleUser,
-      key: 'users',
+      key: username,
       loaderFn: loadSingleUser,
     })
   }

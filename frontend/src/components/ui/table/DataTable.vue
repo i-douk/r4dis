@@ -9,11 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import {
-  FlexRender,
-  getCoreRowModel,
-  useVueTable,
-} from '@tanstack/vue-table'
+import { FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table'
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
@@ -21,8 +17,12 @@ const props = defineProps<{
 }>()
 
 const table = useVueTable({
-  get data() { return props.data },
-  get columns() { return props.columns },
+  get data() {
+    return props.data
+  },
+  get columns() {
+    return props.columns
+  },
   getCoreRowModel: getCoreRowModel(),
 })
 </script>
@@ -34,7 +34,8 @@ const table = useVueTable({
         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
           <TableHead v-for="header in headerGroup.headers" :key="header.id">
             <FlexRender
-              v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+              v-if="!header.isPlaceholder"
+              :render="header.column.columnDef.header"
               :props="header.getContext()"
             />
           </TableHead>
@@ -43,7 +44,8 @@ const table = useVueTable({
       <TableBody>
         <template v-if="table.getRowModel().rows?.length">
           <TableRow
-            v-for="row in table.getRowModel().rows" :key="row.id"
+            v-for="row in table.getRowModel().rows"
+            :key="row.id"
             :data-state="row.getIsSelected() ? 'selected' : undefined"
           >
             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
@@ -53,9 +55,7 @@ const table = useVueTable({
         </template>
         <template v-else>
           <TableRow>
-            <TableCell :colspan="columns.length" class="h-24 text-center">
-              No results.
-            </TableCell>
+            <TableCell :colspan="columns.length" class="h-24 text-center"> No results. </TableCell>
           </TableRow>
         </template>
       </TableBody>

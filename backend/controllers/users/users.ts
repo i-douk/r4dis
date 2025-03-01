@@ -77,15 +77,15 @@ usersRouter.get("/:username", async (req: Request, res: Response) => {
 // });
 
 // Get a user by id
-usersRouter.get("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const user = await models.User.scope("defaultScope").findByPk(id);
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ error: "User not found" });
-  }
-});
+// usersRouter.get("/:id", async (req: Request, res: Response) => {
+//   const { id } = req.params;
+//   const user = await models.User.scope("defaultScope").findByPk(id);
+//   if (user) {
+//     res.json(user);
+//   } else {
+//     res.status(404).json({ error: "User not found" });
+//   }
+// });
 
 // Update a user's username
 usersRouter.patch(
