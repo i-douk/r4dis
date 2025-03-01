@@ -26,10 +26,6 @@ const discoverylinks = [
     title: '🎧 Podcasts',
     to: '/podcasts',
   },
-  {
-    title: '👥 Community',
-    to: '/users',
-  },
 ]
 const userActivitylinks = [
   {

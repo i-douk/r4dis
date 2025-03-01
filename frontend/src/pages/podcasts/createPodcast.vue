@@ -4,8 +4,8 @@ import { ref } from 'vue'
 import expressService from '@/services/expressQueries'
 import { useToast } from '@/components/ui/toast/use-toast'
 const { toast } = useToast()
-import { toSlug } from '@/utils/tokenExtractor'
-import { isValidSlug } from '../../utils/tokenExtractor'
+import { toSlug } from '@/utils/slug.ts'
+import { isValidSlug } from '../../utils/slug.ts'
 const authStore = useAuthStore()
 const { podcasterProfile } = storeToRefs(authStore)
 const formData = ref({
