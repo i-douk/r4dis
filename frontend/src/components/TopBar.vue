@@ -15,7 +15,7 @@ const handleLogout = async () => {
       <RouterLink to="/">
         <img
           alt="r4dis logo"
-          src="@/assets/logo.png"
+          src="@/assets/logo-footer.png"
           class="hidden sm:block w-[150px] h-auto justify-center mt-2"
         />
         <img

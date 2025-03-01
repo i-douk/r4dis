@@ -11,7 +11,7 @@ const isSidebarOpen = ref(true)
       <!-- TopBar -->
       <div class="flex flex-row border-b-2 border-dotted">
         <button
-          class="flex-none p-2 m-2 text-xl hover:underline"
+          class="flex-none p-2 m-2 cursor-pointer text-xl hover:underline"
           @click="isSidebarOpen = !isSidebarOpen"
         >
           ၊၊||၊
