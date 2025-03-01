@@ -74,4 +74,7 @@ export default {
   async getPodcast(slug: string) {
     return expressClient.get(`/podcasts/${slug}`)
   },
+  async getSingleUser( username : string) {
+    return expressClient.get(`/users/${username}`)
+  }
 }

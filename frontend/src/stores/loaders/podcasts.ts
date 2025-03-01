@@ -1,6 +1,5 @@
 import {
   podcastsPerPodcasterQuery,
-  podcastsQuery,
   type PodcastsPerPodcaster,
 } from '@/services/supaQueries'
 import { defineStore } from 'pinia'
@@ -21,7 +20,7 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
 
   interface ValidateCacheParams {
     ref: typeof podcasts | typeof podcastsPerPodcaster
-    query: typeof podcastsQuery | typeof podcastsPerPodcasterQuery
+    query: typeof expressService.getPodcasts | typeof podcastsPerPodcasterQuery
     key: string
     loaderFn: typeof loadPodcasts | typeof loadPodcastsPerPodcaster
   }
@@ -30,12 +29,11 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
     if (ref.value) {
       const finalQuery = typeof query === 'function' ? query(key) : query
 
-      finalQuery.then(({ data, error }) => {
+      finalQuery.then(({ data }) => {
         if (JSON.stringify(ref.value) === JSON.stringify(data)) {
           return
         } else {
           loaderFn.delete(key)
-          if (!error && data) ref.value = data
         }
       })
     }
@@ -61,7 +59,7 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
     if (data) podcasts.value = data
     validateCache({
       ref: podcasts,
-      query: podcastsQuery,
+      query: expressService.getPodcasts,
       key: 'podcasts',
       loaderFn: loadPodcasts,
     })

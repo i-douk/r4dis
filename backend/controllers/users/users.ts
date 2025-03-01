@@ -34,28 +34,30 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
   }
 });
 //get single user by id withsubscriptions to podcasters and  followed podcasts
-usersRouter.get("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const user = await models.User.scope("defaultScope").findByPk(id, {
-    include: [
-      {
-        model: models.Podcast,
-        as: "followings",
-        attributes: { exclude: [] },
-        through: {
-          attributes: { exclude: ["userId", "podcastId"] },
+usersRouter.get("/:username", async (req: Request, res: Response) => {
+  const { username } = req.params;
+  const user = await models.User.scope("defaultScope").findOne(
+    {
+      where: {username : username},
+      include: [
+        {
+          model: models.Podcast,
+          as: "followings",
+          attributes: { exclude: [] },
+          through: {
+            attributes: { exclude: ["userId", "podcastId"] },
+          },
         },
-      },
-      {
-        model: models.Podcaster,
-        as: "subscriptions",
-        attributes: { exclude: ["email", "premium", "disabled"] },
-        through: {
-          attributes: { exclude: ["userId", "podcasterId"] },
+        {
+          model: models.Podcaster,
+          as: "subscriptions",
+          attributes: { exclude: ["email", "premium", "disabled"] },
+          through: {
+            attributes: { exclude: ["userId", "podcasterId"] },
+          },
         },
-      },
-    ],
-  });
+      ],
+    });
   if (user) {
     const userDTO = new UserDTO(user);
     res.json(userDTO);

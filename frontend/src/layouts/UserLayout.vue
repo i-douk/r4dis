@@ -14,7 +14,7 @@ const isSidebarOpen = ref(true)
           class="flex-none p-2 m-2 cursor-pointer text-xl hover:underline"
           @click="isSidebarOpen = !isSidebarOpen"
         >
-          ၊၊||၊
+        <iconify-icon :icon="isSidebarOpen? 'lucide:panel-left-close': 'lucide:panel-left-open'"></iconify-icon>
         </button>
         <TopBar class="flex-1" />
       </div>

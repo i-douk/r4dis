@@ -1,16 +1,16 @@
 import {
   singlePodcasterQuery,
-  podcastersQuery,
   type SinglePodcaster,
   type PodcastersType,
 } from '@/services/supaQueries'
 import expressService from '@/services/expressQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
+import type { Tables } from 'database/types'
 
 export const usePodcastersStore = defineStore('podcasters-store', () => {
   const singlePodcaster = ref<SinglePodcaster | null>(null)
-  const podcasters = ref<PodcastersType | null>(null)
+  const podcasters = ref<null | Tables<'podcasters'>[]>(null)
 
   const loadpodcasters = useMemoize(async (key: string) => {
     return await expressService.getPodcasters()
@@ -21,7 +21,7 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
 
   interface ValidateCacheParams {
     ref: typeof podcasters | typeof singlePodcaster
-    query: typeof podcastersQuery | typeof singlePodcasterQuery
+    query: typeof expressService.getPodcasters | typeof singlePodcasterQuery
     key: string
     loaderFn: typeof loadpodcasters | typeof loadSinglePodcaster
   }
@@ -30,12 +30,12 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
     if (ref.value) {
       const finalQuery = typeof query === 'function' ? query(key) : query
 
-      finalQuery.then(({ data, error }) => {
+      finalQuery.then(({ data }) => {
         if (JSON.stringify(ref.value) === JSON.stringify(data)) {
           return
         } else {
           loaderFn.delete(key)
-          if (!error && data) ref.value = data
+          if (data) ref.value = data
         }
       })
     }
@@ -57,12 +57,11 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
 
   const getPodcasters = async () => {
     podcasters.value = null
-    const { data, error, status } = await loadpodcasters('podcasters')
-    if (error) console.log(error, status)
+    const { data } = await loadpodcasters('podcasters')
     if (data) podcasters.value = data
     validateCache({
       ref: podcasters,
-      query: podcastersQuery,
+      query: expressService.getPodcasters,
       key: 'podcasters',
       loaderFn: loadpodcasters,
     })

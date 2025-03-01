@@ -1,21 +1,22 @@
-import { singleUserQuery, usersQuery, type SingleUser, type Users } from '@/services/supaQueries'
-import { defineStore, acceptHMRUpdate } from 'pinia'
-import { useMemoize } from '@vueuse/core'
-
+import { singleUserQuery, usersQuery, type SingleUser, type Users } from '@/services/supaQueries';
+import { defineStore } from 'pinia';
+import { useMemoize } from '@vueuse/core';
+import expressService from '@/services/expressQueries';
+import type { Tables } from 'database/types';
 export const useUsersStore = defineStore('users-store', () => {
-  const singleUser = ref<SingleUser | null>(null)
+  const singleUser = ref<null | Tables<'users'>>(null)
   const users = ref<Users | null>(null)
 
   const loadUsers = useMemoize(async (key: string) => {
     return await usersQuery
   })
   const loadSingleUser = useMemoize(async (username: string) => {
-    return await singleUserQuery(username)
+    return await expressService.getSingleUser(username)
   })
 
   interface ValidateCacheParams {
     ref: typeof users | typeof singleUser
-    query: typeof usersQuery | typeof singleUserQuery
+    query: typeof usersQuery | typeof expressService.getSingleUser
     key: string
     loaderFn: typeof loadUsers | typeof loadSingleUser
   }
@@ -24,12 +25,12 @@ export const useUsersStore = defineStore('users-store', () => {
     if (ref.value) {
       const finalQuery = typeof query === 'function' ? query(key) : query
 
-      finalQuery.then(({ data, error }) => {
+      finalQuery.then(({ data }) => {
         if (JSON.stringify(ref.value) === JSON.stringify(data)) {
           return
         } else {
           loaderFn.delete(key)
-          if (!error && data) ref.value = data
+          if (data) ref.value = data
         }
       })
     }
@@ -37,13 +38,12 @@ export const useUsersStore = defineStore('users-store', () => {
 
   const getSingleUser = async (username: string) => {
     singleUser.value = null
-    const { data, error, status } = await loadSingleUser(username)
-    if (error) console.log(error, status)
+    const { data } = await loadSingleUser(username)
     if (data) singleUser.value = data
 
     validateCache({
       ref: singleUser,
-      query: singleUserQuery,
+      query: expressService.getSingleUser,
       key: 'users',
       loaderFn: loadSingleUser,
     })
