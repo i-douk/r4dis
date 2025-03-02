@@ -6,11 +6,12 @@ import expressService from '@/services/expressQueries'
 const authStore = useAuthStore()
 const podcastersLoader = usePodcastersStore()
 const { podcasters } = storeToRefs(podcastersLoader)
-import { toast } from '@/components/ui/toast/use-toast'
-const { getPodcasters } = podcastersLoader
-const { userProfile } = storeToRefs(authStore)
-await getPodcasters()
-console.log(podcasters.value)
+import { toast } from '@/components/ui/toast/use-toast';
+const { getPodcasters } = podcastersLoader;
+const { userProfile } = storeToRefs(authStore);
+await getPodcasters();
+import { Award } from 'lucide-vue-next';
+
 const handleSubscribe = async (podcaster, podcasterId: string) => {
   const response = await expressService.subscribeToPodcaster(podcasterId, userProfile.value.id)
   if (response.status === 201) {
@@ -54,7 +55,8 @@ const handleSubscribe = async (podcaster, podcasterId: string) => {
             >
           </Button>
           <Button @click="handleSubscribe(podcaster.username, podcaster.id)" variant="outline">
-            ⭐ Subscribe
+            <Award />
+            Subscribe
           </Button>
         </div>
       </CardFooter>

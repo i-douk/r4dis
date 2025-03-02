@@ -20,7 +20,7 @@ defineProps<{
       @click="closeSidebar"
     >
       <iconify-icon :icon="link.icon"></iconify-icon>
-      <RouterLink activeClass="font-bold text-green-200" :to="link.to">
+      <RouterLink activeClass="font-bold underline decoration-dashed" :to="link.to">
         {{ link.title }}
       </RouterLink>
     </Button>

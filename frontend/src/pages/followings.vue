@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia'
 import { h, onMounted } from 'vue'
 import { Star, StarOff } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button'
+import { RouterLink } from 'vue-router/auto'
 // Page title
 usePageStore().pageData.title = 'My followings list'
 
@@ -47,7 +48,7 @@ const columns: ColumnDef<Following>[] = [
     header: () => h('div', { class: 'text-left text-blue-200' }, ''),
     cell: ({ row }) => {
       const slug = String(row.getValue('slug'))
-      return h('a', { class: 'text-right font-bold text-blue-200', href: `/podcasts/${slug}` }, '@' + slug)
+      return h(RouterLink, { class: 'text-right font-bold text-blue-200 hover:bg-muted', to: `/podcasts/${slug}` }, '@' + slug)
     },
   },
   {

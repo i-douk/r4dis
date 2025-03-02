@@ -2,8 +2,12 @@
 import { storeToRefs } from 'pinia'
 import { usePageStore } from '@/stores/page'
 import Footer from '@/components/Footer.vue'
+import { useWindowSize } from '@vueuse/core'
 const { pageData } = storeToRefs(usePageStore())
+const { width } = useWindowSize()
+const isSmallScreen = computed(() => width.value < 1024)
 const isSidebarOpen = ref(true)
+if (isSmallScreen) isSidebarOpen.value= false
 </script>
 <template>
   <div class="relative -inset-px bg-gradient-to-r from-[#050505] via-[#1b1a1a] to-[#050505]">
@@ -11,7 +15,7 @@ const isSidebarOpen = ref(true)
       <!-- TopBar -->
       <div class="flex flex-row border-b-2 border-dotted">
         <button
-          class="p-5 mt-2 text-xl cursor-pointer hover:text-green-200"
+          class="p-5 mt-2 text-xl cursor-pointer hover:text-gray-400"
           @click="isSidebarOpen = !isSidebarOpen"
         >
           <iconify-icon

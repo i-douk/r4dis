@@ -1,7 +1,7 @@
 <script setup lang="ts">
-usePageStore().pageData.title = 'Settings'
+usePageStore().pageData.title = 'My settings'
 </script>
 
 <template>
-  <div>test div</div>
+  <div></div>
 </template>

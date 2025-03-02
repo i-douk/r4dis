@@ -9,7 +9,7 @@ const { userProfile } = storeToRefs(authStore)
 const podcastsLoader = usePodcastsStore()
 const { podcasts } = storeToRefs(podcastsLoader)
 const { getPodcasts } = podcastsLoader
-
+import { HeartHandshake } from 'lucide-vue-next';
 await getPodcasts()
 
 const handleFollow = async (podcast, podcastId: number) => {
@@ -44,7 +44,8 @@ const handleFollow = async (podcast, podcastId: number) => {
           >
         </Button>
         <Button @click="handleFollow(podcast.name, podcast.id)" variant="outline">
-          ♥ Follow
+          <HeartHandshake />
+          Follow
         </Button>
       </CardFooter>
     </Card>
