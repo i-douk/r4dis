@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ErrorPage from '@/components/ErrorPage.vue'
+</script>
 
 <template>
-  <div class="text-2xl text-orange-700 font-bold">404 NOT FOUND</div>
+  <ErrorPage />
 </template>

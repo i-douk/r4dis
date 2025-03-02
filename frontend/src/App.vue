@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { usePageStore } from '@/stores/page'
-
+import { useErrorStore } from './stores/error'
+const {activeError} = storeToRefs(useErrorStore())
 const authStore = useAuthStore()
 onMounted(() => {
   authStore.trackUserAuthChanges()
@@ -13,10 +14,11 @@ onMounted(() => {
 </script>
 <template>
   <UserLayout>
+    <ErrorPage v-if="activeError"/>
     <Toaster />
     <RouterView v-slot="{Component, route}" >
-    <Suspense v-if="Component" :timeout="0">
-      <template #default>
+      <Suspense v-if="Component" :timeout="0">
+        <template #default>
           <Component  :is="Component" :key="route.name"/>
       </template>
       <template #fallback>
