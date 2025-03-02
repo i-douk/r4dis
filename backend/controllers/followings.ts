@@ -79,24 +79,18 @@ followingRouter.patch(
   "/:id",
   authenticate,
   async (req, res) => {
-    const  role  = 'superuser';
-    if (role === "superuser" || role === "admin") {
-      const { id } = req.params;
-      const followingToStar = await models.Following.findByPk(id);
 
-      if (followingToStar) {
-        followingToStar.starred = true;
-        await followingToStar.save();
-        res.status(201).send(followingToStar);
-      } else {
-        res
-          .status(401)
-          .json({ error: "This following relation does not exist" });
-      }
+    const { id } = req.params;
+    const followingToStar = await models.Following.findByPk(id);
+
+    if (followingToStar) {
+      followingToStar.starred = true;
+      await followingToStar.save();
+      res.status(201).send(followingToStar);
     } else {
       res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+        .status(401)
+        .json({ error: "This following relation does not exist" });
     }
   },
 );
