@@ -13,7 +13,12 @@ const formatTimeAgo = (date: string | number | Date | dayjs.Dayjs | null | undef
   return dayjs(date).fromNow()
 }
 
+if( podcasterProfile && podcasterProfile.value){
+
 await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
+}
+
+
 </script>
 
 <template>

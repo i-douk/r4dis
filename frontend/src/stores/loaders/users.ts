@@ -52,8 +52,8 @@ export const useUsersStore = defineStore('users-store', () => {
   const getUsers = async () => {
     users.value = null
     const { data, error, status } = await loadUsers('users')
-    if (error) console.log(error, status)
-    if (data) users.value = data
+    if (error) useErrorStore().setError({ error, customCode: status })
+      if (data) users.value = data
     validateCache({
       ref: users,
       query: usersQuery,

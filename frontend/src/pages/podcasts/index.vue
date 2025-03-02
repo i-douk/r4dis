@@ -12,7 +12,7 @@ const { getPodcasts } = podcastsLoader
 import { HeartHandshake } from 'lucide-vue-next';
 await getPodcasts()
 
-const handleFollow = async (podcast, podcastId: number) => {
+const handleFollow = async (podcast: any, podcastId: number) => {
   const response = await expressService.followPodcast(podcastId, userProfile.value.id)
   if (response.status === 201) {
     toast({

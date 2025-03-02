@@ -39,7 +39,7 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
   const getPodcastsPerPodcaster = async (podcaster_id: string) => {
     podcastsPerPodcaster.value = null
     const { data, error, status } = await loadPodcastsPerPodcaster(podcaster_id)
-    if (error) console.log(error, status)
+    if (error) useErrorStore().setError({ error, customCode: status })
     if (data) podcastsPerPodcaster.value = data
 
     validateCache({

@@ -44,8 +44,8 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
   const getSinglePodcaster = async (username: string) => {
     singlePodcaster.value = null
     const { data, error, status } = await loadSinglePodcaster(username)
-    if (error) console.log(error, status)
-    if (data) singlePodcaster.value = data
+    if (error) useErrorStore().setError({ error, customCode: status })
+      if (data) singlePodcaster.value = data
 
     validateCache({
       ref: singlePodcaster,

@@ -3,20 +3,24 @@ import { useAuthStore } from '@/stores/auth'
 import { usePageStore } from '@/stores/page'
 import { useErrorStore } from './stores/error'
 const {activeError} = storeToRefs(useErrorStore())
+import ErrorPage from './components/ErrorPage/ErrorPage.vue'
 const authStore = useAuthStore()
+const errorStore = useErrorStore()
 onMounted(() => {
   authStore.trackUserAuthChanges()
   authStore.trackPodcasterAuthChanges()
   usePageStore()
 })
 
-
+onErrorCaptured((error) => {
+  errorStore.setError({error})
+})
 </script>
 <template>
   <UserLayout>
-    <ErrorPage v-if="activeError"/>
     <Toaster />
     <RouterView v-slot="{Component, route}" >
+      <ErrorPage v-if="activeError"/>
       <Suspense v-if="Component" :timeout="0">
         <template #default>
           <Component  :is="Component" :key="route.name"/>
