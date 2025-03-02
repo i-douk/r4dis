@@ -7,7 +7,7 @@ interface LinkProp {
 }
 defineProps<{
   links: LinkProp[]
-  closeSidebar: any
+  closeSidebar: () => void
 }>()
 </script>
 <template>

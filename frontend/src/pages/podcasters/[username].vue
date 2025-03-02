@@ -18,7 +18,7 @@ console.log(podcasterData)
       to="/podcasters"
       class="text-center w-23 font-semibold bg-neutral-800 rounded-sm border border-dotted p-1 hover:border-dashed hover:bg-transparent"
     >
-      < Goback
+      Goback
     </RouterLink>
     <div class="flex flex-col justify-between border border-dashed rounded-sm p-8">
       <div class="flex justify-start gap-5 flex-wrap">
@@ -42,7 +42,7 @@ console.log(podcasterData)
       </div>
       <div class="flex flex-col gap-2"></div>
       <ul class="flex flex-wrap">
-        <li v-for="link in podcasterData.links">
+        <li v-for="link in podcasterData.links" :key="link">
           <Button variant="outline"> 🔗 {{ link }}</Button>
         </li>
       </ul>
@@ -51,7 +51,7 @@ console.log(podcasterData)
     <div>
       <h3>Podcasts</h3>
       <ul>
-        <li v-for="podcast in podcasterData.podcasts">
+        <li v-for="podcast in podcasterData.podcasts" :key="podcast.id">
           {{ podcast.title }}
         </li>
       </ul>

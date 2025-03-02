@@ -6,11 +6,11 @@ import expressService from '@/services/expressQueries'
 const authStore = useAuthStore()
 const podcastersLoader = usePodcastersStore()
 const { podcasters } = storeToRefs(podcastersLoader)
-import { toast } from '@/components/ui/toast/use-toast';
-const { getPodcasters } = podcastersLoader;
-const { userProfile } = storeToRefs(authStore);
-await getPodcasters();
-import { Award } from 'lucide-vue-next';
+import { toast } from '@/components/ui/toast/use-toast'
+const { getPodcasters } = podcastersLoader
+const { userProfile } = storeToRefs(authStore)
+await getPodcasters()
+import { Award } from 'lucide-vue-next'
 
 const handleSubscribe = async (podcaster, podcasterId: string) => {
   const response = await expressService.subscribeToPodcaster(podcasterId, userProfile.value.id)
@@ -28,7 +28,7 @@ const handleSubscribe = async (podcaster, podcasterId: string) => {
 
 <template>
   <div class="p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
-    <Card class="hover:border-dashed" v-for="podcaster in podcasters">
+    <Card class="hover:border-dashed" v-for="podcaster in podcasters" :key="podcaster.id">
       <CardHeader>
         <CardTitle>{{ podcaster.username }}</CardTitle>
         <CardDescription

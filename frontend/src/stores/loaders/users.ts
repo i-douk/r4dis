@@ -1,4 +1,4 @@
-import { singleUserQuery, usersQuery, type SingleUser, type Users } from '@/services/supaQueries'
+import { usersQuery, type Users } from '@/services/supaQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
 import expressService from '@/services/expressQueries'
@@ -53,7 +53,7 @@ export const useUsersStore = defineStore('users-store', () => {
     users.value = null
     const { data, error, status } = await loadUsers('users')
     if (error) useErrorStore().setError({ error, customCode: status })
-      if (data) users.value = data
+    if (data) users.value = data
     validateCache({
       ref: users,
       query: usersQuery,

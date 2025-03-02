@@ -13,17 +13,14 @@ const formatTimeAgo = (date: string | number | Date | dayjs.Dayjs | null | undef
   return dayjs(date).fromNow()
 }
 
-if( podcasterProfile && podcasterProfile.value){
-
-await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
+if (podcasterProfile && podcasterProfile.value) {
+  await getPodcastsPerPodcaster(podcasterProfile?.value?.id)
 }
-
-
 </script>
 
 <template>
   <div class="p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
-    <Card class="hover:border-dashed" v-for="podcast in podcastsPerPodcaster">
+    <Card class="hover:border-dashed" v-for="podcast in podcastsPerPodcaster" :key="podcast.id">
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription>{{ podcast.followcount }} followers</CardDescription>

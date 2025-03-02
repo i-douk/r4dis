@@ -7,7 +7,7 @@ const { pageData } = storeToRefs(usePageStore())
 const { width } = useWindowSize()
 const isSmallScreen = computed(() => width.value < 1024)
 const isSidebarOpen = ref(true)
-if (isSmallScreen) isSidebarOpen.value= false
+if (isSmallScreen) isSidebarOpen.value = false
 </script>
 <template>
   <div class="relative -inset-px bg-gradient-to-r from-[#050505] via-[#1b1a1a] to-[#050505]">

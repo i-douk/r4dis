@@ -5,7 +5,7 @@ import { usePageStore } from '@/stores/page' // Ensure this is correctly importe
 import type { ColumnDef } from '@tanstack/vue-table'
 import { storeToRefs } from 'pinia'
 import { h, onMounted } from 'vue'
-import { Star, StarOff, CircleDollarSign,CircleOff } from 'lucide-vue-next';
+import { CircleDollarSign, CircleOff } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 // Page title
 usePageStore().pageData.title = 'My subscriptions list'
@@ -30,11 +30,11 @@ interface Subscription {
     id: string
     frozen: boolean
   }
-  links : string[]
+  links: string[]
 }
 
 const handleToggle = (subscription: Subscription) => {
-    subscription.subscription.frozen = !subscription.subscription.frozen
+  subscription.subscription.frozen = !subscription.subscription.frozen
   // add logic to freeze or unfreeze
 }
 const handleSubscribe = (id: string) => {
@@ -47,7 +47,11 @@ const columns: ColumnDef<Subscription>[] = [
     header: () => h('div', { class: 'text-left text-blue-200' }, ''),
     cell: ({ row }) => {
       const username = String(row.getValue('username'))
-      return h('a', { class: 'text-right font-bold text-blue-200', href: `/podcasters/${username}` }, '@' + username)
+      return h(
+        'a',
+        { class: 'text-right font-bold text-blue-200', href: `/podcasters/${username}` },
+        '@' + username,
+      )
     },
   },
   {
@@ -61,7 +65,7 @@ const columns: ColumnDef<Subscription>[] = [
           variant: 'outline',
           onClick: () => handleSubscribe(row.original.subscription.id),
         },
-        following.id? 'unsubscribe' : 'subscribe'
+        following.id ? 'unsubscribe' : 'subscribe',
       )
     },
   },
@@ -70,21 +74,24 @@ const columns: ColumnDef<Subscription>[] = [
     header: () => h('div', ''),
     cell: ({ row }) => {
       const subscription = row.original.subscription
-      return h(
-        subscription.frozen ? CircleDollarSign : CircleOff,
-        {
-          class: 'cursor-pointer text-blue-300',
-          onClick: () => handleToggle(row.original),
-        }
-      )
+      return h(subscription.frozen ? CircleDollarSign : CircleOff, {
+        class: 'cursor-pointer text-blue-300',
+        onClick: () => handleToggle(row.original),
+      })
     },
   },
 ]
 </script>
 
 <template>
-  <div class="container px-30 py-10 ">
-    <div class="text-sm text-gray-400"> * toggle the blue icon to freeze or unfreeze a subscription to a podcaster</div>
-    <DataTable v-if="singleUser?.subscriptions" :columns="columns" :data="singleUser.subscriptions" />
+  <div class="container px-30 py-10">
+    <div class="text-sm text-gray-400">
+      * toggle the blue icon to freeze or unfreeze a subscription to a podcaster
+    </div>
+    <DataTable
+      v-if="singleUser?.subscriptions"
+      :columns="columns"
+      :data="singleUser.subscriptions"
+    />
   </div>
 </template>

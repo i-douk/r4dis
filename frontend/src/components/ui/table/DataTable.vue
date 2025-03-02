@@ -29,7 +29,7 @@ const table = useVueTable({
 
 <template>
   <div>
-    <Table> 
+    <Table>
       <TableHeader>
         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
           <TableHead v-for="header in headerGroup.headers" :key="header.id">

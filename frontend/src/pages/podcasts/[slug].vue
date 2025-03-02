@@ -17,9 +17,8 @@ console.log(podcastData)
   <div class="flex flex-col mt-5 gap-5">
     <RouterLink
       to="/podcasts"
-      class="text-center w-23 font-semibold bg-neutral-800 rounded-sm border border-dotted p-1 hover:border-dashed hover:bg-transparent"
-    >
-      < Goback
+      class="text-center w-23 font-semibold bg-neutral-800 rounded-sm border border-dotted p-1 hover:border-dashed hover:bg-transparent">
+      Goback
     </RouterLink>
     <div class="flex flex-col justify-between border border-dashed rounded-sm p-8">
       <div class="flex justify-start gap-5 flex-wrap">
@@ -42,7 +41,7 @@ console.log(podcastData)
       </div>
       <div class="flex flex-col gap-2"></div>
       <ul class="flex flex-wrap">
-        <li v-for="url in podcastData.urls">
+        <li v-for="url in podcastData.urls" :key="url">
           <Button variant="outline"> 🔗 {{ url }}</Button>
         </li>
       </ul>

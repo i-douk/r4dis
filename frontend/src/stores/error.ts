@@ -7,7 +7,7 @@ export const useErrorStore = defineStore('error-store', () => {
 
   const setError = ({
     error,
-    customCode
+    customCode,
   }: {
     error: string | PostgrestError | Error
     customCode?: number
@@ -33,7 +33,7 @@ export const useErrorStore = defineStore('error-store', () => {
     activeError,
     setError,
     isCustomError,
-    clearError
+    clearError,
   }
 })
 

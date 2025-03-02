@@ -1,4 +1,6 @@
 <script setup lang="ts">
 usePageStore().pageData.title = 'Insights'
 </script>
-<template></template>
+<template>
+  <div></div>
+</template>

@@ -5,7 +5,7 @@ import { usePageStore } from '@/stores/page' // Ensure this is correctly importe
 import type { ColumnDef } from '@tanstack/vue-table'
 import { storeToRefs } from 'pinia'
 import { h, onMounted } from 'vue'
-import { Star, StarOff } from 'lucide-vue-next';
+import { Star, StarOff } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { RouterLink } from 'vue-router/auto'
 // Page title
@@ -48,7 +48,11 @@ const columns: ColumnDef<Following>[] = [
     header: () => h('div', { class: 'text-left text-blue-200' }, ''),
     cell: ({ row }) => {
       const slug = String(row.getValue('slug'))
-      return h(RouterLink, { class: 'text-right font-bold text-blue-200 hover:bg-muted', to: `/podcasts/${slug}` }, '@' + slug)
+      return h(
+        RouterLink,
+        { class: 'text-right font-bold text-blue-200 hover:bg-muted', to: `/podcasts/${slug}` },
+        '@' + slug,
+      )
     },
   },
   {
@@ -70,7 +74,7 @@ const columns: ColumnDef<Following>[] = [
           variant: 'outline',
           onClick: () => handleFollow(row.original.following.id),
         },
-        following.id? 'unfollow' : 'follow'
+        following.id ? 'unfollow' : 'follow',
       )
     },
   },
@@ -79,13 +83,10 @@ const columns: ColumnDef<Following>[] = [
     header: () => h('div', ''),
     cell: ({ row }) => {
       const following = row.original.following
-      return h(
-        following.starred ? Star : StarOff,
-        {
-          class: 'cursor-pointer text-yellow-300',
-          onClick: () => handleToggle(row.original),
-        }
-      )
+      return h(following.starred ? Star : StarOff, {
+        class: 'cursor-pointer text-yellow-300',
+        onClick: () => handleToggle(row.original),
+      })
     },
   },
 ]
@@ -93,7 +94,7 @@ const columns: ColumnDef<Following>[] = [
 
 <template>
   <div class="container px-30 py-5">
-    <div class="text-sm text-gray-400"> * toggle the star icon to mark a privileged podcast</div>
+    <div class="text-sm text-gray-400">* toggle the star icon to mark a privileged podcast</div>
     <DataTable v-if="singleUser?.followings" :columns="columns" :data="singleUser.followings" />
   </div>
 </template>

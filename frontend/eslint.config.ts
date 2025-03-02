@@ -7,7 +7,6 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 // import { configureVueProject } from '@vue/eslint-config-typescript'
 // configureVueProject({ scriptLangs: ['ts', 'tsx'] })
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
-
 export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
@@ -21,10 +20,19 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  
+
   {
     ...pluginPlaywright.configs['flat/recommended'],
     files: ['e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'],
   },
   skipFormatting,
-)
+
+  // Move rules inside an object parameter
+  {
+    rules: {
+      "vue/multi-word-component-names": "off",
+      "typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars" : "off"
+    },
+  }
+);

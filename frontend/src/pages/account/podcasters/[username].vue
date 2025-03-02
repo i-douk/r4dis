@@ -88,7 +88,7 @@ const handleSubmit = async () => {
 
   console.log('Editing in progress...')
 
-  const updates: any = {}
+  const updates = {}
 
   if (formData.value.username !== podcasterProfile.value?.username) {
     updates.username = formData.value.username
@@ -109,7 +109,7 @@ const handleSubmit = async () => {
     updates.avatar_url = formData.value.avatar_url
   }
 
-  if (Object.keys(updates).length > 0) {
+  if (Object.keys(updates).length > 0 && user.value) {
     const response = await expressService.editPodcaster(user.value.id, updates)
     if (response.status === 422) {
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })

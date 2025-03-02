@@ -88,7 +88,7 @@ const handleSubmit = async () => {
 
   console.log('Editing in progress...')
 
-  const updates: any = {}
+  const updates = {}
 
   if (formData.value.username !== userProfile.value?.username) {
     updates.username = formData.value.username
@@ -140,7 +140,7 @@ const cancelEditing = () => {
 }
 
 const deleteUser = async () => {
-  const response = await expressService.deleteUser(user.value.id)
+  const response = await expressService.deleteProfile(user.value.id)
   if (response.status === 204) {
     toast({ title: 'We are sad to see you go, come back around any time' })
     router.push('/login')

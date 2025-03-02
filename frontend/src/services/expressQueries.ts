@@ -12,7 +12,7 @@ export default {
   getPodcasts() {
     return expressClient.get('/podcasts')
   },
-  async editUser(id: string, data: any) {
+  async editUser(id: string, data: object) {
     return expressClient.put(`/users/${id}`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default {
       },
     })
   },
-  async editPodcaster(id: string, data: any) {
+  async editPodcaster(id: string, data: object) {
     return expressClient.put(`/podcasters/${id}`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default {
       },
     })
   },
-  async followPodcast(podcastId: any, userId: string) {
+  async followPodcast(podcastId: string, userId: string) {
     return expressClient.post(
       `/followings`,
       { podcastId, userId },

@@ -1,8 +1,4 @@
-import {
-  singlePodcasterQuery,
-  type SinglePodcaster,
-  type PodcastersType,
-} from '@/services/supaQueries'
+import { singlePodcasterQuery, type SinglePodcaster } from '@/services/supaQueries'
 import expressService from '@/services/expressQueries'
 import { defineStore } from 'pinia'
 import { useMemoize } from '@vueuse/core'
@@ -12,7 +8,7 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
   const singlePodcaster = ref<SinglePodcaster | null>(null)
   const podcasters = ref<null | Tables<'podcasters'>[]>(null)
 
-  const loadpodcasters = useMemoize(async (key: string) => {
+  const loadpodcasters = useMemoize(async (_key: string) => {
     return await expressService.getPodcasters()
   })
   const loadSinglePodcaster = useMemoize(async (username: string) => {
@@ -45,7 +41,7 @@ export const usePodcastersStore = defineStore('podcasters-store', () => {
     singlePodcaster.value = null
     const { data, error, status } = await loadSinglePodcaster(username)
     if (error) useErrorStore().setError({ error, customCode: status })
-      if (data) singlePodcaster.value = data
+    if (data) singlePodcaster.value = data
 
     validateCache({
       ref: singlePodcaster,

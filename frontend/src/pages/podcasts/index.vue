@@ -9,10 +9,10 @@ const { userProfile } = storeToRefs(authStore)
 const podcastsLoader = usePodcastsStore()
 const { podcasts } = storeToRefs(podcastsLoader)
 const { getPodcasts } = podcastsLoader
-import { HeartHandshake } from 'lucide-vue-next';
+import { HeartHandshake } from 'lucide-vue-next'
 await getPodcasts()
 
-const handleFollow = async (podcast: any, podcastId: number) => {
+const handleFollow = async (podcast: string, podcastId: number) => {
   const response = await expressService.followPodcast(podcastId, userProfile.value.id)
   if (response.status === 201) {
     toast({
@@ -28,7 +28,7 @@ const handleFollow = async (podcast: any, podcastId: number) => {
 
 <template>
   <div class="p-5 grid lg:grid-cols-4 gap-4 md:grid-cols-2 sm:grid-cols-1">
-    <Card class="hover:border-dashed" v-for="podcast in podcasts">
+    <Card class="hover:border-dashed" v-for="podcast in podcasts" :key="podcast.id">
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription>{{ podcast.followerscount }} followers</CardDescription>
