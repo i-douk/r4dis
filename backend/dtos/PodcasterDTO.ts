@@ -29,7 +29,7 @@ export class PodcasterDTO {
     this.verified = podcaster.verified;
     this.subscription = podcaster.subscription;
     this.subscriberscount = podcaster.subscriberscount;
-    this.links = podcaster.links
+    this.links = podcaster.links;
 
     this.podcasts = podcaster.podcasts?.map((p: any) => new PodcastDTO(p));
     this.subscribers = podcaster.subscribers?.map(

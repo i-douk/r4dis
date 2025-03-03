@@ -1,27 +1,60 @@
 <script setup lang="ts">
+import { reactive, onMounted } from 'vue'
 import { usePodcastersStore } from '@/stores/loaders/podcasters'
 import { useAuthStore } from '@/stores/auth'
-usePageStore().pageData.title = 'Podcasters'
 import expressService from '@/services/expressQueries'
+import { toast } from '@/components/ui/toast/use-toast'
+import { Award , X } from 'lucide-vue-next'
+
+usePageStore().pageData.title = 'Podcasters'
+
+// Stores
 const authStore = useAuthStore()
 const podcastersLoader = usePodcastersStore()
 const { podcasters } = storeToRefs(podcastersLoader)
-import { toast } from '@/components/ui/toast/use-toast'
 const { getPodcasters } = podcastersLoader
 const { userProfile } = storeToRefs(authStore)
-await getPodcasters()
-import { Award } from 'lucide-vue-next'
 
-const handleSubscribe = async (podcaster, podcasterId: string) => {
-  const response = await expressService.subscribeToPodcaster(podcasterId, userProfile.value.id)
+// Fetch podcasters
+await getPodcasters()
+
+// Reactive object to track subscription state
+const isSubscribed = reactive<Record<string, boolean>>({})
+
+// Initialize subscription state
+const setSubscription = (subscribers) => {
+  return subscribers.some(subscriber => subscriber.id === userProfile.value?.id)
+}
+
+onMounted(() => {
+  podcasters.value.forEach(podcaster => {
+    isSubscribed[podcaster.id] = setSubscription(podcaster.subscribers)
+  })
+})
+
+// Handlers
+const handleSubscribe = async (podcaster) => {
+  const response = await expressService.subscribeToPodcaster(podcaster.id, userProfile.value.id)
+
   if (response.status === 201) {
-    toast({
-      title: `You just subscribed to ${podcaster}`,
-    })
-  } else {
-    toast({
-      title: `You are already subscribed to ${podcaster}`,
-    })
+    toast({ title: `You have just subscribed to ${podcaster.username}` })
+    isSubscribed[podcaster.id] = true
+  }
+}
+
+const handleUnsubscribe = async (podcaster) => {
+  const subscriber = podcaster.subscribers.find(subscriber => subscriber.id === userProfile.value.id)
+
+  if (!subscriber) {
+    console.error('User is not subscribed')
+    return
+  }
+
+  const response = await expressService.unsubscribeToPocaster(subscriber.subscription.id)
+
+  if (response.status === 204) {
+    toast({ title: `You just unsubscribed from ${podcaster.username}` })
+    isSubscribed[podcaster.id] = false
   }
 }
 </script>
@@ -31,34 +64,27 @@ const handleSubscribe = async (podcaster, podcasterId: string) => {
     <Card class="hover:border-dashed" v-for="podcaster in podcasters" :key="podcaster.id">
       <CardHeader>
         <CardTitle>{{ podcaster.username }}</CardTitle>
-        <CardDescription
-          >{{
-            podcaster.subscriberscount ? podcaster.subscriberscount : 0
-          }}
-          subscriptions</CardDescription
-        >
+        <CardDescription>{{ podcaster.subscriberscount || 0 }} subscriptions</CardDescription>
       </CardHeader>
       <CardContent>
         has posted
-        <b>{{
-          podcaster.podcasts && podcaster.podcasts.length > 0
-            ? podcaster.podcasts[0].name
-            : 'nothing yet'
-        }}</b></CardContent
-      >
-      <CardFooter>
-        <div class="flex gap-2 flex-wrap">
-          <Button>
+        <b>{{ podcaster.podcasts?.length ? podcaster.podcasts[0].name : 'nothing yet' }}</b>
+      </CardContent>
+      <CardFooter class="flex justify-around gap-4 flex-wrap">
+          <Button variant="outline">
             <RouterLink
               :to="{ name: '/podcasters/[username]', params: { username: podcaster.username } }"
               >See podcaster</RouterLink
             >
           </Button>
-          <Button @click="handleSubscribe(podcaster.username, podcaster.id)" variant="outline">
+          <Button v-if="!isSubscribed[podcaster.id]" @click="handleSubscribe(podcaster)" variant="outline">
             <Award />
             Subscribe
           </Button>
-        </div>
+          <Button v-if="isSubscribed[podcaster.id]" @click="handleUnsubscribe(podcaster)" variant="outline">
+            <X />
+            Unsubscribe
+          </Button>
       </CardFooter>
     </Card>
   </div>

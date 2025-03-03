@@ -52,7 +52,7 @@ podcastsRouter.get("/podcaster/:username", async (req: Request, res: Response) =
   });
   if (podcaster) {
     const podcasts = await models.Podcast.findAll({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+       
       where: { podcaster_id: podcaster?.toJSON().id },
     });
     res.json(podcasts);

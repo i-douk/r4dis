@@ -1,30 +1,29 @@
 <script setup lang="ts">
-import { useUsersStore } from '@/stores/loaders/users'
-import { useAuthStore } from '@/stores/auth'
-import { usePageStore } from '@/stores/page' // Ensure this is correctly imported
-import type { ColumnDef } from '@tanstack/vue-table'
-import { storeToRefs } from 'pinia'
-import { h, onMounted } from 'vue'
-import { CircleDollarSign, CircleOff } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
-import express from 'express';
+import { useUsersStore } from '@/stores/loaders/users';
+import { useAuthStore } from '@/stores/auth';
+import { usePageStore } from '@/stores/page';
+import type { ColumnDef } from '@tanstack/vue-table';
+import { storeToRefs } from 'pinia';
+import { h, onMounted } from 'vue';
+import { CircleDollarSign, CircleOff } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
 import expressService from '@/services/expressQueries';
 // Page title
-usePageStore().pageData.title = 'My subscriptions list'
+usePageStore().pageData.title = 'My subscriptions list';
 
 // Stores
-const authStore = useAuthStore()
-const { userProfile } = storeToRefs(authStore)
+const authStore = useAuthStore();
+const { userProfile } = storeToRefs(authStore);
 
-const myUserLoader = useUsersStore()
-const { singleUser } = storeToRefs(myUserLoader)
-const { getSingleUser } = myUserLoader
+const myUserLoader = useUsersStore();
+const { singleUser } = storeToRefs(myUserLoader);
+const { getSingleUser } = myUserLoader;
 
 onMounted(async () => {
   if (userProfile.value?.username) {
     await getSingleUser(userProfile.value.username)
   }
-})
+});
 
 interface Subscription {
   username: string
