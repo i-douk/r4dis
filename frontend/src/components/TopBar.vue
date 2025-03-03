@@ -2,12 +2,14 @@
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
 import { getPublicUrl } from '@/services/supaQueries'
-
+// import { useDark, useToggle } from '@vueuse/core'
 const authStore = useAuthStore()
 const handleLogout = async () => {
   await logout(authStore)
   router.push('/login')
 }
+// const isDark = useDark()
+// const toggleDark = useToggle(isDark)
 </script>
 <template>
   <header>
@@ -36,6 +38,10 @@ const handleLogout = async () => {
             v-if="authStore.userProfile == null && authStore.podcasterProfile === null"
             >Sign in</RouterLink
           >
+          <!-- <Button @click="toggleDark()">
+            <iconify-icon v-if='isDark' icon="lucide:lightbulb" variant="ghost"></iconify-icon>
+            <iconify-icon v-else icon="lucide:lightbulb-off"></iconify-icon>
+          </Button> -->
           <div class="sm:mt-2 lg:-mt-1 md:-mt-1">
             <Button v-if="authStore.podcasterProfile && $route.path !== '/podcasts/createPodcast'">
               <RouterLink to="/podcasts/createPodcast"> + Add podcast </RouterLink>

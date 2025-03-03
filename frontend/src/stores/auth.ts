@@ -124,8 +124,6 @@ export const useAuthStore = defineStore('auth-store', () => {
   return {
     user,
     userProfile,
-    // setUSerAuth,
-    // setPodcasterAuth,
     getSession,
     trackUserAuthChanges,
     trackPodcasterAuthChanges,

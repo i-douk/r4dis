@@ -4,12 +4,8 @@ const { userProfile, podcasterProfile } = storeToRefs(authStore)
 import SideBarLinks from './SideBarLinks.vue'
 import router from '@/router'
 import { logout } from '../utils/supaAuth'
-import { useWindowSize } from '@vueuse/core'
-import { computed } from 'vue'
-// Define event emitter to notify parent
-const emit = defineEmits(['closeSidebar'])
-const { width } = useWindowSize()
-const isSmallScreen = computed(() => width.value < 1024)
+import { useSidebar } from '../composables/sidebar';
+
 defineProps({
   isSidebarOpen: Boolean,
 })
@@ -71,21 +67,16 @@ const settingLinks = [
 const handleLogout = async () => {
   await logout(authStore)
   router.push('/login')
-  emit('closeSidebar')
 }
 
-// Close sidebar only for small screen
-const closeSidebar = () => {
-  if (isSmallScreen.value) {
-    emit('closeSidebar')
-  }
-}
+
+const { sidebarOpen , toggleSidebar , isSmallScreen} = useSidebar()
 </script>
 <template>
-  <div :class="['w-full flex-nowrap', isSidebarOpen ? 'lg:border-r-2 border-dotted' : '']">
+  <div :class="['w-full flex-nowrap', sidebarOpen ? 'lg:border-r-2 border-dotted' : '']">
     <div class="px-3 py-2">
       <div class="text-xl font-semibold p-1 mb-1">Discover</div>
-      <SideBarLinks :links="discoverylinks" :closeSidebar="closeSidebar" />
+      <SideBarLinks :links="discoverylinks" :closeSidebar="isSmallScreen" />
       <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
 
       <div v-show="userProfile || podcasterProfile" class="text-xl font-semibold p-1 m-3">
@@ -93,12 +84,12 @@ const closeSidebar = () => {
       </div>
 
       <div v-show="podcasterProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
-        <SideBarLinks :links="podcasterActivitylinks" :closeSidebar="closeSidebar" />
+        <SideBarLinks :links="podcasterActivitylinks" :closeSidebar="isSmallScreen" />
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
 
       <div v-show="userProfile" class="flex flex-col gap-2 md:flex-col md:gap-4 w-full">
-        <SideBarLinks :links="userActivitylinks" :closeSidebar="closeSidebar" />
+        <SideBarLinks :links="userActivitylinks" :closeSidebar="isSmallScreen" />
 
         <div class="my-2 border-b-2 border-dotted"></div>
       </div>
@@ -111,7 +102,7 @@ const closeSidebar = () => {
         v-if="userProfile?.id || podcasterProfile?.id"
         class="flex flex-col gap-2 md:flex-col md:gap-4 w-full"
       >
-        <SideBarLinks :links="settingLinks" :closeSidebar="closeSidebar" />
+        <SideBarLinks :links="settingLinks" :closeSidebar="isSmallScreen" />
       </div>
 
       <div class="my-2 border-b-2 border-dotted" v-show="userProfile || podcasterProfile"></div>
