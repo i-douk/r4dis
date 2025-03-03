@@ -62,69 +62,38 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  const setUSerAuth = async (session: Session | null) => {
+  const setAuth = async (session: Session | null) => {
     if (!session) {
       user.value = null
       userProfile.value = null
       return
+    } else if (session.user.user_metadata.role === 'user'){
+      
+      user.value = session.user
+      await setUserProfile()
+    } else if(session.user.user_metadata.role === 'podcaster') {
+      
+      user.value = session.user
+      await setPodcasterProfile()
     }
-    user.value = session.user
-    await setUserProfile()
   }
-  const setPodcasterAuth = async (session: Session | null) => {
-    if (!session) {
-      user.value = null
-      podcasterProfile.value = null
-      return
-    }
-    user.value = session.user
-    await setPodcasterProfile()
-  }
-
+ 
   const getSession = async () => {
     try {
       const { data, error } = await supabase.auth.getSession()
       if (error) {
         console.error('Error fetching session:', error)
-        await setUSerAuth(null)
+        await setAuth(null)
       } else if (data.session?.user && data.session.user.user_metadata.role ==='user') {
-        await setUSerAuth(data.session)
+        await setAuth(data.session)
       } else if (data.session?.user && data.session.user.user_metadata.role ==='podcaster') {
-        await setPodcasterAuth(data.session)
+        await setAuth(data.session)
       }
     } catch (err) {
       console.error('Unexpected error in getSession:', err)
-      await setUSerAuth(null)
+      await setAuth(null)
     }
   }
-  // const getUserSession = async () => {
-  //   try {
-  //     const { data, error } = await supabase.auth.getSession()
-  //     if (error) {
-  //       console.error('Error fetching session:', error)
-  //       await setUSerAuth(null)
-  //     } else if (data.session?.user) {
-  //       await setUSerAuth(data.session)
-  //     }
-  //   } catch (err) {
-  //     console.error('Unexpected error in getSession:', err)
-  //     await setUSerAuth(null)
-  //   }
-  // }
-  // const getPodcasterSession = async () => {
-  //   try {
-  //     const { data, error } = await supabase.auth.getSession()
-  //     if (error) {
-  //       console.error('Error fetching session:', error)
-  //       await setPodcasterAuth(null)
-  //     } else if (data.session?.user) {
-  //       await setPodcasterAuth(data.session)
-  //     }
-  //   } catch (err) {
-  //     console.error('Unexpected error in getSession:', err)
-  //     await setPodcasterAuth(null)
-  //   }
-  // }
 
   const trackPodcasterAuthChanges = () => {
     if (isTrackingPodcasterAuthChanges.value) return
@@ -132,7 +101,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     isTrackingPodcasterAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
-        await setPodcasterAuth(session)
+        await setAuth(session)
       }, 0)
     })
   }
@@ -142,7 +111,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     isTrackingUserAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(async () => {
-        await setUSerAuth(session)
+        await setAuth(session)
       }, 0)
     })
   }
@@ -155,13 +124,11 @@ export const useAuthStore = defineStore('auth-store', () => {
   return {
     user,
     userProfile,
-    setUSerAuth,
-    setPodcasterAuth,
+    // setUSerAuth,
+    // setPodcasterAuth,
     getSession,
-    // getUserSession,
     trackUserAuthChanges,
     trackPodcasterAuthChanges,
-    // getPodcasterSession,
     clearSession,
     podcasterProfile,
   }

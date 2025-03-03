@@ -15,9 +15,12 @@ onMounted(() => {
 onErrorCaptured((error) => {
   errorStore.setError({ error })
 })
+
+const UserLayout = defineAsyncComponent(() => import('./layouts/UserLayout.vue'))
+
 </script>
 <template>
-  <UserLayout>
+  <Component :is="UserLayout">
     <Toaster />
     <RouterView v-slot="{ Component, route }">
       <ErrorPage v-if="activeError" />
@@ -34,5 +37,5 @@ onErrorCaptured((error) => {
         </template>
       </Suspense>
     </RouterView>
-  </UserLayout>
+  </Component>
 </template>
