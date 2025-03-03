@@ -24,7 +24,7 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
         as: "followers",
         attributes: { exclude: ["username"] },
         through: {
-          attributes: { exclude: ["podcastId", "userId"] },
+          attributes: { exclude: [] },
         },
       },
     ],

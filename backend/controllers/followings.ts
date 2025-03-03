@@ -17,32 +17,27 @@ followingRouter.get(
 followingRouter.post(
   "/",
   authenticate,
-  async (req, res) => {
-    const { userId, podcastId } = req.body;
-    const role  = 'admin';
-    if (role === "admin") {
-    // if (role === "superuser" || role === "admin") {
-      const existingFollowing = await models.Following.findOne({
-        where: { userId, podcastId },
-      });
-      if (!existingFollowing) {
-        const followingAddition = {
-          podcastId,
-          userId,
-        };
+  async (req , res) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { userId, podcastId }: { userId: string; podcastId: string } = req.body;
 
-        await models.Following.create(followingAddition);
-        res.status(201).send(followingAddition);
-      } else {
-        res.status(422).json({
-          message:
-            "There is already a following relation tying this user to this podcast",
-        });
-      }
+    // if (role === "superuser" || role === "admin") {
+    const existingFollowing = await models.Following.findOne({
+      where: { userId, podcastId },
+    });
+    if (!existingFollowing) {
+      const followingAddition = {
+        podcastId,
+        userId,
+      };
+
+      await models.Following.create(followingAddition);
+      res.status(201).send(followingAddition);
     } else {
-      res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+      res.status(422).json({
+        message:
+            "There is already a following relation tying this user to this podcast",
+      });
     }
   },
 );
@@ -52,29 +47,21 @@ followingRouter.delete(
   "/:id",
   authenticate,
   async (req, res) => {
-    const role  = 'admin';
-    if (role === "admin") {
-    // if (role === "superuser" || role === "admin") {
-      const { id } = req.params;
-      const followingToDelete = await models.Following.findByPk(id);
+    const { id } = req.params;
+    const followingToDelete = await models.Following.findByPk(id);
 
-      if (followingToDelete) {
-        await models.Following.destroy({ where: { id: followingToDelete.id } });
-        res.status(204).end();
-      } else {
-        res
-          .status(404)
-          .json({ error: "There is no following relation with this id" });
-      }
+    if (followingToDelete) {
+      await models.Following.destroy({ where: { id: followingToDelete.id } });
+      res.status(204).end();
     } else {
       res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+        .status(404)
+        .json({ error: "There is no following relation with this id" });
     }
   },
 );
 
-// STAR A FOLLOWING RELATION BY ADMIN AND SUPERUSER
+// STAR A FOLLOWING RELATION 
 followingRouter.patch(
   "/:id",
   authenticate,

@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { QueryData } from '@supabase/supabase-js'
+import { useErrorStore } from '@/stores/error';
 
 // Podcast Store Queries
 export const podcastsQuery = supabase.from('podcasts').select()
@@ -65,6 +66,6 @@ export const podcasterQuery = ({ column, value }: { column: string; value: strin
 
 //  Fetch Public URL for public profile from supabase s3 storage
 export const getPublicUrl = (fileLocalPath: string) => {
-  const { data } = supabase.storage.from('avatar_images').getPublicUrl(fileLocalPath)
+  const { data  } = supabase.storage.from('avatar_images').getPublicUrl(fileLocalPath)
   return data.publicUrl
 }

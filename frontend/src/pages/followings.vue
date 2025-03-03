@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useUsersStore } from '@/stores/loaders/users'
 import { useAuthStore } from '@/stores/auth'
 import { usePageStore } from '@/stores/page' // Ensure this is correctly imported
@@ -8,6 +9,7 @@ import { h, onMounted } from 'vue'
 import { Star, StarOff } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { RouterLink } from 'vue-router/auto'
+import expressService from '@/services/expressQueries';
 // Page title
 usePageStore().pageData.title = 'My followings list'
 
@@ -29,17 +31,22 @@ interface Following {
   name: string
   slug: string
   following: {
+    userId : string,
+    podcastId: string
     id: string
     starred: boolean
   }
 }
-
-const handleToggle = (following: Following) => {
+const handleStarToggle = (following: Following) => {
   following.following.starred = !following.following.starred
   // add logic to star or unstar
 }
-const handleFollow = (_id: string) => {
-  //add logic to delete following relation
+
+const handleUnfollow = async (id: string) => {
+   await expressService.unfollowPocast(id)
+}
+const handleFollow = async (podcastId :string,userId: string) => {
+   await expressService.followPodcast(podcastId,userId)
 }
 
 const columns: ColumnDef<Following>[] = [
@@ -68,13 +75,24 @@ const columns: ColumnDef<Following>[] = [
     header: () => h('div', ''),
     cell: ({ row }) => {
       const following = row.original.following
+      const rowButtonText = ref('unfollow')
+
       return h(
         Button,
         {
           variant: 'outline',
-          onClick: () => handleFollow(row.original.following.id),
+          class: 'cursor-pointer',
+          onClick: async () => {
+            if (rowButtonText.value === 'unfollow') {
+              await handleUnfollow(following.id)
+              rowButtonText.value = 'follow'
+            } else {
+              await handleFollow(following.podcastId, following.userId)
+              rowButtonText.value = 'unfollow'
+            }
+          },
         },
-        following.id ? 'unfollow' : 'follow',
+        () => rowButtonText.value
       )
     },
   },
@@ -85,7 +103,7 @@ const columns: ColumnDef<Following>[] = [
       const following = row.original.following
       return h(following.starred ? Star : StarOff, {
         class: 'cursor-pointer text-yellow-300',
-        onClick: () => handleToggle(row.original),
+        onClick: () => handleStarToggle(row.original),
       })
     },
   },
@@ -93,8 +111,12 @@ const columns: ColumnDef<Following>[] = [
 </script>
 
 <template>
-  <div class="container px-30 py-5">
+  <div :key='buttonText' class="container px-30 py-5">
     <div class="text-sm text-gray-400">* toggle the star icon to mark a privileged podcast</div>
-    <DataTable v-if="singleUser?.followings" :columns="columns" :data="singleUser.followings" />
+    <div  v-if="singleUser?.followings"  class="mt-5 text-sm text-gray-200 ">{{singleUser.followings.length}} followed podcasts</div>
+    <DataTable 
+      v-if="singleUser?.followings" 
+      :columns="columns"
+      :data="singleUser.followings" />
   </div>
 </template>

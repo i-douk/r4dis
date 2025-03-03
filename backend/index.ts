@@ -1,6 +1,4 @@
 import express from "express";
-import { createServer } from 'node:http';
-import { Server } from 'socket.io';
 const app = express();
 import "express-async-errors";
 import config from "./utils/config";
@@ -27,15 +25,6 @@ app.use("/api/subscriptions", subscriptionsRouter);
 app.use("/api/logout", logoutRouter);
 app.use(express.json());
 
-
-const server = createServer(app);
-const io = new Server(server, {
-  path: "http://localhost:3001"
-});
-
-io.on('connection', (_socket) => {
-  console.log('a user connected');
-});
 
 // Sync Sequelize models with the database
 sequelize

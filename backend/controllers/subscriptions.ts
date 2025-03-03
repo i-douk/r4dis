@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Router } from "express";
 import models from "../models";
 import authenticate from "../utils/supaAuth";
@@ -50,55 +51,20 @@ subscriptionsRouter.post(
   },
 );
 
-// ALLOW SUPERUSER TO FREEZE SUBSCRIPTION
+//FREEZE SUBSCRIPTION
 subscriptionsRouter.patch(
   "/:id",
   authenticate,
   async (req, res) => {
-    const role  = 'admin';
     const { id } = req.params;
     const { frozen } = req.body;
-    if (role === "admin") {
-      const existingSusbcription = await models.Subscription.findByPk(id);
-      if (existingSusbcription) {
-        existingSusbcription.frozen = frozen;
-        await existingSusbcription.save();
-        res.status(200).send(existingSusbcription);
-      } else {
-        res.status(422).json({ message: "This subscription does not exist" });
-      }
+    const existingSusbcription = await models.Subscription.findByPk(id);
+    if (existingSusbcription) {
+      existingSusbcription.frozen = frozen;
+      await existingSusbcription.save();
+      res.status(200).send(existingSusbcription);
     } else {
-      res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
-    }
-  },
-);
-
-// ALLOW SUPERUSER AND ADMIN TO ADD COMMENTS TO THE SUBSCRIPTION
-subscriptionsRouter.post(
-  "/:id",
-  authenticate,
-  async (req, res) => {
-    const role  = 'admin';
-    const { id } = req.params;
-    const { comment } = req.body;
-
-    if ( role === "admin") {
-      const subscriptionToComment = await models.Subscription.findByPk(id);
-      if (subscriptionToComment) {
-        const currentComments: string[] = subscriptionToComment.comments || [];
-        currentComments.push(`${role} commented: ${comment}`);
-        subscriptionToComment.comments = currentComments;
-        await subscriptionToComment.save();
-        res.status(201).send(subscriptionToComment);
-      } else {
-        res.status(422).json({ message: "This subscription does not exist" });
-      }
-    } else {
-      res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+      res.status(422).json({ message: "This subscription does not exist" });
     }
   },
 );
@@ -108,25 +74,19 @@ subscriptionsRouter.delete(
   "/:id",
   authenticate,
   async (req, res) => {
-    const role  = 'admin';
-    if (role === "admin") {
-      const { id } = req.params;
-      const subscriptionToDelete = await models.Subscription.findByPk(id);
 
-      if (subscriptionToDelete) {
-        await models.Subscription.destroy({
-          where: { id: subscriptionToDelete.id },
-        });
-        res.status(204).end();
-      } else {
-        res
-          .status(404)
-          .json({ error: "There is no subscription with this id" });
-      }
+    const { id } = req.params;
+    const subscriptionToDelete = await models.Subscription.findByPk(id);
+
+    if (subscriptionToDelete) {
+      await models.Subscription.destroy({
+        where: { id: subscriptionToDelete.id },
+      });
+      res.status(204).end();
     } else {
       res
-        .status(422)
-        .json({ message: "not enough persmissions to access subscriptions" });
+        .status(404)
+        .json({ error: "There is no subscription with this id" });
     }
   },
 );

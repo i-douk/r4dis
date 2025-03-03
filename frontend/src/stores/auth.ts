@@ -20,14 +20,14 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
 
     try {
-      const { data, error } = await podcasterQuery({
+      const { data, error, status } = await podcasterQuery({
         column: 'id',
         value: user.value.id,
       })
 
       if (error) {
-        console.error('Error fetching podcaster profile:', error)
-        podcasterProfile.value = null
+        if (error) useErrorStore().setError({ error, customCode: status })
+          podcasterProfile.value = null
       } else {
         podcasterProfile.value = data || null
       }
@@ -45,14 +45,14 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
 
     try {
-      const { data, error } = await userQuery({
+      const { data, error, status } = await userQuery({
         column: 'id',
         value: user.value.id,
       })
 
       if (error) {
-        console.error('Error fetching user profile:', error)
-        userProfile.value = null
+        if (error) useErrorStore().setError({ error, customCode: status })
+          userProfile.value = null
       } else {
         userProfile.value = data || null
       }
@@ -82,8 +82,8 @@ export const useAuthStore = defineStore('auth-store', () => {
     try {
       const { data, error } = await supabase.auth.getSession()
       if (error) {
-        console.error('Error fetching session:', error)
-        await setAuth(null)
+        if (error) useErrorStore().setError({ error, customCode: 404 })
+          await setAuth(null)
       } else if (data.session?.user && data.session.user.user_metadata.role ==='user') {
         await setAuth(data.session)
       } else if (data.session?.user && data.session.user.user_metadata.role ==='podcaster') {

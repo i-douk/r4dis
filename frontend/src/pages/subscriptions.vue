@@ -7,6 +7,8 @@ import { storeToRefs } from 'pinia'
 import { h, onMounted } from 'vue'
 import { CircleDollarSign, CircleOff } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
+import express from 'express';
+import expressService from '@/services/expressQueries';
 // Page title
 usePageStore().pageData.title = 'My subscriptions list'
 
@@ -27,6 +29,8 @@ onMounted(async () => {
 interface Subscription {
   username: string
   subscription: {
+    userId: string
+    podcasterId: string
     id: string
     frozen: boolean
   }
@@ -37,8 +41,11 @@ const handleToggle = (subscription: Subscription) => {
   subscription.subscription.frozen = !subscription.subscription.frozen
   // add logic to freeze or unfreeze
 }
-const handleSubscribe = (id: string) => {
-  // add logic to unsubscribe
+const handleUnsubscribe = async (id: string) => {
+  await expressService.unsubscribeToPocaster(id)
+}
+const handleSubscribe = async (podcaterId:string, userId:string) => {
+  await expressService.subscribeToPodcaster(podcaterId, userId)
 }
 
 const columns: ColumnDef<Subscription>[] = [
@@ -55,17 +62,28 @@ const columns: ColumnDef<Subscription>[] = [
     },
   },
   {
-    accessorKey: 'following.id',
+    accessorKey: 'subscription.id',
     header: () => h('div', ''),
     cell: ({ row }) => {
-      const following = row.original.subscription
+      const subscription = row.original.subscription
+      const rowButtonText = ref('unsubscribe')
+
       return h(
         Button,
         {
           variant: 'outline',
-          onClick: () => handleSubscribe(row.original.subscription.id),
+          class: 'cursor-pointer',
+          onClick: async () => {
+            if (rowButtonText.value === 'unsubscribe') {
+              await handleUnsubscribe(subscription.id)
+              rowButtonText.value = 'subscribe'
+            } else {
+              await handleSubscribe(subscription.podcasterId, subscription.userId)
+              rowButtonText.value = 'unsubscribe'
+            }
+          },
         },
-        following.id ? 'unsubscribe' : 'subscribe',
+        () => rowButtonText.value
       )
     },
   },
@@ -88,6 +106,7 @@ const columns: ColumnDef<Subscription>[] = [
     <div class="text-sm text-gray-400">
       * toggle the blue icon to freeze or unfreeze a subscription to a podcaster
     </div>
+    <div  v-if="singleUser?.subscriptions"  class="mt-5 text-sm text-gray-200 ">{{singleUser.subscriptions.length}} subscriptions to podcasters</div>
     <DataTable
       v-if="singleUser?.subscriptions"
       :columns="columns"

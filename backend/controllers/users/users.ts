@@ -14,14 +14,14 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
         model: models.Podcast,
         as: "followings",
         through: {
-          attributes: { exclude: ["userId", "podcastId"] },
+          attributes: { exclude: [] },
         },
       },
       {
         model: models.Podcaster,
         as: "subscriptions",
         through: {
-          attributes: { exclude: ["userId", "podcasterId"] },
+          attributes: { exclude: [] },
         },
       },
     ],
@@ -45,7 +45,7 @@ usersRouter.get("/:username", async (req: Request, res: Response) => {
           as: "followings",
           attributes: { exclude: [] },
           through: {
-            attributes: { exclude: ["userId", "podcastId"] },
+            attributes: { exclude: [] },
           },
         },
         {
@@ -53,7 +53,7 @@ usersRouter.get("/:username", async (req: Request, res: Response) => {
           as: "subscriptions",
           attributes: { exclude: ["email", "premium", "disabled"] },
           through: {
-            attributes: { exclude: ["userId", "podcasterId"] },
+            attributes: { exclude: [] },
           },
         },
       ],

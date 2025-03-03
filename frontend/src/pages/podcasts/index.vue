@@ -1,27 +1,52 @@
 <script setup lang="ts">
-import { usePodcastsStore } from '@/stores/loaders/podcasts'
-import expressService from '@/services/expressQueries'
-usePageStore().pageData.title = 'Podcasts'
-import { useAuthStore } from '@/stores/auth'
-import { toast } from '@/components/ui/toast/use-toast'
-const authStore = useAuthStore()
-const { userProfile } = storeToRefs(authStore)
-const podcastsLoader = usePodcastsStore()
-const { podcasts } = storeToRefs(podcastsLoader)
-const { getPodcasts } = podcastsLoader
-import { HeartHandshake } from 'lucide-vue-next'
+import { usePodcastsStore } from '@/stores/loaders/podcasts';
+import expressService from '@/services/expressQueries';
+usePageStore().pageData.title = 'Podcasts';
+import { useAuthStore } from '@/stores/auth';
+import { toast } from '@/components/ui/toast/use-toast';
+const authStore = useAuthStore();
+const { userProfile } = storeToRefs(authStore);
+const podcastsLoader = usePodcastsStore();
+const { podcasts } = storeToRefs(podcastsLoader);
+const { getPodcasts } = podcastsLoader;
+import { HeartHandshake } from 'lucide-vue-next';
+import router from '@/router';
 await getPodcasts()
 
 const handleFollow = async (podcast: string, podcastId: number) => {
-  const response = await expressService.followPodcast(podcastId, userProfile.value.id)
-  if (response.status === 201) {
-    toast({
-      title: `You just followed ${podcast}`,
-    })
-  } else if (response.status === 422) {
-    toast({
-      title: `You are already following ${podcast}`,
-    })
+  const buttonText = ref('Follow')
+  if( userProfile){
+    const response = await expressService.followPodcast(podcastId, userProfile.value.id)
+    if (response.status === 201) {
+      toast({
+        title: `You just followed ${podcast}`,
+      })
+      buttonText.value = 'Unfollow'
+    } else if (response.status === 422) {
+      toast({
+        title: `You are already following ${podcast}`,
+      })
+    }
+  } else {
+    router.push('./login')
+  }
+}
+const handleUnfollow = async (id :string) => {
+  const buttonText = ref('Follow')
+  if( userProfile){
+    const response = await expressService.unfollowPocast(id)
+    if (response.status === 201) {
+      toast({
+        title: `You just followed ${podcast}`,
+      })
+      buttonText.value = 'Unfollow'
+    } else if (response.status === 422) {
+      toast({
+        title: `You are already following ${podcast}`,
+      })
+    }
+  } else {
+    router.push('./login')
   }
 }
 </script>
@@ -45,7 +70,6 @@ const handleFollow = async (podcast: string, podcastId: number) => {
         </Button>
         <Button @click="handleFollow(podcast.name, podcast.id)" variant="outline">
           <HeartHandshake />
-          Follow
         </Button>
       </CardFooter>
     </Card>

@@ -56,6 +56,16 @@ export default {
       },
     )
   },
+  async unfollowPocast (id: string){
+    return expressClient.delete( `/followings/${id}`,
+      {
+        headers : {
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${ await tokenExtractor()}`
+        }
+      }
+    )
+  },
   async subscribeToPodcaster(podcasterId: string, userId: string) {
     return expressClient.post(
       `/subscriptions`,
@@ -66,6 +76,16 @@ export default {
           Authorization: `Bearer ${await tokenExtractor()}`,
         },
       },
+    )
+  },
+  async unsubscribeToPocaster (id: string){
+    return expressClient.delete( `/subscriptions/${id}`,
+      {
+        headers : {
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${ await tokenExtractor()}`
+        }
+      }
     )
   },
   async getPodcaster(username: string) {
