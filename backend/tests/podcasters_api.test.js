@@ -52,3 +52,7 @@ test('data is seeded and auth.users syncs to public.users', async ()=>{
     assert.strictEqual(podcasters.length, 5, "Expected public.podcasters to contain 5 users");
 })
 
+test('Endpoint /podcasters returns the 10 5 podcasters', async () => {
+  const response = await api.get('/api/podcasters');
+  assert.strictEqual(response.length, 5, "Expected public.podcasters to contain 5 podcasters");
+});

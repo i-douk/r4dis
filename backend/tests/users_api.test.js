@@ -56,7 +56,6 @@ test('data is seeded and auth.users syncs to public.users', async ()=>{
 
 
 test('Endpoint /users returns the 10 users', async () => {
-  const response = await api.get('/users');
-  const contents = response.body.map(e => e.content);
-  assert.strictEqual(contents.length, 5, "Expected public.users to contain 5 users");
+  const response = await api.get('/api/users');
+  assert.strictEqual(response.length, 5, "Expected public.users to contain 5 users");
 });
