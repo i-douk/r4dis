@@ -6,7 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 
 export const supabase = createClient(
   String(config.SUPABASE_URL),
-  String(config.SUPABASE_ANON_KEY),
+  String(config.SUPABASE_SERVICE_ROLE_KEY),
 );
 
 export const sequelize = new Sequelize(config.DATABASE_URL!, {
@@ -16,7 +16,7 @@ export const sequelize = new Sequelize(config.DATABASE_URL!, {
       rejectUnauthorized: false,
     },
   },
-  logging: (...msg) => console.log(msg),
+  // logging: (...msg) => console.log(msg),
 });
 
 export const migrationConf = {

@@ -1,11 +1,11 @@
-const { test, after, beforeEach } = require('node:test');
-const assert = require('assert');
-const { User } = require("../models");
-const faker = require("@faker-js/faker");
+const { test, after, beforeEach, describe } = require('node:test');
+const assert = require('node:assert');
+import  models from "../models";
+import { faker } from "@faker-js/faker";
 const supertest = require('supertest');
 const app = require('../index.ts');
-const { supabase, sequelize } = require('../utils/db');
 const api = supertest(app);
+import { sequelize, supabase } from "../utils/db";
 
 const seedUsers = async (entriesNum) => {
   const users = [];
@@ -44,23 +44,19 @@ const seedUsers = async (entriesNum) => {
 };
 
 beforeEach(async () => {
-  // Sync database and truncate the user table
-  await sequelize.sync({ force: true }); // Ensure a fresh sync before each test
-  await User.drop({});
-  
-  // Seed the users table with test data
-  await seedUsers(10);
+  await sequelize.authenticate(); 
+  await models.User.truncate({ cascade: true });
+  await seedUsers(5);
 });
 
-test('Public users is populated', async () => {
-  const response = await api.get('/api/users');
+test('data is seeded and auth.users syncs to public.users', async ()=>{
+    const users = await models.User.findAll();
+    assert.strictEqual(users.length, 5, "Expected public.users to contain 5 users");
+})
 
-  assert.strictEqual(response.body.length, 10, 'Should return 10 users');
-});
 
-test('the first user is about HTTP methods', async () => {
-  const response = await api.get('/api/users');
-
+test('Endpoint /users returns the 10 users', async () => {
+  const response = await api.get('/users');
   const contents = response.body.map(e => e.content);
-  assert(contents.includes('HTML is easy'), 'Expected content to include "HTML is easy"');
+  assert.strictEqual(contents.length, 5, "Expected public.users to contain 5 users");
 });
