@@ -64,7 +64,7 @@ const handleUnfollow = async (podcast) => {
         was posted by
         <b>{{ podcast.podcaster.username }}</b></CardContent
       >
-      <CardFooter class="flex justify-center gap-2 flex-wrap">
+      <CardFooter class="flex justify-evenly gap-2 flex-wrap">
         <Button variant="outline">
           <RouterLink :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
             >See podcast</RouterLink
