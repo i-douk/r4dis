@@ -91,17 +91,4 @@ User.init(
   },
 );
 
-// // Password hashing hook
-// User.beforeCreate(async (user) => {
-//   if (user.password) {
-//     user.password = await hashPassword(user.password);
-//   }
-// });
-
-// User.beforeUpdate(async (user: any) => {
-//   if (user.changed("password")) {
-//     user.password = await hashPassword(user.password);
-//   }
-// });
-
 export default User;

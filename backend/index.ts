@@ -3,7 +3,6 @@ const app = express();
 import "express-async-errors";
 import config from "./utils/config";
 import { connectToDatabase, sequelize } from "./utils/db";
-app.use(express.json());
 import usersRouter from "./controllers/users/users";
 import loginUserRouter from "./controllers/users/loginUser";
 
@@ -39,3 +38,5 @@ sequelize
   .catch((error: Error) => {
     console.error("Unable to sync database:", error);
   });
+
+export default app;
