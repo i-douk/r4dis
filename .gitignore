@@ -1,3 +1,5 @@
 timekeeping.md
 *.md
 .env
+k8s/frontend-secrets.yaml
+k8s/backend-secrets.yaml
