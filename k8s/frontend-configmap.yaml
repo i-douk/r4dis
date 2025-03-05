@@ -1,0 +1,8 @@
+# frontend-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: default
+data:
+  VITE_APP_API_BASE_URL: "/api"

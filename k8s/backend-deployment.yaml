@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r4dis-backend
+  labels:
+    app: r4dis
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: r4dis
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: r4dis
+        tier: backend
+    spec:
+      containers:
+      - name: r4dis-backend
+        image: gcr.io/r4dis-452813/r4dis-backend:v2
+        ports:
+        - containerPort: 3001
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: r4dis-backend-service
+  labels:
+    app: r4dis
+    tier: backend
+spec:
+  selector:
+    app: r4dis
+    tier: backend
+  ports:
+  - port: 3000
+    targetPort: 3001
+  type: ClusterIP
+
