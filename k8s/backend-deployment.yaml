@@ -3,25 +3,30 @@ kind: Deployment
 metadata:
   name: r4dis-backend
   labels:
-    app: r4dis
-    tier: backend
+    app: r4dis-backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: r4dis
-      tier: backend
+      app: r4dis-backend
   template:
     metadata:
       labels:
-        app: r4dis
-        tier: backend
+        app: r4dis-backend
     spec:
       containers:
       - name: r4dis-backend
-        image: gcr.io/r4dis-452813/r4dis-backend:v2
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-backend:v2
         ports:
         - containerPort: 3001
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
         resources:
           limits:
             cpu: "500m"
@@ -29,12 +34,6 @@ spec:
           requests:
             cpu: "200m"
             memory: "256Mi"
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3001
-          initialDelaySeconds: 5
-          periodSeconds: 10
         envFrom:
             - configMapRef:
                 name: backend-config
@@ -45,15 +44,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: r4dis-backend-service
-  labels:
-    app: r4dis
-    tier: backend
 spec:
   selector:
-    app: r4dis
-    tier: backend
+    app: r4dis-backend
   ports:
-  - port: 3000
+  - port: 3001
     targetPort: 3001
   type: ClusterIP
-

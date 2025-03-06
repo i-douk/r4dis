@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const expressClient = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASE_URL,
+  baseURL: 'http://api.r4dis.com/api/',
   headers: {
     'Content-Type': 'application/json',
   },
