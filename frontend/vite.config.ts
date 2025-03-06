@@ -20,8 +20,8 @@ export default defineConfig({
   plugins: [
     vue({
       template: {
-        compilerOptions : {
-          isCustomElement : (element => element.startsWith('iconify-icon'))
+        compilerOptions: {
+          isCustomElement: (element) => element.startsWith('iconify-icon')
         }
       }
     }),
@@ -29,7 +29,7 @@ export default defineConfig({
     tailwindcss(),
     VueRouter({}),
     Components({
-      dirs:['src/components' , 'src/layouts'],
+      dirs: ['src/components', 'src/layouts'],
       dts: true
     }),
     AutoImport({
@@ -54,20 +54,13 @@ export default defineConfig({
       viteOptimizeDeps: true,
       dirs: ['src/stores/**', 'src/composables/**']
     }),
-    ],
-    server :{
-      proxy: {
-       '/api': {
-         target: 'http://localhost:3001',
-         changeOrigin: true
-       }
-      }
-   },
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))  },
-      },
-      esbuild: {
-        target: "esnext", // Ensures support for optional chaining
-      },
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  },
+  esbuild: {
+    target: 'esnext',
+  }
 })

@@ -13,7 +13,14 @@ import logoutRouter from "./controllers/logout";
 import followingRouter from "./controllers/followings";
 import subscriptionsRouter from "./controllers/subscriptions";
 import cors from "cors";
-app.use(cors());
+app.use(cors({
+  origin: 'http://r4dis.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 app.use("/api/users", usersRouter);
 app.use("/api/userlogin", loginUserRouter);
 app.use("/api/podcasters", podcastersRouter);

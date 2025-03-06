@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: r4dis-frontend
-        image: gcr.io/r4dis-452813/r4dis-frontend:v1
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-frontend:v2
         ports:
         - containerPort: 80
         resources:
@@ -42,5 +42,5 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-  type: LoadBalancer
+  type: ClusterIP
 
