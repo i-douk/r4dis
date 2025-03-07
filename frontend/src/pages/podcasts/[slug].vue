@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { ArrowLeft , Link , Mail, HeartHandshake} from 'lucide-vue-next';
 import { getPublicUrl } from '@/services/supaQueries'
 import expressService from '@/services/expressQueries'
 const { slug } = useRoute('/podcasts/[slug]').params
 usePageStore().pageData.title = slug + "\'s is a radpod"
-// import { getPublicUrl } from '@/services/supaQueries'
+
 const fetchPodcast = async (slug: string) => {
   return await expressService.getPodcast(slug)
 }
@@ -13,40 +14,48 @@ console.log(response.data)
 const podcastData = response.data
 console.log(podcastData)
 </script>
+
 <template>
   <div class="flex flex-col mt-5 gap-5">
     <RouterLink
       to="/podcasts"
-      class="text-center w-23 font-semibold bg-neutral-800 rounded-sm border border-dotted p-1 hover:border-dashed hover:bg-transparent">
-      Goback
+      class="text-center w-fit font-semibold bg-neutral-800 rounded-sm border border-dotted p-2 hover:border-dashed hover:bg-transparent">
+      <div class="flex">
+        <ArrowLeft /> Go back
+      </div>
     </RouterLink>
-    <div class="flex flex-col justify-between border border-dashed rounded-sm p-8">
-      <div class="flex justify-start gap-5 flex-wrap">
-        <img
-          v-if="podcastData.cover_url"
-          :src="getPublicUrl(podcastData.cover_url) || ''"
-          alt="Podcast Cover"
-        />
-        <img v-else src="@/assets/r4dis-cover.png" alt="Podcast Cover" />
-        <div class="text-xl font-bold mt-10">
+    <div class="flex flex-col border border-dashed rounded-sm">
+      <img
+        v-if="podcastData.cover_url"
+        :src="getPublicUrl(podcastData.cover_url) || ''"
+        alt="Podcast Cover"
+        class="w-full h-64 object-cover"
+      />
+      <img v-else src="@/assets/r4dis-cover.png" alt="Podcast Cover" class="w-full h-64 object-cover" />
+
+      <div class="flex justify-between items-center p-4">
+        <div class="text-xl font-bold">
           {{ podcastData.name }}
         </div>
-        <div class="flex justify-end flex-grow gap-2 flex-wrap">
-          <Button class="mt-8 font-semibold"> 🤍 Follow </Button>
-          <Button class="mt-8 font-semibold"> Newsletter </Button>
+        <div class="flex gap-2">
+          <Button class="font-semibold" variant="outline"><HeartHandshake />Follow </Button>
+          <Button class="font-semibold" variant="outline"> <Mail /> Newsletter </Button>
         </div>
       </div>
-      <div class="text-neutral-400 text-sm text-center">
+
+      <div class="text-neutral-400 text-sm text-center p-4">
         {{ podcastData.followcount ? podcastData.followcount : 0 }} people are following
       </div>
-      <div class="flex flex-col gap-2"></div>
-      <ul class="flex flex-wrap">
+
+      <ul class="flex flex-wrap gap-2 p-4">
         <li v-for="url in podcastData.urls" :key="url">
-          <Button variant="outline"> 🔗 {{ url }}</Button>
+          <a :href="url" target="_blank">
+          <Button variant="link"> <Link />{{ url }}
+          </Button>
+        </a>
         </li>
       </ul>
-      <div>description: {{ podcastData.description }}</div>
+      <div class="p-4"><span class="font-bold">description: </span>{{ podcastData.description }}</div>
     </div>
-    <div></div>
   </div>
 </template>

@@ -111,8 +111,7 @@
 |        |  2   | create manifests for deployment service secrets and configmap |
 |        |  2   | backend and frontend failed to coonnect, set up ingress to manage routing + set up custom domaine name + dns |
 | 06.03  |  3   | debugging pods + deployed app successfully  |
-| 07.03  |  1   | debug server error not recognozing token |
-|        |  0   |  |
-|        |  0   |  |
-|        |  0   |  |
-| milest | 171  | ------ 175 SUBMIT PROJECT ------
+| 07.03  |  2   | debug server error not recognizing token |
+|        |  1   | edit UI single podcast page and single podcaster page |
+|        |  2   | Wrapping up |
+| milest | 175  | ------ 175 SUBMIT PROJECT ------

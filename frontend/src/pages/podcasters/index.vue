@@ -60,7 +60,7 @@ const handleUnsubscribe = async (podcaster) => {
 </script>
 
 <template>
-  <div class="p-5 grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
+  <div class="p-4 grid lg:grid-cols-3 gap-2 md:grid-cols-2 sm:grid-cols-1">
     <Card class="hover:border-dashed" v-for="podcaster in podcasters" :key="podcaster.id">
       <CardHeader>
         <CardTitle>{{ podcaster.username }}</CardTitle>
@@ -70,7 +70,7 @@ const handleUnsubscribe = async (podcaster) => {
         has posted
         <b>{{ podcaster.podcasts?.length ? podcaster.podcasts[0].name : 'nothing yet' }}</b>
       </CardContent>
-      <CardFooter class="flex justify-evenly gap-4 flex-wrap">
+      <CardFooter class="flex justify-evenly gap-4 flex-nowrap">
           <Button variant="outline">
             <RouterLink
               :to="{ name: '/podcasters/[username]', params: { username: podcaster.username } }"
