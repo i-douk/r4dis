@@ -27,5 +27,6 @@ While working on this project, I expanded my knowledge in the following areas:
 - Using Supabase to subscribe to real-time changes to the database -or socket.io- to populate the feed with revelevant data and recent activity of users and podcasters.
 - Add more functionalities for the podcasters role to manage their content.
 - Expand the subscription logic to allow a monthly stipend to be attributed to the podcaster from a subscribed user.
+- Add CI/CD jobs in gitlab.
 
 
