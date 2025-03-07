@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r4dis-frontend
+  labels:
+    app: r4dis-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: r4dis-frontend
+  template:
+    metadata:
+      labels:
+        app: r4dis-frontend
+    spec:
+      containers:
+      - name: r4dis-frontend
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-frontend:v2
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+        envFrom:
+          - configMapRef:
+              name: frontend-config
+          - secretRef:
+              name: frontend-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: r4dis-frontend-service
+spec:
+  selector:
+    app: r4dis-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+

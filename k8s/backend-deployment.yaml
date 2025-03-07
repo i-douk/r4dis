@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r4dis-backend
+  labels:
+    app: r4dis-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: r4dis-backend
+  template:
+    metadata:
+      labels:
+        app: r4dis-backend
+    spec:
+      containers:
+      - name: r4dis-backend
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-backend:v5
+        ports:
+        - containerPort: 3001
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: r4dis-backend-service
+spec:
+  selector:
+    app: r4dis-backend
+  ports:
+  - port: 3001
+    targetPort: 3001
+  type: ClusterIP

@@ -1,0 +1,9 @@
+# frontend-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: default
+data:
+  VITE_APP_API_BASE_URL: "http://api.r4dis.com/api"
+  VITE_APP_BASE_URL: "http://r4dis.com"
