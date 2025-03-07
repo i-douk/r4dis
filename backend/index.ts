@@ -13,10 +13,11 @@ import logoutRouter from "./controllers/logout";
 import followingRouter from "./controllers/followings";
 import subscriptionsRouter from "./controllers/subscriptions";
 import cors from "cors";
+app.use(express.json());
 app.use(cors({
-  origin: 'http://r4dis.com',
+  origin: ['http://r4dis.com', 'http://r4dis.com', 'http://localhost:5173/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'ok' });
@@ -29,7 +30,6 @@ app.use("/api/podcasts", podcastsRouter);
 app.use("/api/followings", followingRouter);
 app.use("/api/subscriptions", subscriptionsRouter);
 app.use("/api/logout", logoutRouter);
-app.use(express.json());
 
 
 // Sync Sequelize models with the database

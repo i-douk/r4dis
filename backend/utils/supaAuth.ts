@@ -6,7 +6,8 @@ const authenticate = async (req, res, next) => {
   // Validate the Supabase JWT
   const { data: user, error } = await supabase.auth.getUser(token);
 
-  if (error) {
+  if (error) { 
+    console.log(error);
     return res.status(401).json({ error: 'Invalid or expired token' });
   }
   req.user = user;

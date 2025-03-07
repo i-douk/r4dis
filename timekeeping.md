@@ -111,8 +111,8 @@
 |        |  2   | create manifests for deployment service secrets and configmap |
 |        |  2   | backend and frontend failed to coonnect, set up ingress to manage routing + set up custom domaine name + dns |
 | 06.03  |  3   | debugging pods + deployed app successfully  |
-| 07.03  |  0   |  |
+| 07.03  |  1   | debug server error not recognozing token |
 |        |  0   |  |
 |        |  0   |  |
 |        |  0   |  |
-| milest | 170  | ------ 175 SUBMIT PROJECT ------
+| milest | 171  | ------ 175 SUBMIT PROJECT ------
