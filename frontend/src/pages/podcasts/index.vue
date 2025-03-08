@@ -10,6 +10,8 @@ const podcastsLoader = usePodcastsStore();
 const { podcasts } = storeToRefs(podcastsLoader);
 const { getPodcasts } = podcastsLoader;
 import { HeartHandshake , X } from 'lucide-vue-next';
+import router from '@/router'
+
 await getPodcasts()
 
 // Reactive object to track subscription state
@@ -28,6 +30,7 @@ onMounted(() => {
 
 // Handlers
 const handleFollow = async (podcast) => {
+  if(!userProfile.value) return router.push('/login')
   const response = await expressService.followPodcast(podcast.id, userProfile.value.id)
 
   if (response.status === 201) {

@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 import expressService from '@/services/expressQueries'
 import { toast } from '@/components/ui/toast/use-toast'
 import { Award , X } from 'lucide-vue-next'
-
+import router from '@/router'
 usePageStore().pageData.title = 'Podcasters'
 
 // Stores
@@ -34,6 +34,7 @@ onMounted(() => {
 
 // Handlers
 const handleSubscribe = async (podcaster) => {
+  if(!userProfile.value) return router.push('/login')
   const response = await expressService.subscribeToPodcaster(podcaster.id, userProfile.value.id)
 
   if (response.status === 201) {

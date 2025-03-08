@@ -8,11 +8,8 @@ import { getPublicUrl } from '@/services/supaQueries'
 const fetchPodcaster = async (username: string) => {
   return await expressService.getPodcaster(username)
 }
-
 const response = await fetchPodcaster(username)
-console.log(response.data)
 const podcasterData = response.data
-console.log(podcasterData)
 </script>
 
 <template>
