@@ -1,12 +1,11 @@
-import { podcastsPerPodcasterQuery, type PodcastsPerPodcaster } from '@/services/supaQueries'
-import { defineStore } from 'pinia'
-import { useMemoize } from '@vueuse/core'
-import expressService from '@/services/expressQueries'
-import type { Tables } from 'database/types'
-
+import { podcastsPerPodcasterQuery, type PodcastsPerPodcaster } from '@/services/supaQueries';
+import { defineStore } from 'pinia';
+import { useMemoize } from '@vueuse/core';
+import expressService from '@/services/expressQueries';
+import type { ExtendedPodcast } from '@/types/ExtendedTableTypes';
 export const usePodcastsStore = defineStore('podcasts-store', () => {
-  const podcastsPerPodcaster = ref<PodcastsPerPodcaster | null>(null)
-  const podcasts = ref<null | Tables<'podcasts'>[]>(null)
+const podcastsPerPodcaster = ref<PodcastsPerPodcaster[]>([]) 
+const podcasts = ref<null | ExtendedPodcast[]>(null)
 
   const loadPodcasts = useMemoize(async (key: string) => {
     return await expressService.getPodcasts()
@@ -37,10 +36,13 @@ export const usePodcastsStore = defineStore('podcasts-store', () => {
   }
 
   const getPodcastsPerPodcaster = async (podcaster_id: string) => {
-    podcastsPerPodcaster.value = null
+    loadPodcastsPerPodcaster.delete(podcaster_id);
+    podcastsPerPodcaster.value = [];
     const { data, error, status } = await loadPodcastsPerPodcaster(podcaster_id)
     if (error) useErrorStore().setError({ error, customCode: status })
-    if (data) podcastsPerPodcaster.value = data
+    if (data) {
+      podcastsPerPodcaster.value = data as PodcastsPerPodcaster
+    }
 
     validateCache({
       ref: podcastsPerPodcaster,

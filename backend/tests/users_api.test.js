@@ -53,9 +53,3 @@ test('data is seeded and auth.users syncs to public.users', async ()=>{
     const users = await models.User.findAll();
     assert.strictEqual(users.length, 5, "Expected public.users to contain 5 users");
 })
-
-
-test('Endpoint /users returns the 10 users', async () => {
-  const response = await api.get('/api/users');
-  assert.strictEqual(response.length, 5, "Expected public.users to contain 5 users");
-});

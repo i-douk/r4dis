@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import router from '@/router'
-import { ref } from 'vue'
-import expressService from '@/services/expressQueries'
-import { useToast } from '@/components/ui/toast/use-toast'
-const { toast } = useToast()
-import { toSlug } from '@/utils/slug.ts'
-import { isValidSlug } from '../../utils/slug.ts'
-const authStore = useAuthStore()
-const { podcasterProfile } = storeToRefs(authStore)
+import router from '@/router';
+import { ref } from 'vue';
+import expressService from '@/services/expressQueries';
+import { useToast } from '@/components/ui/toast/use-toast';
+const { toast } = useToast();
+import { toSlug } from '@/utils/slug.ts';
+import { isValidSlug } from '../../utils/slug.ts';
+const authStore = useAuthStore();
+const { podcasterProfile } = storeToRefs(authStore);
 const formData = ref({
   name: '',
   description: '',
   urls: [''],
   slug: '',
-})
+});
 
 // Watch the name field and update the slug only if the user hasn't modified it
 watch(
@@ -45,7 +45,7 @@ const handleSubmit = async () => {
           title: `${formData.value.name} was added sucessfully by ${podcasterProfile?.value?.username}`,
           variant: 'destructive',
         })
-        router.push('/podcasts/mypods')
+        router.push('/mypods')
       }
     }
   }

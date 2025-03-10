@@ -1,14 +1,17 @@
 <script setup lang="ts">
-const users = ref([])
+import { ref } from 'vue'
 import { usePageStore } from '@/stores/page'
 import expressService from '../../services/expressQueries'
 import { getPublicUrl } from '@/services/supaQueries'
+import type { Tables } from 'database/types'
+
+const users = ref<Tables<'users'>[]>([])
 
 usePageStore().pageData.title = 'Users List'
 
 const fetchUsers = async () => {
   const response = await expressService.getUsers()
-  users.value = response.data
+  users.value = response.data as Tables<'users'>[]
 }
 fetchUsers()
 </script>
@@ -21,7 +24,7 @@ fetchUsers()
           class="flex flex-col items-center text-center p-5 my-5 border border-dotted rounded-md gap-2"
         >
           <Avatar class="w-15 h-15 border border-neutral-500 border-dashed">
-            <AvatarImage :src="getPublicUrl(user.avatar_url) || ''" alt="User Avatar" />
+            <AvatarImage :src="getPublicUrl(user.avatar_url ?? '') || ''" alt="User Avatar" />
             <AvatarFallback class="text-4xl">{{ user?.username?.[0] || '?' }}</AvatarFallback>
           </Avatar>
           <div class="font-bold">

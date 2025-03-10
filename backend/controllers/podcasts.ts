@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import authenticate from "../utils/supaAuth";
 import models from "../models";
 import { PodcastDTO } from "../dtos/PodcastDTO";
+import { sequelize } from "../utils/db";
 const podcastsRouter = Router();
 // fetch all podcasts //
 podcastsRouter.get("/", async (_req: Request, res: Response) => {
@@ -137,5 +138,25 @@ podcastsRouter.put(
     }
   },
 );
+
+// delete podcast
+podcastsRouter.delete("/:id", authenticate, async (req: Request, res: Response) => {
+  const podcastId = req.params.id;
+  const podcastToDelete = await models.Podcast.findOne({
+    where: { id: podcastId},
+  });;
+  if (podcastToDelete) {
+    await sequelize.transaction(async (transaction) => {
+      await models.Podcast.destroy({
+        where: { id: podcastId},
+        transaction,
+      });
+    });
+    res.status(204).json({ message: "Podcast deleted" });
+  } else {
+    res.status(404).json({ error: "Podcast not found" });
+  }
+});
+
 
 export default podcastsRouter;

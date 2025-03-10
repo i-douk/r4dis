@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: r4dis-backend
-        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-backend:v6
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-backend:v1
         ports:
         - containerPort: 3001
         readinessProbe:

@@ -8,30 +8,31 @@ const authStore = useAuthStore();
 const { userProfile } = storeToRefs(authStore);
 const podcastsLoader = usePodcastsStore();
 const { podcasts } = storeToRefs(podcastsLoader);
+import { formatTimeAgo } from '@/utils/timeAgo';
 const { getPodcasts } = podcastsLoader;
 import { HeartHandshake , X } from 'lucide-vue-next';
 import router from '@/router'
-
+import type { ExtendedPodcast } from '@/types/ExtendedTableTypes';
 await getPodcasts()
 
 // Reactive object to track subscription state
 const isFollowing = reactive<Record<string, boolean>>({})
 
 // Initialize subscription state
-const setFollowing = (followers) => {
-  return followers.some(follower => follower.id === userProfile.value?.id)
+const setFollowing = (followers: any[]) => {
+  return followers.some((follower: { id: string | undefined; }) => follower.id === userProfile.value?.id)
 }
 
 onMounted(() => {
-  podcasts.value.forEach(podcast => {
+  podcasts.value?.forEach(podcast => {
     isFollowing[podcast.id] = setFollowing(podcast.followers)
   })
 })
 
 // Handlers
-const handleFollow = async (podcast) => {
+const handleFollow = async (podcast: ExtendedPodcast) => {
   if(!userProfile.value) return router.push('/login')
-  const response = await expressService.followPodcast(podcast.id, userProfile.value.id)
+  const response = await expressService.followPodcast(podcast.id.toString(), userProfile.value.id)
 
   if (response.status === 201) {
     toast({ title: `You have just followed ${podcast.name}` })
@@ -39,8 +40,8 @@ const handleFollow = async (podcast) => {
   }
 }
 
-const handleUnfollow = async (podcast) => {
-  const follower = podcast.followers.find(follower => follower.id === userProfile.value.id)
+const handleUnfollow = async (podcast: ExtendedPodcast) => {
+  const follower: any = podcast.followers.find(follower => follower.id === userProfile.value?.id)
 
   if (!follower) {
     console.error('User is not following this podcast')
@@ -62,6 +63,7 @@ const handleUnfollow = async (podcast) => {
       <CardHeader>
         <CardTitle>{{ podcast.name }}</CardTitle>
         <CardDescription>{{ podcast.followerscount }} followers</CardDescription>
+        <CardDescription> Added {{ formatTimeAgo(podcast.created_at) }}</CardDescription>
       </CardHeader>
       <CardContent>
         was posted by
@@ -69,11 +71,11 @@ const handleUnfollow = async (podcast) => {
       >
       <CardFooter class="flex justify-evenly gap-2 flex-wrap">
         <Button variant="outline">
-          <RouterLink :to="{ name: '/podcasts/[slug]', params: { slug: podcast.slug } }"
+          <RouterLink :to="`/podcasts/${podcast.slug}`"
             >See podcast</RouterLink
           >
         </Button>
-        <Button v-if="!isFollowing[podcast.id]" @click="handleFollow(podcast)" variant="outline">
+        <Button v-if="!isFollowing[podcast.id] && userProfile" @click="handleFollow(podcast)" variant="outline">
             <HeartHandshake />
             Follow
           </Button>

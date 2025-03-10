@@ -17,7 +17,7 @@ fetchUsers()
     <ul>
       <li v-for="user in users" :key="user.id">
         <div class="flex-row p-5 my-5 border border-dotted rounded-md">
-          <b>{{ user.username }}</b> just signed up.
+          <b>{{ user?.username }}</b> just signed up.
         </div>
       </li>
     </ul>

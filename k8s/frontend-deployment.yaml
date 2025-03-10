@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: r4dis-frontend
-        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-frontend:v4
+        image: us-central1-docker.pkg.dev/r4dis-452813/r4dis/r4dis-frontend:v1
         ports:
         - containerPort: 80
         resources:

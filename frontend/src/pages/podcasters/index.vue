@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ExtendedPodcaster } from '@/types/ExtendedTableTypes'
 import { reactive, onMounted } from 'vue'
 import { usePodcastersStore } from '@/stores/loaders/podcasters'
 import { useAuthStore } from '@/stores/auth'
@@ -22,18 +23,18 @@ await getPodcasters()
 const isSubscribed = reactive<Record<string, boolean>>({})
 
 // Initialize subscription state
-const setSubscription = (subscribers) => {
-  return subscribers.some(subscriber => subscriber.id === userProfile.value?.id)
+const setSubscription = (subscribers: any[]) => {
+  return subscribers.some((subscriber: { id: string | undefined }) => subscriber.id === userProfile.value?.id)
 }
 
 onMounted(() => {
-  podcasters.value.forEach(podcaster => {
+  podcasters.value?.forEach(podcaster => {
     isSubscribed[podcaster.id] = setSubscription(podcaster.subscribers)
   })
 })
 
 // Handlers
-const handleSubscribe = async (podcaster) => {
+const handleSubscribe = async (podcaster: ExtendedPodcaster) => {
   if(!userProfile.value) return router.push('/login')
   const response = await expressService.subscribeToPodcaster(podcaster.id, userProfile.value.id)
 
@@ -43,8 +44,8 @@ const handleSubscribe = async (podcaster) => {
   }
 }
 
-const handleUnsubscribe = async (podcaster) => {
-  const subscriber = podcaster.subscribers.find(subscriber => subscriber.id === userProfile.value.id)
+const handleUnsubscribe = async (podcaster: ExtendedPodcaster) => {
+  const subscriber = podcaster.subscribers.find(subscriber => subscriber.id === userProfile.value?.id)
 
   if (!subscriber) {
     console.error('User is not subscribed')
@@ -78,11 +79,11 @@ const handleUnsubscribe = async (podcaster) => {
               >See podcaster</RouterLink
             >
           </Button>
-          <Button v-if="!isSubscribed[podcaster.id]" @click="handleSubscribe(podcaster)" variant="outline">
+          <Button v-if="!isSubscribed[podcaster.id] && userProfile" @click="handleSubscribe(podcaster)" variant="outline">
             <Award />
             Subscribe
           </Button>
-          <Button v-if="isSubscribed[podcaster.id]" @click="handleUnsubscribe(podcaster)" variant="outline">
+          <Button v-if="isSubscribed[podcaster.id] && userProfile" @click="handleUnsubscribe(podcaster)" variant="outline">
             <X />
             Unsubscribe
           </Button>

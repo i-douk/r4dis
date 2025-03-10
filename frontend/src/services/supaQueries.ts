@@ -1,14 +1,16 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { QueryData } from '@supabase/supabase-js'
-import { useErrorStore } from '@/stores/error';
 
 // Podcast Store Queries
 export const podcastsQuery = supabase.from('podcasts').select()
 
 export type Podcasts = QueryData<typeof podcastsQuery>
 
-export const podcastsPerPodcasterQuery = (podcaster_id: string) =>
-  supabase.from('podcasts').select().eq('podcaster_id', podcaster_id)
+export const podcastsPerPodcasterQuery =  (podcaster_id: string) => {
+  if (!podcaster_id) throw new Error("podcaster_id is required");
+
+  return supabase.from("podcasts").select("*").eq("podcaster_id", podcaster_id);
+};
 
 export type PodcastsPerPodcaster = QueryData<typeof podcastsPerPodcasterQuery>
 

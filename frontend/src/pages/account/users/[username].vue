@@ -88,7 +88,7 @@ const handleSubmit = async () => {
 
   console.log('Editing in progress...')
 
-  const updates = {}
+  const updates: Record<string, string> = {};
 
   if (formData.value.username !== userProfile.value?.username) {
     updates.username = formData.value.username
@@ -108,8 +108,11 @@ const handleSubmit = async () => {
   if (formData.value.avatar_url !== userProfile.value?.avatar_url) {
     updates.avatar_url = formData.value.avatar_url
   }
-
   if (Object.keys(updates).length > 0) {
+    if (!user.value?.id) {
+      toast({ title: 'User ID is required', variant: 'destructive' })
+      return
+    }
     const response = await expressService.editUser(user.value.id, updates)
     if (response.status === 422) {
       toast({ title: 'Something went wrong, please try again', variant: 'destructive' })
@@ -121,7 +124,7 @@ const handleSubmit = async () => {
       value: user.value.id,
     })
 
-    userProfile.value = { ...data }
+    userProfile.value = data 
     toast({ title: 'Profile updated successfully' })
   }
 
@@ -138,9 +141,9 @@ const cancelEditing = () => {
   }
   editMode.value = false
 }
-
 const deleteUser = async () => {
-  const response = await expressService.deleteProfile(user.value.id)
+  if (!user.value?.id) return
+  const response = await expressService.deleteUser(user.value.id)
   if (response.status === 204) {
     toast({ title: 'We are sad to see you go, come back around any time' })
     router.push('/login')
@@ -155,8 +158,8 @@ const deleteUser = async () => {
   <div class="mx-auto w-full max-w-lg py-10 text-center">
     <div class="flex flex-col items-center pb-6">
       <Avatar class="w-32 h-32 border bg-gray-500">
-        <AvatarImage :src="getPublicUrl(userProfile?.avatar_url) || ''" alt="User Avatar" />
-        <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] || '?' }}</AvatarFallback>
+        <AvatarImage :src="getPublicUrl(userProfile?.avatar_url ?? '')" alt="User Avatar" />
+        <AvatarFallback class="text-4xl">{{ userProfile?.username?.[0] ?? '?' }}</AvatarFallback>
       </Avatar>
       <p class="mt-2 text-lg font-semibold">{{ userProfile?.username }}</p>
       <p class="mt-1 text-sm text-gray-500">{{ userProfile?.about }}</p>
