@@ -9,8 +9,8 @@ export class PodcastDTO {
   public description?: string;
   public followerscount?: number;
   public avatar_url: string | null;
-  public created_at: string;
-  public updated_at: string;
+  public created_at: Date;
+  public updated_at: Date;
   public transcribed: boolean;
   public urls: string[];
   public slug: string;

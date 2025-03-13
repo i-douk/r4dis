@@ -6,9 +6,9 @@ import models from "../../models";
 import authenticate from "../../utils/supaAuth";
 const podcastersRouter = Router();
 
-//GET ALL USERS THROUGH DEFAULT SCOPE FOR PUBLIC DATA
+//GET ALL USERS 
 podcastersRouter.get("/", async (_req: Request, res: Response) => {
-  const podcasters = await models.Podcaster.scope("defaultScope").findAll({
+  const podcasters = await models.Podcaster.findAll({
     include: [
       {
         model: models.Podcast,
@@ -51,7 +51,7 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
 podcastersRouter.get("/:username", async (req: Request, res: Response) => {
   const { username } = req.params;  // Changed from 'id' to 'username' to match the parameter
   
-  const podcaster = await models.Podcaster.scope("defaultScope").findOne({
+  const podcaster = await models.Podcaster.findOne({
     where: { username: username },  // Fixed syntax - removed extra comma and combined where clause
     include: [
       {

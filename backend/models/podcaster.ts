@@ -64,28 +64,7 @@ Podcaster.init(
     underscored: true,
     timestamps: true,
     modelName: "podcaster",
-    defaultScope: {
-      attributes: { exclude: ["password"] },
-    },
-    scopes: {
-      sensitive: {
-        attributes: { include: ["password"] },
-      },
-    },
   },
 );
-
-// // Password hashing hook
-// Podcaster.beforeCreate(async (podcaster) => {
-//   if (podcaster.password) {
-//     podcaster.password = await hashPassword(podcaster.password);
-//   }
-// });
-
-// Podcaster.beforeUpdate(async (podcaster: any) => {
-//   if (podcaster.changed("password")) {
-//     podcaster.password = await hashPassword(podcaster.password);
-//   }
-// });
 
 export default Podcaster;

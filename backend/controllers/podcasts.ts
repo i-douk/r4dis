@@ -14,8 +14,6 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
         model: models.Podcaster,
         attributes: {
           exclude: [
-            "createdAt",
-            "updatedAt",
             "disabled",
           ],
         },

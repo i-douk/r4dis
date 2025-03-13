@@ -8,7 +8,7 @@ const usersRouter = Router();
 
 // all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get("/", async (_req: Request, res: Response) => {
-  const users = await models.User.scope("defaultScope").findAll({
+  const users = await models.User.findAll({
     include: [
       {
         model: models.Podcast,
@@ -36,7 +36,7 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
 //get single user by id withsubscriptions to podcasters and  followed podcasts
 usersRouter.get("/:username", async (req: Request, res: Response) => {
   const { username } = req.params;
-  const user = await models.User.scope("defaultScope").findOne(
+  const user = await models.User.findOne(
     {
       where: {username : username},
       include: [
@@ -65,27 +65,6 @@ usersRouter.get("/:username", async (req: Request, res: Response) => {
     res.status(404).json({ message: "user not found" });
   }
 });
-
-// //create a new user
-// usersRouter.post("/", async (req: Request, res: Response) => {
-//   const { email, username, password } = req.body;
-//   const user = await supabase.auth.signUp({
-//     email,
-//     password,
-//   });
-//   res.json(user);
-// });
-
-// Get a user by id
-// usersRouter.get("/:id", async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   const user = await models.User.scope("defaultScope").findByPk(id);
-//   if (user) {
-//     res.json(user);
-//   } else {
-//     res.status(404).json({ error: "User not found" });
-//   }
-// });
 
 // Update a user's username
 usersRouter.patch(

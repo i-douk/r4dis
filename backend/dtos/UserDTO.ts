@@ -14,8 +14,8 @@ export class UserDTO {
   public username: string;
   public disabled?: boolean;
   public avatar_url: string | null;
-  public created_at: string;
-  public updated_at: string;
+  public created_at: Date;
+  public updated_at: Date;
   public verified: boolean;
   public role: Role;
   public subscriptions?: PodcasterDTO[];

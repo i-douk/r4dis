@@ -8,8 +8,8 @@ export class PodcasterDTO {
   public premium?: boolean;
   public disabled?: boolean;
   public avatar_url: string | null;
-  public created_at: string;
-  public updated_at: string;
+  public created_at: Date;
+  public updated_at: Date;
   public subscriberscount: number;
   public verified: boolean;
   public links?: string[];
