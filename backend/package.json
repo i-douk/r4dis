@@ -52,5 +52,8 @@
     "tsx": "^4.19.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.9"
   }
 }
